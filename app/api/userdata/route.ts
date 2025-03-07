@@ -1,4 +1,4 @@
-
+"use server"
 import { connecttodatabase } from "@/database/db";
 import User from "@/database/models/UserModels";
 import { NextResponse } from "next/server";

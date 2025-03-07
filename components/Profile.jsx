@@ -20,6 +20,10 @@ export default function ProfilePage() {
     phone: session.user?.phone ,
   });
 
+  const handleclick =()=>{
+     redirect("/newground");
+  }
+
   const handleEdit = () => setIsEditing(!isEditing);
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
@@ -32,13 +36,13 @@ export default function ProfilePage() {
       </header>
 
       {/* Profile Card */}
-      <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-        <div className="flex flex-col items-center gap-4">
+      <div className=" mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
+       
           {/* Profile Image */}
-          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700">
+          <div className=" flex justify-center w-24 h-24 rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700">
             <img src={session.user?.image || "/default-avatar.png"} alt="Profile" className="w-full h-full object-cover" />
           </div>
-
+          <div className="flex flex-col items-center gap-4">
           {/* Profile Info */}
           <div className="text-center">
             {isEditing ? (
@@ -53,17 +57,9 @@ export default function ProfilePage() {
               <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">{user.name}</h2>
             )}
 
-            {isEditing ? (
-              <input
-                type="email"
-                name="email"
-                value={user.email}
-                onChange={handleChange}
-                className="text-sm text-gray-600 dark:text-gray-300 bg-transparent border-b focus:outline-none text-center"
-              />
-            ) : (
+            
               <p className="text-sm text-gray-600 dark:text-gray-300">{user.email}</p>
-            )}
+            
           </div>
 
           {/* Phone Number */}
@@ -94,13 +90,13 @@ export default function ProfilePage() {
       </div>
 
       {/* Manage Events Section */}
-      <div className="max-w-3xl mx-auto mt-10 bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
+      <div className="mx-auto mt-10 bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
         <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Manage Your Events</h2>
         <p className="text-gray-600 dark:text-gray-300">Create, view, and manage your events.</p>
 
         {/* Buttons for Managing Events */}
         <div className="mt-4 flex gap-4">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Create Event</button>
+          <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg" onClick={handleclick}>Create Event</button>
           <button className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">View Events</button>
         </div>
       </div>
