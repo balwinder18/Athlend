@@ -1,4 +1,4 @@
-
+'use client'
 import Profile from '../../components/Profile'
 const page = ()=>{
   return (

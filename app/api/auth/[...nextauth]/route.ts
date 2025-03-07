@@ -1,64 +1,66 @@
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import GoogleProvider from 'next-auth/providers/google';
-import User from '../../../../database/models/UserModels';
-import {connecttodatabase }from '../../../../database/db';
-import bcrypt from 'bcrypt';
-import type { Session} from "next-auth";
-import type { JWT } from "next-auth/jwt";
 
+import NextAuth, {AuthOptions}  from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { connecttodatabase } from '../../../../database/db';
+import User from "../../../../database/models/UserModels"; // Your User model
+import bcrypt from "bcryptjs"; // For password hashing and comparison
 
-
-
-
-export const authOptions = {
+export const authOptions : AuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email, password } = credentials ?? {};
-        if (!email || !password) return null;
-        
         await connecttodatabase();
-        const user = await User.findOne({ email: credentials.email });
-        
-        if (user) {
-          const isValid = await bcrypt.compare(
-            password as string,
-            user.password
-          );
-          if (isValid) return user;
+
+        // Find user by email
+        const user = await User.findOne({ email: credentials?.email });
+        if (!user) {
+          throw new Error("No user found with this email.");
         }
-        return null;
-      }
-    })
+
+        // Compare passwords
+        const isValid = await bcrypt.compare(
+          credentials?.password || "",
+          user.password
+        );
+        if (!isValid) {
+          throw new Error("Invalid password.");
+        }
+
+        // Return user object if credentials are valid
+        return {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+        };
+      },
+    }),
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user: any }) {
+    async session({ session, token } :{session:any , token :any}) {
+      // Add user ID and other fields to the session
+      session.user.id = token.sub; // `sub` contains the user ID
+      session.user.phone = token.phone; // Add custom fields
+      return session;
+    },
+    async jwt({ token, user } :{user:any , token :any}) {
+      // Add custom fields to the JWT token
       if (user) {
-        token.id = user.id;
+        token.sub = user.id;
+        token.phone = user.phone;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
-      if (session.user && token?.id) {
-        session.user.id = token.id as string;
-      }
-      return session;
-    }
   },
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: process.env.NEXTAUTH_SECRET, // Add a secret key for encryption
   pages: {
-    signIn: '/auth/signin'
-  }
+    signIn: "/login", // Custom sign-in page
+  },
 };
 
 const handler = NextAuth(authOptions);

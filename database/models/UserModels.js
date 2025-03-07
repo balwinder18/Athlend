@@ -5,10 +5,20 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   phone: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, default: "user" }
+  role: { type: String, default: "user" },
+  location: {
+    lattitude:{
+      type:Number,
+      default:null
+    },
+    longitude:{
+      type:Number,
+      default:null
+    },
+  }
 },
  {timestamps:true}
 );
 
-// Prevent model overwrite during hot reloading or multiple imports
+
 module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
