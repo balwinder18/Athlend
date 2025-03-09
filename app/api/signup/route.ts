@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const { name, email, phone, password } = await req.json();
 
     
-    if (!name || !email || !phone || !password) {
+    if (!name || !email || !phone || !password ) {
       return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
     }
     const existingUser = await User.findOne({ email });

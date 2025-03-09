@@ -58,15 +58,29 @@ const YourGrounds = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">Your Grounds</h1>
-      {grounds.length > 0 ? (
+      
+         {grounds.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {grounds.map((ground) => (
-            <div key={ground._id} className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow">
-              <h2 className="text-xl font-semibold mb-2">{ground.name}</h2>
-              <p className="text-gray-600 mb-2">{ground.description}</p>
-              <p className="text-sm text-gray-500">Location: {ground.location}</p>
-              {/* <p className="text-xs text-gray-400 mt-2">ID: {ground._id}</p> */}
-            </div>
+            ground.Approval === "yes" && (
+              <div key={ground._id} className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-xl font-semibold mb-2">{ground.name}</h2>
+                <p className="text-gray-600 mb-2">{ground.description}</p>
+                <p className="text-sm text-gray-500">Location: {ground.location}</p>
+              </div>
+            )
+          ))}
+
+
+{grounds.map((ground) => (
+            ground.Approval === "no" && (
+              <div key={ground._id} className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-xl font-semibold mb-2">Not approved yet</h2>
+                <h2 className="text-xl font-semibold mb-2">{ground.name}</h2>
+                <p className="text-gray-600 mb-2">{ground.description}</p>
+                <p className="text-sm text-gray-500">Location: {ground.location}</p>
+              </div>
+            )
           ))}
         </div>
       ) : (

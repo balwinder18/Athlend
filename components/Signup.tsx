@@ -14,6 +14,10 @@ const SignupForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [otpverified, setOtpverified] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [step, setStep] = useState(1);
+  const [email, setEmail] = useState(formData.email);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,6 +29,9 @@ const SignupForm = () => {
       }
     } else {
       setFormData({ ...formData, [name]: value });
+      if (name === "email") {
+        setEmail(value);
+      }
     }
   };
 
@@ -36,6 +43,36 @@ const SignupForm = () => {
     }
   };
 
+  const handleSendOTP = async () => {
+    const response = await fetch('/api/otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: formData.email }),
+    });
+
+    if (response.ok) {
+      setStep(2); // Move to OTP verification step
+    } else {
+      alert('Failed to send OTP');
+    }
+  };
+
+  const handleVerifyOTP = async () => {
+    const response = await fetch('/api/otp', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: formData.email, otp }),
+    });
+
+    if (response.ok) {
+      alert('OTP verified successfully!');
+      setOtpverified(true);
+      setStep(1);
+    } else {
+      alert('Invalid OTP');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -44,13 +81,18 @@ const SignupForm = () => {
       return;
     }
     
-    try {
-      const response = await axios.post("/api/signup", formData);
-      console.log("user registered succes")
-      setFormData({ name: "", email: "", phone: "", password: "" });
-      router.push('/login');
-    } catch (error:any) {
-      alert(error.response?.data?.message || "Error signing up");
+    if(otpverified){
+      try {
+        const response = await axios.post("/api/signup", formData);
+        console.log("user registered succes")
+        setFormData({ name: "", email: "", phone: "", password: "" });
+        router.push('/login');
+      } catch (error:any) {
+        alert(error.response?.data?.message || "Error signing up");
+      }
+    } else {
+      alert('verify otp first!');
+      handleSendOTP();
     }
   };
 
@@ -114,6 +156,39 @@ const SignupForm = () => {
           Sign Up
         </button>
       </form>
+
+      <div className="ml-4">
+        {step === 1 && !otpverified && (
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-bold mb-4">Verify Email</h3>
+            <button 
+              onClick={handleSendOTP}
+              className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
+            >
+              Send OTP
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h3 className="text-xl font-bold mb-4">Enter OTP</h3>
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="w-full p-2 mb-2 border rounded"
+            />
+            <button 
+              onClick={handleVerifyOTP}
+              className="w-full bg-green-500 text-white p-2 rounded-lg hover:bg-green-600"
+            >
+              Verify OTP
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

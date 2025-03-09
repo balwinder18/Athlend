@@ -44,12 +44,17 @@ const Allgrounds = () => {
       {grounds.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {grounds.map((ground) => (
-            <div key={ground._id} className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow">
-              <h2 className="text-xl font-semibold mb-2">{ground.name}</h2>
-              <p className="text-gray-600 mb-2">{ground.description}</p>
-              <p className="text-sm text-gray-500">Location: {ground.location}</p>
-            </div>
+            ground.Approval === "yes" && (
+              <div key={ground._id} className="border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow">
+                <h2 className="text-xl font-semibold mb-2">{ground.name}</h2>
+                <p className="text-gray-600 mb-2">{ground.description}</p>
+                <p className="text-sm text-gray-500">Location: {ground.location}</p>
+              </div>
+            )
           ))}
+
+
+
         </div>
       ) : (
         <div className="text-center p-8 bg-gray-50 rounded-lg">

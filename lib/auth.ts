@@ -1,11 +1,17 @@
 import NextAuth, {AuthOptions}  from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { connecttodatabase } from '../database/db';
 import User from "../database/models/UserModels"; // Your User model
 import bcrypt from "bcryptjs"; // For password hashing and comparison
+import { toast } from "react-toastify";
 
 export const authOptions : AuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -55,9 +61,30 @@ export const authOptions : AuthOptions = {
       }
       return token;
     },
+    async signIn({ user, account }) {
+      if (account?.provider === "google") {
+        try {
+          await connecttodatabase();
+          
+          // Check if user already exists
+          const existingUser = await User.findOne({ email: user.email });
+          
+          if (!existingUser) {
+            // Return false to prevent sign in and redirect to register page
+            return false;
+          }
+          return true;
+        } catch (error) {
+          console.error("Error during Google sign in:", error);
+          return false;
+        }
+      }
+      return true;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET, // Add a secret key for encryption
   pages: {
     signIn: "/login", // Custom sign-in page
+    error: "/register", // Redirect to register page on sign in failure
   },
 };
