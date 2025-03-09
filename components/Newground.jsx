@@ -1,15 +1,19 @@
+'use client'
+
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useState } from 'react'
+import { toast } from "react-toastify";
 
 const Newground = () => {
   const { data: session } = useSession();
   
     if (!session) {
       
-      alert("Please login first");
+      // alert("Please login first");
+      toast.error("Please login first");
       redirect('/');
     }
   const router = useRouter();
