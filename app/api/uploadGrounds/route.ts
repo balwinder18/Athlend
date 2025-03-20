@@ -18,8 +18,8 @@ export async function POST(req : Request) {
               return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
             }
 
-            const newGround = new Grounds({name,location,description, userId});
-            await newGround.save(); 
+           const newGround = new Grounds({name,location,description, userId});
+           await newGround.save(); 
 
 
 

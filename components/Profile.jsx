@@ -1,10 +1,14 @@
-
 "use client";
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+
+import { UploadButton } from "../lib/uploadthing";
+import axios from "axios";
+
+
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -27,6 +31,42 @@ export default function ProfilePage() {
     redirect("/yourGround");
  }
 
+
+ const handleuploadtodb =async(res)=> {
+  try {
+    console.log("Response from UploadThing:", res);
+
+    if (!res || res.length === 0) {
+      console.error("No files uploaded or response is empty");
+      alert("No files uploaded or response is empty");
+      return;
+    }
+
+    const url = res[0].url;
+    const email = session.user?.email;
+
+    console.log("URL:", url);
+    console.log("Email:", email);
+
+    const response = await axios.post("/api/uploadthing", {
+      imageUrl: url,
+      email: email,
+    });
+
+    console.log("Backend Response:", response);
+
+    if (response.status === 200) {
+      console.log("Updated successfully");
+    } else {
+      console.log("Error updating to the database");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+
+
+ }
+ 
   const handleEdit = () => setIsEditing(!isEditing);
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
@@ -42,8 +82,31 @@ export default function ProfilePage() {
       <div className=" mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
        
           {/* Profile Image */}
-          <div className=" flex justify-center w-24 h-24 rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700">
-            <img src={session.user?.image || "/default-avatar.png"} alt="Profile" className="w-full h-full object-cover" />
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-gray-300 dark:border-gray-700">
+              <img 
+                src={session.user?.image || "/default-avatar.png"} 
+                alt="Profile" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+
+            <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+         
+          console.log("Files: ", res);
+         
+          alert("Upload Completed");
+          handleuploadtodb(res);
+        }}
+        onUploadError={(error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
+            
+            
           </div>
           <div className="flex flex-col items-center gap-4">
           {/* Profile Info */}

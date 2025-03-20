@@ -20,12 +20,12 @@ const Newground = () => {
   const [formData, setFormData] = useState({ 
     name: '',
     location: '',
-    // images: null,
+    images: [],
     description: '',
     userId: session.user?.id,
   });
 
-  const handleChange = (e) => { // Added handleChange function
+  const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'images') {
       setFormData({ ...formData, [name]: files });
@@ -39,9 +39,26 @@ const Newground = () => {
 
 try { 
 
-  const response = await axios.post("/api/uploadGrounds",formData);
-  console.log("Ground registered succes")
-      setFormData({ name: "", location: "", description: ""});
+  const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('userId', formData.userId);
+
+    
+      formData.images.forEach((file, index) => {
+        formDataToSend.append(`images`, file); 
+      });
+
+
+      const response = await axios.post('/api/uploadGrounds', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      console.log('Ground registered successfully');
+      setFormData({ name: '', location: '', images: [], description: '' });
       router.push('/profile');
   
 } catch (error) {
@@ -85,7 +102,7 @@ try {
             />
           </div>
 
-          {/* <div>
+          <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Ground Images
             </label>
@@ -110,7 +127,7 @@ try {
                 <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
