@@ -39,30 +39,23 @@ const Newground = () => {
 
 try { 
 
-  const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('location', formData.location);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('userId', formData.userId);
+  
 
-    
-      formData.images.forEach((file, index) => {
-        formDataToSend.append(`images`, file); 
-      });
-
-
-      const response = await axios.post('/api/uploadGrounds', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('/api/uploadGrounds',{
+         name : formData.name,
+         location : formData.location,
+         description:formData.description,
+         userId : formData.userId,
+      }
+      );
 
       console.log('Ground registered successfully');
       setFormData({ name: '', location: '', images: [], description: '' });
       router.push('/profile');
   
 } catch (error) {
-  alert(error.response?.data?.message || "Error registering ground");
+  // alert(error.response?.data?.message || "Error registering ground");
+  console.log(error);
 }
     
     console.log(formData);
