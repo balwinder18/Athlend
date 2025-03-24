@@ -355,7 +355,7 @@ export default function ProfilePage() {
                         className="w-full h-full object-cover" 
                       />
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 bg-black">
                       <UploadButton
                         endpoint="imageUploader"
                         onClientUploadComplete={(res) => {

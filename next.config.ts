@@ -1,7 +1,20 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  images: {
+    // Modern approach (Next.js 13+ recommended)
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+        pathname: '/f/**', // Allows all paths under /f/
+      },
+    ],
+    
+    // Legacy approach (still works)
+    domains: ['utfs.io'],
+  },
+  // Other Next.js configurations...
+}
 
-export default nextConfig;
+export default nextConfig

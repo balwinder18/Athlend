@@ -261,7 +261,7 @@ const YourGrounds = () => {
                 className="bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
                 <div className="h-40 bg-blue-100 flex items-center justify-center">
-                  {/* Placeholder for ground image */}
+  
                   <MapPin className="h-12 w-12 text-blue-300" />
                 </div>
                 

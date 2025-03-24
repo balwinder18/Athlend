@@ -12,13 +12,13 @@ export async function POST(req : Request) {
     try {
         await connecttodatabase();
 
-        const {name,location,description , userId} = await req.json();
+        const {name,location,description , userId,imageUrl} = await req.json();
 
-         if (!name || !location || !description || !userId) {
+         if (!name || !location || !description || !userId || !imageUrl) {
               return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
             }
 
-           const newGround = new Grounds({name,location,description, userId});
+           const newGround = new Grounds({name,location,description, userId,imageUrl});
            await newGround.save(); 
 
 
