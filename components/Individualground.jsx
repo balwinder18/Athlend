@@ -7,8 +7,10 @@ import Link from 'next/link';
 import { MapPin, CalendarDays, Clock, CheckCircle, XCircle, ArrowLeft, Edit, Trash2, Share2, Star, Users, DollarSign, Mail, Phone } from 'lucide-react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
+import { FaRupeeSign } from 'react-icons/fa';
 
 const Individualground = () => {
+  const router = useRouter();
     
     const{ id} = useParams();
   const { data: session } = useSession();
@@ -16,6 +18,7 @@ const Individualground = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [isediting, setIsediting] = useState(false);
 
   const fetchGroundDetail = async () => {
     if (!id){
@@ -45,37 +48,35 @@ const Individualground = () => {
     fetchGroundDetail();
   }, []);
 
-  useEffect(() => {
   
-
-    console.log(ground);
-  }, [ground]);
 
   const handleDelete = async () => {
     if (!id || !session) return;
-
+  
     try {
       setLoading(true);
-      const response = await fetch(`/api/ground/${id}`, {
-        method: 'DELETE',
+      const response = await axios.delete(`/api/groundDetails/${id}`, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         }
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete ground');
-      }
-
-      router.push('/grounds');
+  
+      // if (!response.data.success) {
+      //   throw new Error(response.data.message || 'Failed to delete ground');
+      // }
+  
+      router.push('/');
+      alert('Ground deleted successfully');
+  
     } catch (err) {
-      console.error('Error deleting ground:', err);
-      setError(err.message);
+      console.error('Delete error:', err);
+      setError(err.response?.data?.message || err.message);
+      alert(err.response?.data?.message || 'Deletion failed');
+    } finally {
       setLoading(false);
       setDeleteModal(false);
     }
   };
-
 //   const handleShare = () => {
 //     if (navigator.share) {
 //       navigator.share({
@@ -92,23 +93,17 @@ const Individualground = () => {
 
   if (!session) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="text-center p-8 rounded-lg shadow-md bg-white">
-          <Clock className="h-8 w-8 animate-spin mx-auto text-blue-500 mb-4" />
-          <p className="text-gray-600 font-medium">Loading session...</p>
-        </div>
-      </div>
+      <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="text-center p-8 rounded-lg shadow-md bg-white">
-          <Clock className="h-8 w-8 animate-spin mx-auto text-blue-500 mb-4" />
-          <p className="text-gray-600 font-medium">Loading ground details...</p>
-        </div>
-      </div>
+      <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
     );
   }
 
@@ -146,7 +141,7 @@ const Individualground = () => {
           <p className="text-gray-800 font-medium mb-2">Ground Not Found</p>
           <p className="text-gray-600 mb-6">This ground may have been removed or you don't have access to it.</p>
           <Link 
-            href="/grounds"
+            href="/"
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
             Back to Grounds
@@ -162,7 +157,7 @@ const Individualground = () => {
       
         <div className="mb-6">
           <Link 
-            href="/grounds" 
+            href="/" 
             className="inline-flex items-center text-blue-500 hover:text-blue-700 transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -171,25 +166,34 @@ const Individualground = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-          <div className="h-64 bg-blue-100 relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <MapPin className="h-16 w-16 text-blue-300" />
-            </div>
+        <div className="h-64 w-full bg-blue-100 relative overflow-hidden">
+  {ground.imageUrl ? (
+    <img 
+      src={ground.imageUrl} 
+      alt="Ground image"
+      className="h-full w-full object-cover"
+    />
+  ) : (
+    <div className="h-full flex items-center justify-center">
+      <MapPin className="h-12 w-12 text-blue-300" />
+    </div>
+  )}
 
-            <div className="absolute top-4 right-4">
-              {ground.Approval === "yes" ? (
-                <span className="flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  Approved
-                </span>
-              ) : (
-                <span className="flex items-center bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-medium">
-                  <Clock className="h-4 w-4 mr-1" />
-                  Pending Approval
-                </span>
-              )}
-            </div>
-          </div>
+  <div className="absolute top-4 right-4">
+    {ground.Approval === "yes" ? (
+      <span className="flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+        <CheckCircle className="h-4 w-4 mr-1" />
+        Approved
+      </span>
+    ) : (
+      <span className="flex items-center bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-medium">
+        <Clock className="h-4 w-4 mr-1" />
+        Pending Approval
+      </span>
+    )}
+  </div>
+</div>
+
 
           <div className="p-6">
             <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4">
@@ -213,8 +217,13 @@ const Individualground = () => {
                   href={`/grounds/edit/${id}`}
                   className="flex items-center px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                 >
+                  <button 
+                  onClick={() => setIsediting(true)}
+                  className="flex items-center px-3 py-2  text-red-600 rounded hover:bg-red-200 transition-colors"
+                >
                   <Edit className="h-4 w-4 mr-2" />
                   <span>Edit</span>
+                  </button>
                 </Link>
                 <button 
                   onClick={() => setDeleteModal(true)}
@@ -240,12 +249,12 @@ const Individualground = () => {
             </h2>
             <ul className="space-y-2">
               {ground.facilities ? (
-                ground.facilities.map((facility, index) => (
-                  <li key={index} className="flex items-start">
+                // ground.facilities.map((facility, index) => (
+                  <li className="flex items-start">
                     <CheckCircle className="h-5 w-5 mr-2 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{facility}</span>
+                    <span className="text-gray-700">{ground.facilities}</span>
                   </li>
-                ))
+              // ))
               ) : (
                 <li className="text-gray-500">No facilities information available</li>
               )}
@@ -267,8 +276,8 @@ const Individualground = () => {
               <div>
                 <div className="text-sm text-gray-500 mb-1">Pricing</div>
                 <div className="flex items-center text-lg font-medium text-gray-700">
-                  <DollarSign className="h-5 w-5 mr-1 text-green-600" />
-                  {ground.price ? `${ground.price} per hour` : 'Not specified'}
+                  <FaRupeeSign className="h-5 w-5 mr-1 text-green-600" />
+                  {ground.pricing ? `${ground.pricing} per hour` : 'Not specified'}
                 </div>
               </div>
             </div>

@@ -213,6 +213,8 @@ import { useEffect, useState } from "react";
 import { UploadButton } from "../lib/uploadthing";
 import axios from "axios";
 import { FiUser, FiMail, FiPhone, FiEdit, FiLogOut, FiPlus, FiList, FiCamera } from "react-icons/fi";
+import YourGrounds from '../components/YourGrounds'
+import Navbar from "./Navbar";
 
 export default function ProfilePage() {
   const [image, setImage] = useState("");
@@ -298,6 +300,8 @@ export default function ProfilePage() {
   const handleChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Sidebar */}
       <div className="flex">
@@ -308,17 +312,17 @@ export default function ProfilePage() {
             </div>
             <div className="mt-8 flex-1 flex flex-col">
               <nav className="flex-1 px-2 space-y-1">
-                <a href="#" className="bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <a href="/profle" className="bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                   <FiUser className="mr-3 h-5 w-5" />
                   Profile
                 </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <a href="/newground" className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                   <FiPlus className="mr-3 h-5 w-5" />
-                  Create Event
+                  Upload Grounds
                 </a>
-                <a href="#" className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                <a href="yourGround" className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                   <FiList className="mr-3 h-5 w-5" />
-                  Your Events
+                  Your Grounds
                 </a>
               </nav>
             </div>
@@ -355,7 +359,7 @@ export default function ProfilePage() {
                         className="w-full h-full object-cover" 
                       />
                     </div>
-                    <div className="mt-3 bg-black">
+                    <div className="mt-3 bg-blue-600 hover:bg-blue-700 rounded-2xl">
                       <UploadButton
                         endpoint="imageUploader"
                         onClientUploadComplete={(res) => {
@@ -430,31 +434,31 @@ export default function ProfilePage() {
             {/* Events Section */}
             <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Manage Your Events</h2>
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Manage Your Grounds</h2>
                 <div className="flex space-x-4">
                   <button 
                     onClick={handleclick} 
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   >
                     <FiPlus className="inline-block mr-2 h-4 w-4" />
-                    Create Event
+                    Upload Ground
                   </button>
                   <button 
                     onClick={handleclick2} 
                     className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                   >
                     <FiList className="inline-block mr-2 h-4 w-4" />
-                    View Events
+                    View Grounds
                   </button>
                 </div>
               </div>
               
-              <div className="text-center py-12 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No events found</h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new event.</p>
+              <div className="text-center  border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
+             
+                {/* <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No events found</h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new event.</p> */}
+
+                <YourGrounds/>
               </div>
             </div>
             
@@ -483,5 +487,6 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Locationdetect from '../components/Locationdetect';
 import Bodycontent from '../components/home/Bodycontent'
 import Allgrounds from '../components/home/Allgrounds'
+import Help from '../components/Help'
 
 export default function Home() {
  
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar/>
       <Bodycontent/>
       <Allgrounds/>
+      <Help/>
       
      
      {/* <Locationdetect/> */}

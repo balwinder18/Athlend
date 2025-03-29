@@ -130,11 +130,16 @@ const YourGrounds = () => {
         }
 
         const response = await fetch(`/api/getgrounds?userId=${userId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch grounds');
-        }
+        // if (!response.ok) {
+        //   throw new Error('Failed to fetch grounds');
+        // }
 
         const data = await response.json();
+        if(data.message == "no grounds found for this user"){
+          setGrounds([]);
+          setLoading(false);
+          return;  
+        }
         console.log('API response:', data);
 
         const groundsArray = Array.isArray(data) ? data : [data];
@@ -162,23 +167,17 @@ const YourGrounds = () => {
 
   if (!session) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="text-center p-8 rounded-lg shadow-md bg-white">
-          <Loader className="h-8 w-8 animate-spin mx-auto text-blue-500 mb-4" />
-          <p className="text-gray-600 font-medium">Loading session...</p>
-        </div>
-      </div>
+      <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="text-center p-8 rounded-lg shadow-md bg-white">
-          <Loader className="h-8 w-8 animate-spin mx-auto text-blue-500 mb-4" />
-          <p className="text-gray-600 font-medium">Loading your grounds...</p>
-        </div>
-      </div>
+      <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
     );
   }
 
@@ -256,46 +255,60 @@ const YourGrounds = () => {
         {filteredGrounds().length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredGrounds().map((ground) => (
+              
+             
               <div 
-                key={ground._id} 
-                className="bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
-              >
-                <div className="h-40 bg-blue-100 flex items-center justify-center">
-  
-                  <MapPin className="h-12 w-12 text-blue-300" />
-                </div>
-                
-                <div className="p-5">
-                  <div className="flex justify-between items-start mb-3">
-                    <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">{ground.name}</h2>
-                    {ground.Approval === "yes" ? (
-                      <span className="flex items-center text-green-500 text-sm">
-                        <CheckCircle className="h-4 w-4 mr-1" />
-                        Approved
-                      </span>
-                    ) : (
-                      <span className="flex items-center text-amber-500 text-sm">
-                        <Clock className="h-4 w-4 mr-1" />
-                        Pending
-                      </span>
-                    )}
+              key={ground._id}
+              className="bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+            >
+             
+              <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
+                {ground.imageUrl ? (
+                  <img 
+                    src={ground.imageUrl} 
+                    alt="Ground image"
+                    className="absolute h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-full flex items-center justify-center">
+                    <MapPin className="h-12 w-12 text-blue-300" />
                   </div>
-                  
-                  <p className="text-gray-600 mb-4 line-clamp-2">{ground.description}</p>
-                  
-                  <div className="flex items-center text-gray-500 mb-4">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    <span className="text-sm">{ground.location}</span>
-                  </div>
-                  
-                  <Link 
-                    href={`/grounds/${ground._id}`}
-                    className="block w-full text-center px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors mt-2"
-                  >
-                    View Details
-                  </Link>
-                </div>
+                )}
               </div>
+                    <div className="p-5">
+                               <div className="flex justify-between items-start mb-3">
+                                 <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">{ground.name}</h2>
+             
+                                 <span className="flex items-center  text-sm">
+                                   <CheckCircle className="h-4 w-4 mr-1" />
+                                 {ground.Approval === "yes"? (
+                                  <span className='text-green-500'>Approved</span>
+                                 ) : (
+                                  <span className='text-yellow-600' >Pending</span>
+                                 )}
+                                 </span>
+             
+                               </div>
+             
+                               <p className="text-gray-600 mb-4 line-clamp-2">{ground.description}</p>
+             
+                               <div className="flex items-center text-gray-500 mb-4">
+                                 <MapPin className="h-4 w-4 mr-1" />
+                                 <span className="text-sm">{ground.location}</span>
+                               </div>
+             
+                               <Link
+                                 href={`/grounds/${ground._id}`}
+                                 className="block w-full text-center px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors mt-2"
+                               >
+                                 View Details
+                               </Link>
+                             </div>
+                           </div>
+             
+             
+             
+                         
             ))}
           </div>
         ) : (

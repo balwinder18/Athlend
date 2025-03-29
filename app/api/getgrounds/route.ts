@@ -15,7 +15,7 @@ export async function GET(request: Request) {
       await connecttodatabase();
       const grounds = await Grounds.find({ userId: userId });
       if (!grounds || grounds.length === 0) {
-        return NextResponse.json({ error: "no grounds found for this user" }, { status: 404 });
+        return NextResponse.json({ message: "no grounds found for this user" }, { status: 201 });
       }
   
       return NextResponse.json(grounds, { status: 200 });

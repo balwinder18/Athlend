@@ -186,6 +186,7 @@ import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import { UploadButton } from "../lib/uploadthing";
 import { X, ImagePlus, Check } from 'lucide-react';
+import Navbar from './Navbar';
 
 const Newground = () => {
   const { data: session } = useSession();
@@ -204,6 +205,12 @@ const Newground = () => {
     images: "",
     description: '',
     userId: session.user?.id,
+    capacity:"",
+     hourlyRate:"",
+     contactEmail:"",
+     contactPhone:"",
+     facilities:"",
+     
   });
 
   const handleChange = (e) => {
@@ -241,6 +248,11 @@ const Newground = () => {
         description: formData.description,
         userId: formData.userId,
         imageUrl: imageurl,
+        capacity:formData.capacity,
+        pricing:formData.hourlyRate,
+        phone:formData.contactPhone,
+        email:formData.contactEmail,
+        facilities:formData.facilities
       });
 
       toast.success("Ground registered successfully!");
@@ -265,6 +277,8 @@ const Newground = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-8 transform transition-all duration-300 hover:scale-[1.01]">
         <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-center mb-10">
@@ -302,6 +316,73 @@ const Newground = () => {
             />
           </div>
 
+
+          <div className="group">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Capacity (Number of Players)
+        </label>
+        <input
+          type="number"
+          name="capacity"
+          min="1"
+          value={formData.capacity}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 group-hover:border-blue-400"
+          placeholder="Enter maximum capacity"
+          required
+        />
+      </div>
+
+      {/* Pricing */}
+      <div className="group">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Pricing Information
+        </label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">Hourly Rate (₹)</label>
+            <input
+              type="number"
+              name="hourlyRate"
+              min="0"
+              value={formData.hourlyRate}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300"
+              placeholder="Hourly rate"
+              required
+            />
+          </div>
+         
+        </div>
+      </div>
+
+      {/* Contact Information */}
+      <div className="group">
+        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+          Contact Information
+        </label>
+        <div className="space-y-4">
+          <input
+            type="email"
+            name="contactEmail"
+            value={formData.contactEmail}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300"
+            placeholder="Contact email"
+            required
+          />
+          <input
+            type="tel"
+            name="contactPhone"
+            value={formData.contactPhone}
+            onChange={handleChange}
+            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300"
+            placeholder="Contact phone number"
+            required
+          />
+        </div>
+      </div>
+
           <div className="group">
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Ground Images
@@ -325,8 +406,8 @@ const Newground = () => {
               ) : (
                 <div className="space-y-1 text-center">
                   <ImagePlus className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="flex text-sm text-gray-600">
-                    <UploadButton
+                  <div className="flex text-sm text-gray-600 mt-3 bg-black rounded-2xl justify-center items-center">
+                    <UploadButton 
                       endpoint="imageUploader"
                       onClientUploadComplete={(res) => {
                         handleUpdateImage(res);
@@ -336,15 +417,29 @@ const Newground = () => {
                       }}
                     />
                   </div>
-                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  <p className="text-xs text-gray-500">PNG, JPG, GIF up to 4MB</p>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="group">
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-              Description (Optional)
+          <div className="group flex flex-row justify-between">
+         <div className='flex lg:flex-col xl:flex-col 2xl:flex-col'>
+         <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Facilities
+            </label>
+            <textarea
+              name="facilities"
+              value={formData.facilities}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 group-hover:border-blue-400"
+              rows="4"
+              placeholder="Enter ground description"
+            ></textarea>
+         </div>
+           <div className='flex flex-col'>
+           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Description
             </label>
             <textarea
               name="description"
@@ -354,6 +449,7 @@ const Newground = () => {
               rows="4"
               placeholder="Enter ground description"
             ></textarea>
+           </div>
           </div>
 
           <button
@@ -375,6 +471,7 @@ const Newground = () => {
         </form>
       </div>
     </div>
+    </>
   )
 }
 

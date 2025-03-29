@@ -7,7 +7,12 @@ const GroundsSchema = new mongoose.Schema({
     description: { type: String, required: true },
     userId:{type:String  ,required:true},
     Approval:{type:String  ,default:"no"},
-    imageUrl:{type:String , default:null}
+    imageUrl:{type:String , default:null},
+    capacity:{type:String , default:null},
+    pricing:{type:String , default:null},
+    email:{type:String , default:null},
+    phone:{type:String , default:null},
+    facilities:{type:String,default:null}
 })
 
 module.exports = mongoose.models.Grounds || mongoose.model("Grounds" , GroundsSchema);
