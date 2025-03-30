@@ -140,7 +140,7 @@ const YourGrounds = () => {
           setLoading(false);
           return;  
         }
-        console.log('API response:', data);
+       
 
         const groundsArray = Array.isArray(data) ? data : [data];
         setGrounds(groundsArray);

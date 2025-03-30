@@ -10,6 +10,8 @@ import axios from 'axios';
 import { FaRupeeSign } from 'react-icons/fa';
 
 const Individualground = () => {
+
+ 
   const router = useRouter();
     
     const{ id} = useParams();
@@ -19,7 +21,7 @@ const Individualground = () => {
   const [error, setError] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isediting, setIsediting] = useState(false);
-
+   const userid = session?.user?.id;
   const fetchGroundDetail = async () => {
     if (!id){
         console.log("is not founmddddd");
@@ -77,6 +79,16 @@ const Individualground = () => {
       setDeleteModal(false);
     }
   };
+
+
+  const handleEdit = () => {
+    if (isediting) {
+      // Save logic would go here
+      // For now, just toggle the editing state
+    }
+    setIsediting(!isediting);
+  };
+
 //   const handleShare = () => {
 //     if (navigator.share) {
 //       navigator.share({
@@ -151,6 +163,22 @@ const Individualground = () => {
     );
   }
 
+  const handleChange = (e) => setGround({ ...ground, [e.target.name]: e.target.value });
+const handleupdate =async()=>{
+  try {
+    const res = await axios.put(`/api/uploadGrounds`,{
+      id,
+      grounddata:ground,
+    })
+    if (res.data.message) {
+      alert(res.data.message);
+      console.log("Updated ground:", res.data.ground);
+      
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
   return (
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4 max-w-5xl">
@@ -204,7 +232,7 @@ const Individualground = () => {
                   <span>{ground.location}</span>
                 </div>
               </div>
-
+              {userid == ground.userId &&
               <div className="flex space-x-3 mt-4 lg:mt-0">
                 {/* <button 
                   onClick={handleShare}
@@ -213,18 +241,14 @@ const Individualground = () => {
                   <Share2 className="h-4 w-4 mr-2" />
                   <span>Share</span>
                 </button> */}
-                <Link 
-                  href={`/grounds/edit/${id}`}
-                  className="flex items-center px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                >
-                  <button 
-                  onClick={() => setIsediting(true)}
-                  className="flex items-center px-3 py-2  text-red-600 rounded hover:bg-red-200 transition-colors"
-                >
-                  <Edit className="h-4 w-4 mr-2" />
-                  <span>Edit</span>
-                  </button>
-                </Link>
+               <div onClick={handleEdit} >
+                        {isediting ? (
+                          <button onClick={handleupdate} className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isediting ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Save Changes</button>
+                        ) : (
+                          <button className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isediting ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Edit</button>
+                        )}
+                      </div>
+                
                 <button 
                   onClick={() => setDeleteModal(true)}
                   className="flex items-center px-3 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors"
@@ -233,11 +257,22 @@ const Individualground = () => {
                   <span>Delete</span>
                 </button>
               </div>
+         }
             </div>
 
             <div className="border-t border-gray-100 pt-6">
               <h2 className="text-xl font-semibold text-gray-800 mb-3">Description</h2>
+              {isediting ? (
+                            <input
+                              type="text"
+                              name="description"
+                              value={ground.description}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
               <p className="text-gray-600 whitespace-pre-line mb-6">{ground.description}</p>
+                          )}
             </div>
           </div>
         </div>
@@ -252,8 +287,19 @@ const Individualground = () => {
                 // ground.facilities.map((facility, index) => (
                   <li className="flex items-start">
                     <CheckCircle className="h-5 w-5 mr-2 text-green-500 flex-shrink-0 mt-0.5" />
+                    {isediting ? (
+                            <input
+                              type="text"
+                              name="facilities"
+                              value={ground.facilities}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
+                    
                     <span className="text-gray-700">{ground.facilities}</span>
-                  </li>
+                          )}
+                    </li>
               // ))
               ) : (
                 <li className="text-gray-500">No facilities information available</li>
@@ -269,15 +315,36 @@ const Individualground = () => {
             <div className="space-y-4">
               <div>
                 <div className="text-sm text-gray-500 mb-1">Capacity</div>
+                {isediting ? (
+                            <input
+                              type="text"
+                              name="capacity"
+                              value={ground.capacity}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
                 <div className="text-lg font-medium text-gray-700">
                   {ground.capacity || 'Not specified'} people
                 </div>
+                          )}
               </div>
               <div>
+                
                 <div className="text-sm text-gray-500 mb-1">Pricing</div>
                 <div className="flex items-center text-lg font-medium text-gray-700">
                   <FaRupeeSign className="h-5 w-5 mr-1 text-green-600" />
-                  {ground.pricing ? `${ground.pricing} per hour` : 'Not specified'}
+                  {isediting ? (
+                            <input
+                              type="text"
+                              name="pricing"
+                              value={ground.pricing}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
+                  <span>{ground.pricing ? `${ground.pricing} per hour` : 'Not specified'}</span>
+                          )}
                 </div>
               </div>
             </div>
@@ -291,15 +358,35 @@ const Individualground = () => {
             <div className="space-y-4">
               <div>
                 <div className="text-sm text-gray-500 mb-1">Email</div>
+                {isediting ? (
+                            <input
+                              type="text"
+                              name="email"
+                              value={ground.email}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
                 <div className="text-gray-700">
                   {ground.email || 'Not provided'}
                 </div>
+                          )}
               </div>
               <div>
                 <div className="text-sm text-gray-500 mb-1">Phone</div>
                 <div className="flex items-center text-gray-700">
                   <Phone className="h-4 w-4 mr-2 text-gray-500" />
-                  {ground.phone || 'Not provided'}
+                  {isediting ? (
+                            <input
+                              type="text"
+                              name="phone"
+                              value={ground.phone}
+                              onChange={handleChange}
+                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                            />
+                          ) : (
+                  <span>{ground.phone || 'Not provided'}</span>
+                          )}
                 </div>
               </div>
             </div>
