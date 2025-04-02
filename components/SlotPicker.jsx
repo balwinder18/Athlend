@@ -33,6 +33,7 @@ const SlotPicker = ({ groundId, timezone }) => {
       console.error('Slot fetch error:', err);
       setError('Failed to load available slots');
       setSlots([]);
+      console.log(slots);
     } finally {
       setLoading(false);
     }
@@ -102,8 +103,8 @@ const SlotPicker = ({ groundId, timezone }) => {
                 : 'bg-gray-200 cursor-not-allowed'
             }`}
           >
-            {formatLocalTime(slot.start, timezone)} -{' '}
-            {formatLocalTime(slot.end, timezone)}
+            {formatLocalTime(slot.start,'h:mm a')} -{' '}
+            {formatLocalTime(slot.end, 'h:mm a')}
           </button>
         ))}
       </div>
