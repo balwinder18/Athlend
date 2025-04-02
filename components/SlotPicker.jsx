@@ -42,10 +42,6 @@ const SlotPicker = ({ groundId, timezone }) => {
     fetchSlots();
   }, [selectedDate]);
 
-  useEffect(() => {
-    console.log(slots);
-  }, slots);
-
   const handleBooking = async (slot) => {
     if (!session?.user?.id) {
       alert('Please sign in to book a slot');
@@ -106,8 +102,8 @@ const SlotPicker = ({ groundId, timezone }) => {
                 : 'bg-gray-200 cursor-not-allowed'
             }`}
           >
-            {slot.start} -{' '}
-            {slot.end}
+            {formatLocalTime(slot.start, timezone)} -{' '}
+            {formatLocalTime(slot.end, timezone)}
           </button>
         ))}
       </div>

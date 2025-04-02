@@ -6,37 +6,30 @@ import Grounds from '../../../../../database/models/GroundsModel';
 
 function generateTimeSlots(date, operatingHours, slotDuration = 30) {
   const slots = [];
-  
-  // Parse operating hours (handle both "8:00" and "08:00" formats)
   const [openHour, openMinute] = operatingHours.open.split(':').map(Number);
   const [closeHour, closeMinute] = operatingHours.close.split(':').map(Number);
 
-  // Create date objects in local time (not UTC)
+  // Create a date in IST (UTC+5:30)
   const startTime = new Date(date);
-  startTime.setHours(openHour, openMinute, 0, 0);
+  startTime.setUTCHours(openHour - 5, openMinute - 30, 0, 0); // Convert IST to UTC
 
   const endTime = new Date(date);
-  endTime.setHours(closeHour, closeMinute, 0, 0);
+  endTime.setUTCHours(closeHour - 5, closeMinute - 30, 0, 0);
 
-  // Generate slots
   let current = new Date(startTime);
   while (current < endTime) {
     const slotEnd = new Date(current.getTime() + slotDuration * 60000);
-    
-    // Don't create slots that extend beyond closing time
     if (slotEnd > endTime) break;
 
     slots.push({
       start: new Date(current),
       end: new Date(slotEnd)
     });
-
     current = slotEnd;
   }
 
   return slots;
 }
-
 export async function GET(request, { params }) {
   const { id } = params;
   const { searchParams } = new URL(request.url);
@@ -64,7 +57,7 @@ export async function GET(request, { params }) {
       endTime: { $gt: allSlots[0].start },
       status: 'booked'
     });
-    
+
     const availableSlots = await Promise.all(
       allSlots.map(async (slot) => {
         const isBooked = await Bookings.exists({
@@ -73,28 +66,14 @@ export async function GET(request, { params }) {
           startTime: { $lt: slot.end },
           endTime: { $gt: slot.start }
         });
-    
-        // Convert to IST before sending to frontend
-        const formatToIST = (date) => {
-          return new Date(date).toLocaleString('en-IN', {
-            timeZone: 'Asia/Kolkata',
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit'
-          }).replace(',', '');
-        };
-    
         return {
-          start: formatToIST(slot.start),  // "17:00" (IST)
-          end: formatToIST(slot.end),      // "17:30" (IST)
-          available: !isBooked,
-          // Keep original dates for calculations (optional)
-          _originalStart: slot.start,
-          _originalEnd: slot.end
+          start: slot.start.toISOString(),
+          end: slot.end.toISOString(),
+          available: !isBooked
         };
       })
     );
-    
+
     return NextResponse.json(availableSlots);
   } catch (error) {
     console.error('Error fetching slots:', error);
