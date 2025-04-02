@@ -64,7 +64,7 @@ export async function GET(request, { params }) {
       endTime: { $gt: allSlots[0].start },
       status: 'booked'
     });
-
+    
     const availableSlots = await Promise.all(
       allSlots.map(async (slot) => {
         const isBooked = await Bookings.exists({
@@ -73,14 +73,28 @@ export async function GET(request, { params }) {
           startTime: { $lt: slot.end },
           endTime: { $gt: slot.start }
         });
+    
+        // Convert to IST before sending to frontend
+        const formatToIST = (date) => {
+          return new Date(date).toLocaleString('en-IN', {
+            timeZone: 'Asia/Kolkata',
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit'
+          }).replace(',', '');
+        };
+    
         return {
-          start: slot.start.toISOString(),
-          end: slot.end.toISOString(),
-          available: !isBooked
+          start: formatToIST(slot.start),  // "17:00" (IST)
+          end: formatToIST(slot.end),      // "17:30" (IST)
+          available: !isBooked,
+          // Keep original dates for calculations (optional)
+          _originalStart: slot.start,
+          _originalEnd: slot.end
         };
       })
     );
-
+    
     return NextResponse.json(availableSlots);
   } catch (error) {
     console.error('Error fetching slots:', error);
