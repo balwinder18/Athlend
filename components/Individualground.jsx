@@ -8,6 +8,7 @@ import { MapPin, CalendarDays, Clock, CheckCircle, XCircle, ArrowLeft, Edit, Tra
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { FaRupeeSign } from 'react-icons/fa';
+import SlotPicker from './SlotPicker';
 
 const Individualground = () => {
 
@@ -21,7 +22,10 @@ const Individualground = () => {
   const [error, setError] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isediting, setIsediting] = useState(false);
+  const [timezone, setTimezone] = useState('Asia/Kolkata');
    const userid = session?.user?.id;
+
+   
   const fetchGroundDetail = async () => {
     if (!id){
         console.log("is not founmddddd");
@@ -399,9 +403,10 @@ const handleupdate =async()=>{
             Availability
           </h2>
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-            <p className="text-gray-500">
-              Calendar integration will be available soon. Contact the ground owner for availability.
-            </p>
+          <SlotPicker
+        groundId={id} 
+        timezone={timezone} 
+      />
           </div>
         </div>
       </div>
