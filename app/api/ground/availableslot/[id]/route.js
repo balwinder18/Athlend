@@ -67,8 +67,8 @@ export async function GET(request, { params }) {
           endTime: { $gt: slot.start }
         });
         return {
-          start: slot.start.toISOString(),
-          end: slot.end.toISOString(),
+          start: slot.start,
+          end: slot.end,
           available: !isBooked
         };
       })
