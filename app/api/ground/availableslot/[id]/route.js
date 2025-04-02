@@ -41,7 +41,7 @@ export async function GET(request, { params }) {
   const { id } = params;
   const { searchParams } = new URL(request.url);
   const date = searchParams.get('date');
-  const timezone = searchParams.get('timezone'); // Not used currently but could be for timezone adjustments
+  // const timezone = searchParams.get('timezone'); Not used currently but could be for timezone adjustments
 
   if (!date) {
     return NextResponse.json({ error: 'Date parameter is required' }, { status: 400 });
