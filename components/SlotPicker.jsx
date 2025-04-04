@@ -9,18 +9,44 @@ import { useSession } from 'next-auth/react';
 
 const SlotPicker = ({ groundId, timezone }) => {
   const { data: session } = useSession();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState();
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // const fetchSlots = async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const dateString = selectedDate.split('T')[0];
+  //     const res = await fetch(
+  //       `/api/ground/availableslot/${groundId}?date=${dateString}&timezone=${encodeURIComponent(timezone)}`
+  //     );
+      
+  //     if (!res.ok) {
+  //       throw new Error(`Failed to fetch slots: ${res.status}`);
+  //     }
+      
+  //     const data = await res.json();
+  //     setSlots(Array.isArray(data) ? data : []);
+  //   } catch (err) {
+  //     console.error('Slot fetch error:', err);
+  //     setError('Failed to load available slots');
+  //     setSlots([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const fetchSlots = async () => {
     setLoading(true);
     setError(null);
     try {
-      const dateString = selectedDate.toISOString().split('T')[0];
+      // Extract date in YYYY-MM-DD format from selectedDate
+      const dateString = new Date(selectedDate).toISOString().split('T')[0];
+      
       const res = await fetch(
-        `/api/ground/availableslot/${groundId}?date=${dateString}&timezone=${encodeURIComponent(timezone)}`
+        `/api/ground/availableslot/${groundId}?date=${dateString}`
       );
       
       if (!res.ok) {
@@ -77,6 +103,11 @@ const SlotPicker = ({ groundId, timezone }) => {
     }
   };
 
+  useEffect(() => {
+   console.log(selectedDate);
+  }, [selectedDate])
+  
+
   return (
     <div className="p-4 max-w-2xl mx-auto">
       <input
@@ -84,7 +115,8 @@ const SlotPicker = ({ groundId, timezone }) => {
         value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
         onChange={(e) => {
           const newValue = e.target.value;
-          setSelectedDate(newValue ? parseISO(newValue) : new Date()); 
+          setSelectedDate(newValue ? (newValue) : new Date()); 
+         
         }}
         min={format(new Date(), 'yyyy-MM-dd')} 
         max={format(addDays(new Date(), 6), 'yyyy-MM-dd')} 
@@ -106,8 +138,8 @@ const SlotPicker = ({ groundId, timezone }) => {
                 : 'bg-gray-200 cursor-not-allowed'
             }`}
           >
-            {formatLocalTime(slot.start, timezone)} -{' '}
-            {formatLocalTime(slot.end, timezone)}
+            {formatLocalTime(slot.start)} -{' '}
+            {formatLocalTime(slot.end)}
           </button>
         ))}
       </div>

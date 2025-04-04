@@ -4,27 +4,61 @@ import { NextResponse } from 'next/server';
 import Bookings from '../../../../../database/models/BookingModel';
 import Grounds from '../../../../../database/models/GroundsModel';
 
+// function generateTimeSlots(date, operatingHours, slotDuration = 30) {
+//   const slots = [];
+//   const [openHour, openMinute] = operatingHours.open.split(':').map(Number);
+//   const [closeHour, closeMinute] = operatingHours.close.split(':').map(Number);
+
+//   // Create a date in IST (UTC+5:30)
+//   const startTime = new Date(date);
+//   startTime.setHours(openHour , openMinute , 0, 0); 
+
+//   const endTime = new Date(date);
+//   endTime.setHours(closeHour , closeMinute , 0, 0);
+
+//   let current = new Date(startTime);
+//   while (current < endTime) {
+//     const slotEnd = new Date(current.getTime() + slotDuration * 60000);
+//     if (slotEnd > endTime) break;
+
+//     slots.push({
+//       start: new Date(current),
+//       end: new Date(slotEnd)
+//     });
+//     current = slotEnd;
+//   }
+
+//   return slots;
+// }
+
+
+
 function generateTimeSlots(date, operatingHours, slotDuration = 30) {
   const slots = [];
   const [openHour, openMinute] = operatingHours.open.split(':').map(Number);
   const [closeHour, closeMinute] = operatingHours.close.split(':').map(Number);
 
-  // Create a date in IST (UTC+5:30)
-  const startTime = new Date(date);
-  startTime.setUTCHours(openHour - 5, openMinute - 30, 0, 0); // Convert IST to UTC
+  // 1. Create base date in IST (manually set UTC+5:30)
+  const istDate = new Date(date);
+  istDate.setUTCHours(openHour - 5, openMinute - 30, 0, 0); // Convert IST to UTC
 
-  const endTime = new Date(date);
+  // 2. Set operating hours in IST
+  const startTime = new Date(istDate);
+  startTime.setUTCHours(openHour - 5, openMinute - 30, 0, 0);
+
+  const endTime = new Date(istDate);
   endTime.setUTCHours(closeHour - 5, closeMinute - 30, 0, 0);
 
+  // 3. Generate slots
   let current = new Date(startTime);
   while (current < endTime) {
     const slotEnd = new Date(current.getTime() + slotDuration * 60000);
-    if (slotEnd > endTime) break;
-
+    
     slots.push({
-      start: new Date(current),
-      end: new Date(slotEnd)
+      start: new Date(current.getTime() + (5.5 * 60 * 60 * 1000)), // Convert back to IST
+      end: new Date(slotEnd.getTime() + (5.5 * 60 * 60 * 1000))   // Convert back to IST
     });
+    
     current = slotEnd;
   }
 
@@ -66,11 +100,15 @@ export async function GET(request, { params }) {
           startTime: { $lt: slot.end },
           endTime: { $gt: slot.start }
         });
+
+        
         return {
           start: slot.start,
           end: slot.end,
           available: !isBooked
         };
+
+        
       })
     );
 
