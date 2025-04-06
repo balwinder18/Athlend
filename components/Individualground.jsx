@@ -11,15 +11,18 @@ import { FaRupeeSign } from 'react-icons/fa';
 import SlotPicker from './SlotPicker';
 
 const Individualground = () => {
-
+  const [error, setError] = useState(null);
  
   const router = useRouter();
     
     const{ id} = useParams();
   const { data: session } = useSession();
+  if(!session){
+     router.push("/login");
+  }
   const [ground, setGround] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+ 
   const [deleteModal, setDeleteModal] = useState(false);
   const [isediting, setIsediting] = useState(false);
   const [timezone, setTimezone] = useState('Asia/Kolkata');
@@ -33,11 +36,7 @@ const Individualground = () => {
 
     try {
       const response = await axios.get(`/api/groundDetails/${id}`);
-      
-
-
-      
-      console.log(response.data);
+        console.log(response.data);
       setGround(response.data);
       console.log(ground);
       setLoading(false);
@@ -405,7 +404,8 @@ const handleupdate =async()=>{
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
           <SlotPicker
         groundId={id} 
-        timezone={timezone} 
+       
+        amount={ground.pricing}
       />
           </div>
         </div>

@@ -5,46 +5,24 @@ import { useState, useEffect } from 'react';
 import { format, parseISO, addDays } from 'date-fns';
 import { formatLocalTime } from '@/app/utils/date';
 import { useSession } from 'next-auth/react';
+import Script from 'next/script';
+import axios from 'axios';
 
 
-const SlotPicker = ({ groundId, timezone }) => {
+const SlotPicker = ({ groundId, amount }) => {
   const { data: session } = useSession();
   const [selectedDate, setSelectedDate] = useState();
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // const fetchSlots = async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const dateString = selectedDate.split('T')[0];
-  //     const res = await fetch(
-  //       `/api/ground/availableslot/${groundId}?date=${dateString}&timezone=${encodeURIComponent(timezone)}`
-  //     );
-      
-  //     if (!res.ok) {
-  //       throw new Error(`Failed to fetch slots: ${res.status}`);
-  //     }
-      
-  //     const data = await res.json();
-  //     setSlots(Array.isArray(data) ? data : []);
-  //   } catch (err) {
-  //     console.error('Slot fetch error:', err);
-  //     setError('Failed to load available slots');
-  //     setSlots([]);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
+ 
   const fetchSlots = async () => {
     setLoading(true);
     setError(null);
     try {
-      // Extract date in YYYY-MM-DD format from selectedDate
+ 
       const dateString = new Date(selectedDate).toISOString().split('T')[0];
-      console.log(dateString);
       
       const res = await fetch(
         `/api/ground/availableslot/${groundId}?date=${dateString}`
@@ -58,7 +36,7 @@ const SlotPicker = ({ groundId, timezone }) => {
       setSlots(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Slot fetch error:', err);
-      setError('Failed to load available slots');
+      setError('Select Date First');
       setSlots([]);
     } finally {
       setLoading(false);
@@ -69,17 +47,73 @@ const SlotPicker = ({ groundId, timezone }) => {
     fetchSlots();
   }, [selectedDate]);
 
+  const createorder =async (slot)=>{
+    if (!session?.user?.id) {
+      alert('Please sign in to book a slot');
+      return;
+    }
+    try {
+      const response = await fetch('/api/createOrder',{
+        method:"POST",
+        body:JSON.stringify({amount:amount*100})
+      })
+    const data = await response.json();
+       console.log(data);
 
-  const handleBooking = async (slot) => {
+
+       const paymentdata = {
+        key:process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ,
+        order_id : data.id,
+      
+         handler : async function(response){
+              //verify
+
+
+              const res = await fetch("/api/verifyOrder", {
+                method: "POST",
+                body: JSON.stringify({
+                  orderId: response.razorpay_order_id,
+                  razorpayPaymentId: response.razorpay_payment_id,
+                  razorpaySignature: response.razorpay_signature,
+                }),
+              });
+              const data = await res.json();
+              console.log(data);
+              const idOrder =response.razorpay_order_id;
+              if (data.isOk) {
+                handleBooking(slot,idOrder);
+                alert("Payment successful");
+              } else {
+                alert("Payment failed");
+              }
+            
+         }
+      }
+
+      const payment =await  new window.Razorpay(paymentdata);
+      await payment.open();
+
+
+    
+    } catch (error) {
+      
+    }
+
+  }
+
+  const handleBooking = async (slot,idOrder) => {
     if (!session?.user?.id) {
       alert('Please sign in to book a slot');
       return;
     }
 
     try {
-      console.log(slot.start);
-      console.log(slot.end);
-      console.log(selectedDate);
+     
+
+
+
+
+
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,6 +123,7 @@ const SlotPicker = ({ groundId, timezone }) => {
           startTime: slot.start,
           endTime: slot.end,
           date:selectedDate,
+          orderId:idOrder
         })
       });
       
@@ -112,6 +147,7 @@ const SlotPicker = ({ groundId, timezone }) => {
 
   return (
     <div className="p-4 max-w-2xl mx-auto">
+      <Script type='text/javascript' src="https://checkout.razorpay.com/v1/checkout.js"/>
       <input
         type="date"
         value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
@@ -132,7 +168,7 @@ const SlotPicker = ({ groundId, timezone }) => {
         {slots.map((slot) => (
           <button
             key={slot.start}
-            onClick={() => handleBooking(slot)}
+            onClick={() => createorder(slot)}
             disabled={!slot.available}
             className={`p-2 text-sm rounded ${
               slot.available
