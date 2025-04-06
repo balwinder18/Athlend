@@ -70,22 +70,25 @@ import Bookings from '../../../database/models/BookingModel';
 
 export async function POST(request) {
   try {
-    const { groundId, userId, startTime, endTime } = await request.json();
+    const { groundId, userId, startTime, endTime ,date } = await request.json();
 
     // Validate input
-    if (!groundId || !userId || !startTime || !endTime) {
+    if (!groundId || !userId || !startTime || !endTime || !date) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Check for overlapping bookings
+  
+
+    
     const overlapping = await Bookings.findOne({
       groundId,
       status: 'booked',
-      startTime: { $lt: new Date(endTime) },
-      endTime: { $gt: new Date(startTime) }
+      bookingdate: date, // ensure it's the same day
+      startTime: { $lt: endTime }, // existing booking starts before the new one ends
+      endTime: { $gt: startTime }  // and ends after the new one starts
     });
 
     if (overlapping) {
@@ -99,8 +102,9 @@ export async function POST(request) {
     const booking = await Bookings.create({
       groundId,
       userId,
-      startTime: new Date(startTime),
-      endTime: new Date(endTime),
+      startTime: startTime,
+      endTime: endTime,
+      bookingdate: date,
       status: 'booked'
     });
 
@@ -113,3 +117,5 @@ export async function POST(request) {
     );
   }
 }
+
+

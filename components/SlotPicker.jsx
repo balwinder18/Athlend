@@ -44,13 +44,14 @@ const SlotPicker = ({ groundId, timezone }) => {
     try {
       // Extract date in YYYY-MM-DD format from selectedDate
       const dateString = new Date(selectedDate).toISOString().split('T')[0];
+      console.log(dateString);
       
       const res = await fetch(
         `/api/ground/availableslot/${groundId}?date=${dateString}`
       );
       
       if (!res.ok) {
-        throw new Error(`Failed to fetch slots: ${res.status}`);
+        throw new Error(`pls select Date: ${res.status}`);
       }
       
       const data = await res.json();
@@ -68,9 +69,6 @@ const SlotPicker = ({ groundId, timezone }) => {
     fetchSlots();
   }, [selectedDate]);
 
-  useEffect(() => {
-    console.log(slots);
-  }, [slots]);
 
   const handleBooking = async (slot) => {
     if (!session?.user?.id) {
@@ -79,6 +77,9 @@ const SlotPicker = ({ groundId, timezone }) => {
     }
 
     try {
+      console.log(slot.start);
+      console.log(slot.end);
+      console.log(selectedDate);
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -86,7 +87,8 @@ const SlotPicker = ({ groundId, timezone }) => {
           groundId,
           userId: session.user.id,
           startTime: slot.start,
-          endTime: slot.end
+          endTime: slot.end,
+          date:selectedDate,
         })
       });
       
@@ -138,8 +140,8 @@ const SlotPicker = ({ groundId, timezone }) => {
                 : 'bg-gray-200 cursor-not-allowed'
             }`}
           >
-            {formatLocalTime(slot.start)} -{' '}
-            {formatLocalTime(slot.end)}
+            {slot.start} -{' '}
+            {slot.end}
           </button>
         ))}
       </div>

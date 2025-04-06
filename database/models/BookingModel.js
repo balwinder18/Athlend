@@ -5,6 +5,7 @@ const BookingSchema = new mongoose.Schema({
     userId : {type:String , required:true},
     startTime : {type:String , required:true},
     endTime : {type:String , required:true},
+    bookingdate : {type:String , required:true},
     status: { 
         type: String, 
         enum: ['booked', 'cancelled', 'pending'],

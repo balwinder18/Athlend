@@ -5,13 +5,14 @@
 // };
 
 
-export const formatLocalTime = (isoString)=> {
+export const formatLocalTime = (isoString) => {
   const date = new Date(isoString);
   
-  // Get UTC hours and minutes (since ISO strings are always UTC)
-  const hours = date.getUTCHours().toString().padStart(2, '0');
-  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-  
-  return `${hours}:${minutes}`;
-}
-
+  // Convert to IST timezone with 24-hour format
+  return date.toLocaleTimeString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
