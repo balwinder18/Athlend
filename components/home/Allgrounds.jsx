@@ -126,7 +126,7 @@ useEffect(() => {
 
 
 <div className="top-0 left-0 w-full h-full flex items-center justify-center z-10">
-  <div className="mt-[-64px] mb-[20px] z-10 flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-2xl sm:rounded-full p-3 sm:p-2 w-full max-w-4xl mx-auto border border-gray-200">
+  <div className="mt-[-64px] mb-[20px] z-0 flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-2xl sm:rounded-full p-3 sm:p-2 w-full max-w-4xl mx-auto border border-gray-200">
   <div className="hidden w-full whitespace-nowrap lg:flex xl:flex 2xl:flex flex-col flex-1 p-2 rounded-lg">
             <label className="text-[20px] font-semibold text-gray-600">Start finding courts nearby</label>
           </div>
