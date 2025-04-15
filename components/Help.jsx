@@ -22,7 +22,7 @@ const Help = () => {
       if (
         chatRef.current &&
         !chatRef.current.contains(event.target) &&
-        !event.target.closest("button") // Ensures clicking the "Help" button doesn't close it
+        !event.target.closest("button") 
       ) {
         setIsOpen(false);
       }
