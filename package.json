@@ -16,6 +16,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/uuid": "^10.0.0",
     "@uploadthing/react": "^7.3.0",
+    "ai": "^4.3.9",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -30,6 +31,7 @@
     "next": "15.1.6",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.10.0",
+    "openai": "^4.95.1",
     "razorpay": "^2.9.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -39,7 +41,8 @@
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^7.5.2",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20",
