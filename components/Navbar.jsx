@@ -96,7 +96,7 @@ export default function Navbar() {
 {/* Mobile Navbar (shown on small screens) */}
 <nav className="lg:hidden shadow-md p-4 flex justify-between items-center">
   <Link href='/'>
-    <Image src={logoathlend} alt="Athlend" height={50} width={70} />
+    <Image src={athlendlogonew} alt="Athlend" height={50} width={70} />
   </Link>
 
   <button 
