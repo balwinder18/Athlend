@@ -42,7 +42,7 @@ const Help = () => {
     <div ref={chatRef} className="fixed bottom-6 right-6">
       <button
         onClick={handleHelpClick}
-        className="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all flex items-center gap-2"
+        className="bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition-all flex items-center gap-2"
       >
         <HelpCircle size={24} />
         Help

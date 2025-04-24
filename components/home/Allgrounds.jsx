@@ -79,7 +79,7 @@ useEffect(() => {
 
   if (loading) {
     return <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
     </div>;
   }
 
@@ -169,7 +169,7 @@ useEffect(() => {
     {/* Search Button - Adapts to screen size */}
     <button
       onClick={filteredground}
-      className="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-2 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-xl sm:rounded-full py-3 px-6 sm:py-2 sm:px-4 flex items-center justify-center transition-colors duration-200 shadow-sm hover:shadow-md"
+      className="w-full sm:w-auto mt-4 sm:mt-0 sm:ml-2 bg-green-500 hover:bg-green-600 text-white font-medium rounded-xl sm:rounded-full py-3 px-6 sm:py-2 sm:px-4 flex items-center justify-center transition-colors duration-200 shadow-sm hover:shadow-md"
     >
       <FaSearch className="sm:hidden mr-2" />
       <span>Search</span>

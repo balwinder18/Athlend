@@ -8,6 +8,8 @@ import Image from "next/image";
 import AthlendLogo from '../public/images/AthlendLogo.webp'
 import { Menu, X } from 'lucide-react';
 import logoathlend from '../public/images/logoathlend.png'
+import athlendsvg from '../public/images/athlendsvg.svg'
+import athlendlogonew from '../public/images/athlendlogonew.png'
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -61,7 +63,7 @@ export default function Navbar() {
 
 <nav className="hidden shadow-md p-4 lg:flex justify-between items-center">
   <Link href='/'>
-    <Image src={logoathlend} alt="Athlend" height={60} width={80} className="rounded-xl"/>
+    <Image src={athlendlogonew} alt="Athlend" height={60} width={80} className="rounded-xl"/>
   </Link>
 
   {session ? (

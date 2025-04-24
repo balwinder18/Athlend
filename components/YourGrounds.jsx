@@ -47,7 +47,7 @@
 
 //   if (loading) {
 //     return <div className="flex justify-center items-center h-64">
-//       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+//       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
 //     </div>;
 //   }
 
@@ -86,7 +86,7 @@
 //       ) : (
 //         <div className="text-center p-8 bg-gray-50 rounded-lg">
 //           <p className="text-gray-500 mb-4">No grounds found.</p>
-//           <a href="/newground" className="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+//           <a href="/newground" className="inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
 //             Add New Ground
 //           </a>
 //         </div>
@@ -168,7 +168,7 @@ const YourGrounds = () => {
   if (!session) {
     return (
       <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
     </div>
     );
   }
@@ -176,7 +176,7 @@ const YourGrounds = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
     </div>
     );
   }
@@ -214,7 +214,7 @@ const YourGrounds = () => {
                 onClick={() => setFilter('all')}
                 className={`px-4 py-2 text-sm font-medium rounded-l-md ${
                   filter === 'all' 
-                    ? 'bg-blue-500 text-white' 
+                    ? 'bg-green-500 text-white' 
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 } border border-gray-300`}
               >
@@ -224,7 +224,7 @@ const YourGrounds = () => {
                 onClick={() => setFilter('approved')}
                 className={`px-4 py-2 text-sm font-medium ${
                   filter === 'approved' 
-                    ? 'bg-blue-500 text-white' 
+                    ? 'bg-green-500 text-white' 
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 } border-t border-b border-r border-gray-300`}
               >
@@ -234,7 +234,7 @@ const YourGrounds = () => {
                 onClick={() => setFilter('pending')}
                 className={`px-4 py-2 text-sm font-medium rounded-r-md ${
                   filter === 'pending' 
-                    ? 'bg-blue-500 text-white' 
+                    ? 'bg-green-500 text-white' 
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 } border-t border-b border-r border-gray-300`}
               >
@@ -244,7 +244,7 @@ const YourGrounds = () => {
             
             <Link 
               href="/newground" 
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors shadow-sm"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors shadow-sm"
             >
               <Plus className="h-4 w-4" />
               <span>Add New Ground</span>
@@ -262,7 +262,7 @@ const YourGrounds = () => {
               className="bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
             >
              
-              <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
+              <div className="relative h-40 w-full bg-green-100 overflow-hidden">
                 {ground.imageUrl ? (
                   <img 
                     src={ground.imageUrl} 
@@ -271,7 +271,7 @@ const YourGrounds = () => {
                   />
                 ) : (
                   <div className="h-full flex items-center justify-center">
-                    <MapPin className="h-12 w-12 text-blue-300" />
+                    <MapPin className="h-12 w-12 text-green-300" />
                   </div>
                 )}
               </div>
@@ -313,14 +313,14 @@ const YourGrounds = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-10 text-center max-w-lg mx-auto">
-            <div className="bg-blue-50 p-4 rounded-full mb-4">
-              <MapPin className="h-10 w-10 text-blue-500" />
+            <div className="bg-green-50 p-4 rounded-full mb-4">
+              <MapPin className="h-10 w-10 text-green-500" />
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">No grounds found</h3>
             <p className="text-gray-600 mb-6">You haven't registered any sports grounds yet.</p>
             <Link 
               href="/newground" 
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors shadow-sm"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors shadow-sm"
             >
               <Plus className="h-5 w-5" />
               <span>Register Your First Ground</span>

@@ -105,13 +105,13 @@ const ChatSupport = () => {
         {!showChat ? (
           <div
             ref={athlendRef}
-            className="flex items-center justify-center h-full bg-gray-900 text-white text-3xl font-bold"
+            className="flex items-center justify-center h-full bg-green-900 text-white text-3xl font-bold"
           >
             ATHLEND
           </div>
         ) : (
           <>
-            <div className="bg-blue-600 text-white p-4 font-bold">ATHLEND</div>
+            <div className="bg-green-600 text-white p-4 font-bold">ATHLEND</div>
             
             <div className="flex-1 p-4 overflow-y-auto space-y-2">
               {messages.map((msg, index) => (
@@ -119,7 +119,7 @@ const ChatSupport = () => {
                   key={index} 
                   className={`p-3 rounded-lg ${
                     msg.role === 'user' 
-                      ? 'bg-blue-100 text-blue-900 ml-8' 
+                      ? 'bg-green-100 text-green-900 ml-8' 
                       : 'bg-gray-100 text-gray-900 mr-8'
                   }`}
                 >
@@ -138,7 +138,7 @@ const ChatSupport = () => {
             <form onSubmit={handleSubmit} className="p-2 border-t flex items-center">
               <input
                 type="text"
-                className="flex-1 p-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="flex-1 p-2 border rounded focus:outline-none focus:ring-1 focus:ring-green-500"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
@@ -147,7 +147,7 @@ const ChatSupport = () => {
               <button 
                 type="submit" 
                 disabled={isLoading}
-                className="ml-2 bg-blue-600 text-white p-2 rounded disabled:bg-blue-300"
+                className="ml-2 bg-green-600 text-white p-2 rounded disabled:bg-green-300"
               >
                 {isLoading ? '...' : '→'}
               </button>

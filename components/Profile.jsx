@@ -357,12 +357,12 @@ export default function ProfilePage() {
         <div className="flex">
           <div className="hidden md:flex md:w-64 md:flex-col fixed h-full bg-white dark:bg-gray-800 shadow-lg">
             <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
-              <div className="flex items-center flex-shrink-0 px-4">
-                <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">MyDashboard</h1>
+              <div className="flex items-center flex-shrink-0 px-4 bg-green-500 rounded-xl">
+                <h1 className="text-xl font-bold">MyDashboard</h1>
               </div>
               <div className="mt-8 flex-1 flex flex-col">
                 <nav className="flex-1 px-2 space-y-1">
-                  <a href="/profle" className="bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <a href="/profle" className="bg-blue-50 dark:bg-gray-700 text-green-500 dark:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                     <FiUser className="mr-3 h-5 w-5" />
                     Profile
                   </a>
@@ -409,7 +409,7 @@ export default function ProfilePage() {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <div className="mt-3 bg-blue-600 hover:bg-blue-700 rounded-2xl">
+                      <div className="mt-3 bg-green-500 hover:bg-green-700 rounded-2xl">
                         <UploadButton
                           endpoint="imageUploader"
                           onClientUploadComplete={(res) => {
@@ -472,9 +472,9 @@ export default function ProfilePage() {
                     <div className="flex space-x-4">
                       <div onClick={handleEdit} >
                         {isEditing ? (
-                          <button onClick={handleupdate} className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Save Changes</button>
+                          <button onClick={handleupdate} className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Save Changes</button>
                         ) : (
-                          <button className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Edit</button>
+                          <button className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Edit</button>
                         )}
                       </div>
                     </div>
@@ -489,7 +489,7 @@ export default function ProfilePage() {
                   <div className="flex space-x-4">
                     <button
                       onClick={handleclick}
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                     >
                       <FiPlus className="inline-block mr-2 h-4 w-4" />
                       Upload Ground
@@ -516,7 +516,7 @@ export default function ProfilePage() {
               {/* Mobile Navigation - Only visible on small screens */}
               <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg md:hidden">
                 <div className="flex justify-around">
-                  <button className="flex flex-col items-center py-3 px-4 text-blue-600 dark:text-blue-400">
+                  <button className="flex flex-col items-center py-3 px-4 text-green-600 dark:text-blue-400">
                     <FiUser className="h-6 w-6" />
                     <span className="text-xs mt-1">Profile</span>
                   </button>
