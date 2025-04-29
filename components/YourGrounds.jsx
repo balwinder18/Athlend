@@ -318,13 +318,13 @@ const YourGrounds = () => {
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">No grounds found</h3>
             <p className="text-gray-600 mb-6">You haven't registered any sports grounds yet.</p>
-            <Link 
+            {/* <Link 
               href="/newground" 
               className="flex items-center justify-center gap-2 px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors shadow-sm"
             >
               <Plus className="h-5 w-5" />
               <span>Register Your First Ground</span>
-            </Link>
+            </Link> */}
           </div>
         )}
       </div>

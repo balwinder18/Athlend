@@ -25,7 +25,7 @@ const Bodycontent = () => {
  
   <div className="absolute inset-0 bg-black bg-opacity-30 z-1"></div>
   <div className="relative z-2 flex flex-col items-center justify-center text-white">
-    <h1 className="text-4xl font-bold mb-4">Find Your Perfect Playing Field</h1>
+    <h1 className=" text-center text-4xl font-bold mb-4">Find Your Perfect Playing Field</h1>
     <p className="text-xl">PAY LESS , PLAY MORE</p>
   </div>
 </div>

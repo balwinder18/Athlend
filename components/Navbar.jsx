@@ -73,7 +73,7 @@ export default function Navbar() {
       </h1>
       <Link href='/profile'>
         <button className="px-4 py-2 text-black rounded-2xl border-b-4 hover:bg-gray-100 transition-colors">
-          Dashboard
+          My profile
         </button>
       </Link>
       <button
@@ -127,7 +127,7 @@ export default function Navbar() {
           className="px-6 py-3 text-black rounded-2xl border-b-4 text-lg"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Dashboard
+           My Profile
         </Link>
         <button
           onClick={() => {

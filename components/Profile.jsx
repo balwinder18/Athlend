@@ -486,7 +486,7 @@ export default function ProfilePage() {
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Manage Your Grounds</h2>
-                  <div className="flex space-x-4">
+                  {/* <div className="flex space-x-4">
                     <button
                       onClick={handleclick}
                       className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -501,7 +501,7 @@ export default function ProfilePage() {
                       <FiList className="inline-block mr-2 h-4 w-4" />
                       View Grounds
                     </button>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="text-center  border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
@@ -522,11 +522,11 @@ export default function ProfilePage() {
                   </button>
                   <button onClick={handleclick} className="flex flex-col items-center py-3 px-4 text-gray-600 dark:text-gray-400">
                     <FiPlus className="h-6 w-6" />
-                    <span className="text-xs mt-1">Create</span>
+                    <span className="text-xs mt-1">Add Ground</span>
                   </button>
                   <button onClick={handleclick2} className="flex flex-col items-center py-3 px-4 text-gray-600 dark:text-gray-400">
                     <FiList className="h-6 w-6" />
-                    <span className="text-xs mt-1">Events</span>
+                    <span className="text-xs mt-1">View Grounds</span>
                   </button>
                   <button onClick={() => signOut()} className="flex flex-col items-center py-3 px-4 text-red-600 dark:text-red-400">
                     <FiLogOut className="h-6 w-6" />
