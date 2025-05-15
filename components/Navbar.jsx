@@ -11,7 +11,7 @@ import logoathlend from '../public/images/logoathlend.png'
 import athlendsvg from '../public/images/athlendsvg.svg'
 import athlendlogonew from '../public/images/athlendlogonew.png'
 import athlendlogo from '../public/images/athlendlogo.jpg'
-
+import logofinal from '../public/images/logofinal.jpg'
 export default function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function Navbar() {
 
 <nav className="hidden shadow-md p-4 lg:flex justify-between items-center">
   <Link href='/'>
-    <Image src={athlendlogo} alt="Athlend" height={100} width={100} className="rounded-xl"/>
+    <Image src={logofinal} alt="Athlend" height={100} width={100} className=""/>
   </Link>
 
   {session ? (
@@ -97,7 +97,7 @@ export default function Navbar() {
 {/* Mobile Navbar (shown on small screens) */}
 <nav className="lg:hidden shadow-md p-4 flex justify-between items-center">
   <Link href='/'>
-    <Image src={athlendlogo} alt="Athlend" height={70} width={70} className="rounded-xl"/>
+    <Image src={logofinal} alt="Athlend" height={70} width={70} className=""/>
   </Link>
 
   <button 
