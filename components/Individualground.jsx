@@ -346,7 +346,7 @@ const handleupdate =async()=>{
                               className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
                             />
                           ) : (
-                  <span>{ground.pricing ? `${ground.pricing} per hour` : 'Not specified'}</span>
+                  <span>{ground.pricing ? `${ground.pricing} per slot` : 'Not specified'}</span>
                           )}
                 </div>
               </div>
