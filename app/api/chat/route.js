@@ -109,7 +109,7 @@
 //   }
 // }
 
-import { createChatBot } from "@/lib/langchain/chatBot";
+import { createChatBot } from "@/lib/langchain/chatbot";
 
 export async function POST(req) {
   try {
