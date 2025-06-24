@@ -23,50 +23,43 @@ const ChatSupport = () => {
   }, [messages]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading) return;
-    
-    setIsLoading(true);
-    setError(null);
-    
-    // Add user message immediately
-    const userMessage = { role: 'user', content: input };
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
+  e.preventDefault();
+  if (!input.trim() || isLoading) return;
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [userMessage]
-        }),
-      });
+  setIsLoading(true);
+  setError(null);
 
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to get response');
-      }
+  const userMessage = { role: 'user', content: input };
+  const updatedMessages = [...messages, userMessage];
+  setMessages(updatedMessages); // update UI immediately
+  setInput('');
 
-      // Ensure we have proper response format
-      if (!data.content) {
-        throw new Error('Invalid response format from API');
-      }
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: updatedMessages }),
+    });
 
-      setMessages(prev => [...prev, data]);
-      
-    } catch (err) {
-      console.error('Chat error:', err);
-      setError(err.message);
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.'
-      }]);
-    } finally {
-      setIsLoading(false);
+    const data = await response.json();
+
+    if (!response.ok || !data?.reply) {
+      throw new Error(data.error || 'Failed to get response');
     }
-  };
+
+    setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+  } catch (err) {
+    console.error('Chat error:', err);
+    setError(err.message);
+    setMessages(prev => [...prev, {
+      role: 'assistant',
+      content: 'Sorry, I encountered an error. Please try again.',
+    }]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   // Your existing GSAP animations
   useEffect(() => {

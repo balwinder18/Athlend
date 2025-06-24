@@ -18,17 +18,24 @@ import mongoose from 'mongoose';
 //   return cached.conn;
 // }
 
-export const connecttodatabase = async ()=>{
 
-  try{
-    await mongoose.connect( process.env.MONGODB_URI as string ,
-     );
 
-    console.log("mongo connected successfully");
-  } catch(error) {
-    console.log(error);
-    process.exit(1);
 
- }
 
-}
+let isConnected = false;
+
+export const connecttodatabase = async () => {
+  if (isConnected) return mongoose.connection.db;
+
+  try {
+    await mongoose.connect(process.env.MONGODB_URI || "", {
+      dbName: "sportle",
+    });
+    isConnected = true;
+    console.log("MongoDB connected!");
+    return mongoose.connection.db;
+  } catch (err) {
+    console.error("MongoDB connection error:", err);
+    throw new Error("Database connection failed");
+  }
+};
