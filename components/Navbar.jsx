@@ -110,7 +110,7 @@ export default function Navbar() {
   ) : (
      <Link
           href="/login"
-          className="bg-white border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-md transition-all duration-300"
+          className="text-black font-medium text-[15px] bg-white border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-100 hover:shadow-md transition-all duration-300"
           onClick={() => setIsMobileMenuOpen(false)}
         >
           Login

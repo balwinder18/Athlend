@@ -138,8 +138,8 @@ useEffect(() => {
 <div
   className={`z-40 transition-all duration-300 ease-in-out ${
     scrolled
-      ? 'fixed top-24 md:top-3 mt-[-5px] left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] lg:w-[50%]  max-w-3xl shadow-lg backdrop-blur-md px-4 py-1 rounded-full'
-      : 'relative w-full max-w-5xl px-4 sm:px-6 pb-4 lg:mt-20 mt-14'
+      ? 'fixed top-20 md:top-3 mt-[-5px] left-1/2 transform -translate-x-1/2 w-[90%] md:w-[70%] lg:w-[50%]  max-w-3xl md:shadow-lg md:backdrop-blur-md px-4 py-1 rounded-full'
+      : 'relative w-full max-w-5xl px-4 sm:px-6 pb-4 lg:mt-20 mt-14 mx-auto'
   }`}
 >
   <div
