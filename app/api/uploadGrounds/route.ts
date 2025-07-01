@@ -10,13 +10,13 @@ export async function POST(req : Request) {
     try {
         await connecttodatabase();
 
-        const {name,location,description , userId,imageUrl,capacity,pricing,phone,email,facilities} = await req.json();
+        const {name,location,description , userId,imageUrl,capacity,pricing,phone,email,facilities,sport} = await req.json();
 
-         if (!name || !location || !description || !userId || !imageUrl || !capacity || !pricing || !phone || !email || !facilities) {
+         if (!name || !location || !description || !userId || !imageUrl || !capacity || !pricing || !phone || !email || !facilities || !sport) {
               return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
             }
 
-           const newGround = new Grounds({name,location,description, userId,imageUrl,capacity,pricing,phone,email,facilities});
+           const newGround = new Grounds({name,location,description, userId,imageUrl,capacity,pricing,phone,email,facilities,sport});
            await newGround.save(); 
 
 

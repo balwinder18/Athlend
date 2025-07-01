@@ -11,7 +11,7 @@ const Bodycontent = () => {
 
 
 <div className="relative flex justify-center w-full h-[400px]">
-  <video 
+  {/* <video 
     autoPlay 
     loop 
     muted 
@@ -21,7 +21,7 @@ const Bodycontent = () => {
     <source src="/images/videosathlend.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
-  
+   */}
  
   <div className="absolute inset-0 bg-black bg-opacity-30 z-1"></div>
   <div className="relative z-2 flex flex-col items-center justify-center text-white">

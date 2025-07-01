@@ -210,6 +210,7 @@ const Newground = () => {
      contactEmail:"",
      contactPhone:"",
      facilities:"",
+     sport:""
      
   });
 
@@ -252,7 +253,8 @@ const Newground = () => {
         pricing:formData.hourlyRate,
         phone:formData.contactPhone,
         email:formData.contactEmail,
-        facilities:formData.facilities
+        facilities:formData.facilities,
+        sport:formData.sport
       });
 
       toast.success("Ground registered successfully!");
@@ -315,6 +317,20 @@ const Newground = () => {
               required
             />
           </div>
+          <div className="group">
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              Sport
+            </label>
+            <input
+              type="text" 
+              name="sport"
+              value={formData.sport}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300 group-hover:border-blue-400"
+              placeholder="Enter ground location"
+              required
+            />
+          </div>
 
 
           <div className="group">
@@ -340,7 +356,7 @@ const Newground = () => {
         </label>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-gray-500 mb-1">Hourly Rate (₹)</label>
+            <label className="block text-xs text-gray-500 mb-1">Rate for 30min (₹)</label>
             <input
               type="number"
               name="hourlyRate"
@@ -379,6 +395,8 @@ const Newground = () => {
             className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white transition duration-300"
             placeholder="Contact phone number"
             required
+            maxLength={10}
+  pattern="[0-9]{10}"
           />
         </div>
       </div>

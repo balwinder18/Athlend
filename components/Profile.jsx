@@ -355,7 +355,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
 
         <div className="flex">
-          <div className="hidden md:flex md:w-64 md:flex-col fixed h-full bg-white dark:bg-gray-800 shadow-lg">
+          <div className="hidden lg:mt-20 md:flex md:w-64 md:flex-col fixed h-full bg-white dark:bg-gray-800 shadow-lg">
             <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
               <div className="flex items-center flex-shrink-0 px-4 bg-green-500 rounded-xl">
                 <h1 className="text-xl font-bold">MyDashboard</h1>

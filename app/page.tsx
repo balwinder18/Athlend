@@ -20,7 +20,7 @@ export default function Home() {
 </Head>
     
       <Navbar/>
-      <Bodycontent/>
+      {/* <Bodycontent/> */}
       <Allgrounds/>
       <Help/>
       
