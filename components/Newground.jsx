@@ -283,7 +283,7 @@ const Newground = () => {
     <Navbar/>
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-2xl rounded-xl p-8 transform transition-all duration-300 hover:scale-[1.01]">
-        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-center mb-10">
+        <h1 className=" mt-20 text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 text-center mb-10">
           Upload Ground Details
         </h1>
         

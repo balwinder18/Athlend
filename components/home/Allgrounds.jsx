@@ -12,6 +12,7 @@ const Allgrounds = () => {
   const [searchlocation, setSearchlocation] = useState("");
   const [filtereddata , setFiltereddata] = useState([]);
   const [nearbyGrounds, setNearbyGrounds] = useState([]);
+  const [cricketGrounds, setCricketGrounds] = useState([]);
   
 
 
@@ -45,6 +46,8 @@ useEffect(() => {
     (ground) => ground.location?.toLowerCase().includes("faridabad")
   )
 );
+
+setCricketGrounds(groundsArray.filter((ground) => ground.sport.toLowerCase().includes("cricket")));
         setLoading(false);
       } catch (err) {
         console.error('Error fetching grounds:', err);
@@ -100,41 +103,6 @@ useEffect(() => {
   return (
     <div className="container mx-auto px-4 py-8">
 
-      {/* <div className="top-0 left-0 w-full h-full flex items-center justify-center z-10">
-        <div className="flex items-center bg-white shadow-md rounded-full p-2 px-4 w-full max-w-4xl border mt-[-64px] mb-[20px] z-10">
-
-          
-          <div className="flex flex-col flex-1 p-2 rounded-lg">
-            <label className="text-[20px] font-semibold text-gray-600">Start finding courts nearby</label>
-          </div>
-
-          <div className="w-px h-8 bg-gray-300"></div>
-
-          
-          <div className="flex flex-col flex-1 p-2 rounded-lg transition-all duration-300 hover:shadow-lg">
-            <label className="text-xs font-semibold text-gray-600">What u want to play</label>
-            <input type="text" placeholder="Add dates" className="text-sm bg-transparent focus:outline-none" onChange={(e) => setsearchSport(e.target.value)} />
-          </div>
-
-          
-          <div className="w-px h-8 bg-gray-300"></div>
-
-          <div className="flex flex-col flex-1 p-2 rounded-lg transition-all duration-300 hover:shadow-lg">
-            <label className="text-xs font-semibold text-gray-600">Location</label>
-            <input type="text" placeholder="Add dates" className="text-sm bg-transparent focus:outline-none" onChange={(e) => setSearchlocation(e.target.value)} />
-          </div>
-
-         
-          <div className="w-px h-8 bg-gray-300"></div>
-
-          
-          <button onClick={filteredground} className="ml-3 bg-pink-500 text-white rounded-full p-3 flex items-center justify-center transition-all duration-300 hover:shadow-lg">
-            <FaSearch className="text-white text-sm" />
-          </button>
-        </div>
-      </div> */}
-
-
 <div
   className={`z-40 transition-all duration-300 ease-in-out ${
     scrolled
@@ -147,7 +115,6 @@ useEffect(() => {
       scrolled ? 'p-2 rounded-full' : 'p-3 sm:p-4 rounded-2xl sm:rounded-full'
     }`}
   >
-    {/* Left Tagline (only when not scrolled) */}
     {!scrolled && (
       <div className="hidden lg:flex flex-col justify-center pr-6 border-r border-gray-300 mr-6">
         <label className="text-[18px] font-semibold text-gray-700">
@@ -156,7 +123,6 @@ useEffect(() => {
       </div>
     )}
 
-    {/* Sports Field */}
     <div className={`flex-1 min-w-[120px] ${scrolled ? 'sm:mr-4 pl-2' : 'sm:mr-4'}`}>
       <label className="lg:block hidden text-xs font-semibold text-gray-600 mb-1">
         What you want to play
@@ -172,7 +138,6 @@ useEffect(() => {
       />
     </div>
 
-    {/* Location Field */}
     <div className="flex-1 md:min-w-[120px] sm:mr-4">
       <label className="block text-xs font-semibold text-gray-600 mb-1">
         Location
@@ -185,7 +150,6 @@ useEffect(() => {
       />
     </div>
 
-    {/* Search Button - Adjusted for better mobile visibility */}
     <button
       onClick={filteredground}
       className="flex-shrink-0 bg-green-500 hover:bg-green-600 text-white font-medium rounded-xl py-2 px-3 sm:px-6 transition-all duration-200 ml-2"
@@ -198,7 +162,6 @@ useEffect(() => {
 
      
      
-{/* Section Title for Faridabad Grounds */}
 {nearbyGrounds.length > 0 && filtereddata.length === 0 && (
   <>
     <h1 className="text-2xl text-black font-bold mb-4">Grounds in Faridabad</h1>
@@ -212,10 +175,13 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* Horizontal Scrollable Filtered Grounds */}
     <div className="flex overflow-x-auto gap-4 pb-6">
       {nearbyGrounds.map(ground => (
         ground.Approval === "yes" && (
+          <Link
+                href={`/grounds/${ground._id}`}
+                className=""
+              >
           <div key={ground._id} className="min-w-[300px] max-w-sm bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0">
             <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
               {ground.imageUrl ? (
@@ -241,6 +207,61 @@ useEffect(() => {
               </Link>
             </div>
           </div>
+          </Link>
+        )
+      ))}
+    </div>
+  </>
+)}
+
+
+
+{cricketGrounds.length > 0 && filtereddata.length === 0 && (
+  <>
+    <h1 className="text-2xl text-black font-bold mb-4">Cricket Grounds</h1>
+    <div className="flex items-center justify-between mb-4">
+      <p className="text-gray-700">Filtered Results</p>
+      <div className="flex items-center gap-1 text-sm text-gray-500">
+        <span>Scroll</span>
+        <svg className="h-4 w-4 animate-bounce-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </div>
+
+    <div className="flex overflow-x-auto gap-4 pb-6">
+      {cricketGrounds.map(ground => (
+        ground.Approval === "yes" && (
+          <Link
+                href={`/grounds/${ground._id}`}
+                className=""
+              >
+          <div key={ground._id} className="min-w-[300px] max-w-sm bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0">
+            <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
+              {ground.imageUrl ? (
+                <img src={ground.imageUrl} alt="Ground image" className="absolute h-full w-full object-cover" />
+              ) : (
+                <div className="h-full flex items-center justify-center">
+                  <MapPin className="h-12 w-12 text-blue-300" />
+                </div>
+              )}
+            </div>
+            <div className="p-5">
+              <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">{ground.name}</h2>
+              <p className="text-gray-600 text-sm line-clamp-2">{ground.description}</p>
+              <div className="text-gray-500 text-sm mt-2 flex items-center">
+                <MapPin className="h-4 w-4 mr-1" />
+                {ground.location}
+              </div>
+              <Link
+                href={`/grounds/${ground._id}`}
+                className="block text-center mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
+              >
+                View Details
+              </Link>
+            </div>
+          </div>
+          </Link>
         )
       ))}
     </div>
@@ -256,6 +277,10 @@ useEffect(() => {
       {(filtereddata.length > 0 ? filtereddata : grounds).map(
         (ground) =>
           ground.Approval === "yes" && (
+            <Link
+                href={`/grounds/${ground._id}`}
+                className=""
+              >
             <div
               key={ground._id}
               className="min-w-[280px] sm:min-w-[320px] bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0"
@@ -296,6 +321,7 @@ useEffect(() => {
                 </Link>
               </div>
             </div>
+            </Link>
           )
       )}
     </div>
