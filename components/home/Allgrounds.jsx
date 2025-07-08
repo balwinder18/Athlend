@@ -164,50 +164,110 @@ useEffect(() => {
      
 {nearbyGrounds.length > 0 && filtereddata.length === 0 && (
   <>
-    <h1 className="text-2xl text-black font-bold mb-4">Grounds in Faridabad</h1>
-    <div className="flex items-center justify-between mb-4">
-      <p className="text-gray-700">Filtered Results</p>
-      <div className="flex items-center gap-1 text-sm text-gray-500">
-        <span>Scroll</span>
-        <svg className="h-4 w-4 animate-bounce-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+   <div className="flex items-center justify-between mb-4">
+  <h1 className="text-2xl text-black font-bold">Popular grounds Near you</h1>
 
-    <div className="flex overflow-x-auto gap-4 pb-6">
+  <div className="flex items-center gap-2">
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll-container");
+        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll-container");
+        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+    <div id="scroll-container" className="flex overflow-x-auto gap-4 pb-6 scroll-smooth">
       {nearbyGrounds.map(ground => (
         ground.Approval === "yes" && (
           <Link
                 href={`/grounds/${ground._id}`}
                 className=""
               >
-          <div key={ground._id} className="min-w-[300px] max-w-sm bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0">
-            <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
-              {ground.imageUrl ? (
-                <img src={ground.imageUrl} alt="Ground image" className="absolute h-full w-full object-cover" />
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <MapPin className="h-12 w-12 text-blue-300" />
-                </div>
-              )}
-            </div>
-            <div className="p-5">
-              <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">{ground.name}</h2>
-              <p className="text-gray-600 text-sm line-clamp-2">{ground.description}</p>
-              <div className="text-gray-500 text-sm mt-2 flex items-center">
-                <MapPin className="h-4 w-4 mr-1" />
-                {ground.location}
-              </div>
-              <Link
-                href={`/grounds/${ground._id}`}
-                className="block text-center mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-          </Link>
+              <div
+  key={ground._id}
+  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
+>
+  {/* Image container */}
+  <div className="relative w-full h-[180px]">
+    {ground.imageUrl ? (
+      <img
+        src={ground.imageUrl}
+        alt="Ground image"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="h-full w-full flex items-center justify-center bg-gray-100">
+        <MapPin className="h-10 w-10 text-blue-300" />
+      </div>
+    )}
+
+    {/* Heart icon */}
+    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        className="h-5 w-5 text-gray-700"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
+        />
+      </svg>
+    </button>
+  </div>
+
+  {/* Text Content */}
+  <div className="p-3">
+    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
+      {ground.name}
+    </h3>
+
+    <p className="text-[13px] text-gray-500 mt-1 truncate">
+      {ground.location}
+    </p>
+
+    <p className="text-[13px] text-gray-700 mt-1">
+      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
+    </p>
+  </div>
+</div>
+
+            </Link>
         )
       ))}
     </div>
@@ -218,50 +278,110 @@ useEffect(() => {
 
 {cricketGrounds.length > 0 && filtereddata.length === 0 && (
   <>
-    <h1 className="text-2xl text-black font-bold mb-4">Cricket Grounds</h1>
-    <div className="flex items-center justify-between mb-4">
-      <p className="text-gray-700">Filtered Results</p>
-      <div className="flex items-center gap-1 text-sm text-gray-500">
-        <span>Scroll</span>
-        <svg className="h-4 w-4 animate-bounce-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-    </div>
+      <div className="flex items-center justify-between mb-4">
+  <h1 className="text-2xl text-black font-bold">Cricket grounds</h1>
 
-    <div className="flex overflow-x-auto gap-4 pb-6">
-      {cricketGrounds.map(ground => (
+  <div className="flex items-center gap-2">
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll2");
+        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll2");
+        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+    <div id='scroll2' className="flex overflow-x-auto gap-4 pb-6 scroll-smooth">
+      {cricketGrounds.map(
+        ground => (
         ground.Approval === "yes" && (
-          <Link
+           <Link
                 href={`/grounds/${ground._id}`}
                 className=""
               >
-          <div key={ground._id} className="min-w-[300px] max-w-sm bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0">
-            <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
-              {ground.imageUrl ? (
-                <img src={ground.imageUrl} alt="Ground image" className="absolute h-full w-full object-cover" />
-              ) : (
-                <div className="h-full flex items-center justify-center">
-                  <MapPin className="h-12 w-12 text-blue-300" />
-                </div>
-              )}
-            </div>
-            <div className="p-5">
-              <h2 className="text-xl font-semibold text-gray-800 line-clamp-1">{ground.name}</h2>
-              <p className="text-gray-600 text-sm line-clamp-2">{ground.description}</p>
-              <div className="text-gray-500 text-sm mt-2 flex items-center">
-                <MapPin className="h-4 w-4 mr-1" />
-                {ground.location}
-              </div>
-              <Link
-                href={`/grounds/${ground._id}`}
-                className="block text-center mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-          </Link>
+                <div
+  key={ground._id}
+  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
+>
+  {/* Image container */}
+  <div className="relative w-full h-[180px]">
+    {ground.imageUrl ? (
+      <img
+        src={ground.imageUrl}
+        alt="Ground image"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="h-full w-full flex items-center justify-center bg-gray-100">
+        <MapPin className="h-10 w-10 text-blue-300" />
+      </div>
+    )}
+
+    {/* Heart icon */}
+    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        className="h-5 w-5 text-gray-700"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
+        />
+      </svg>
+    </button>
+  </div>
+
+  {/* Text Content */}
+  <div className="p-3">
+    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
+      {ground.name}
+    </h3>
+
+    <p className="text-[13px] text-gray-500 mt-1 truncate">
+      {ground.location}
+    </p>
+
+    <p className="text-[13px] text-gray-700 mt-1">
+      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
+    </p>
+  </div>
+</div>
+            </Link>
         )
       ))}
     </div>
@@ -269,10 +389,52 @@ useEffect(() => {
 )}
 
 
-      <h1 className="text-2xl text-black font-bold mb-4">All Available Grounds</h1>
+     
+        <div className="flex items-center justify-between mb-4">
+  <h1 className="text-2xl text-black font-bold">All available grounds</h1>
+
+  <div className="flex items-center gap-2">
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll3");
+        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button
+      onClick={() => {
+        const el = document.getElementById("scroll3");
+        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+      }}
+      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
+    >
+      <svg
+        className="h-5 w-5 text-gray-600"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
 
 {grounds.length > 0 ? (
-  <div className="overflow-x-auto pb-2">
+  <div id='scroll3' className="overflow-x-auto pb-2">
     <div className="flex space-x-4 min-w-full">
       {(filtereddata.length > 0 ? filtereddata : grounds).map(
         (ground) =>
@@ -281,46 +443,59 @@ useEffect(() => {
                 href={`/grounds/${ground._id}`}
                 className=""
               >
-            <div
-              key={ground._id}
-              className="min-w-[280px] sm:min-w-[320px] bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow flex-shrink-0"
-            >
-              <div className="relative h-40 w-full bg-blue-100 overflow-hidden">
-                {ground.imageUrl ? (
-                  <img
-                    src={ground.imageUrl}
-                    alt="Ground image"
-                    className="absolute h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="h-full flex items-center justify-center">
-                    <MapPin className="h-12 w-12 text-blue-300" />
-                  </div>
-                )}
-              </div>
-              <div className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h2 className="text-lg font-semibold text-gray-800 line-clamp-1">
-                    {ground.name}
-                  </h2>
-                  <span className="flex items-center text-green-500 text-sm">
-                    <CheckCircle className="h-4 w-4 mr-1" />
-                    Available
-                  </span>
-                </div>
-                <p className="text-gray-600 mb-3 line-clamp-2">{ground.description}</p>
-                <div className="flex items-center text-gray-500 mb-3">
-                  <MapPin className="h-4 w-4 mr-1" />
-                  <span className="text-sm">{ground.location}</span>
-                </div>
-                <Link
-                  href={`/grounds/${ground._id}`}
-                  className="block w-full text-center px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-                >
-                  View Details
-                </Link>
-              </div>
-            </div>
+          <div
+  key={ground._id}
+  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
+>
+  {/* Image container */}
+  <div className="relative w-full h-[180px]">
+    {ground.imageUrl ? (
+      <img
+        src={ground.imageUrl}
+        alt="Ground image"
+        className="w-full h-full object-cover"
+      />
+    ) : (
+      <div className="h-full w-full flex items-center justify-center bg-gray-100">
+        <MapPin className="h-10 w-10 text-blue-300" />
+      </div>
+    )}
+
+    {/* Heart icon */}
+    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+        className="h-5 w-5 text-gray-700"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
+        />
+      </svg>
+    </button>
+  </div>
+
+  {/* Text Content */}
+  <div className="p-3">
+    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
+      {ground.name}
+    </h3>
+
+    <p className="text-[13px] text-gray-500 mt-1 truncate">
+      {ground.location}
+    </p>
+
+    <p className="text-[13px] text-gray-700 mt-1">
+      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
+    </p>
+  </div>
+</div>
+
             </Link>
           )
       )}

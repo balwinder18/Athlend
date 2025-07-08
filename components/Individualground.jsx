@@ -9,6 +9,9 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { FaRupeeSign } from 'react-icons/fa';
 import SlotPicker from './SlotPicker';
+import { DayPicker } from "react-day-picker";
+import 'react-day-picker/dist/style.css';
+import Navbar from './Navbar';
 
 const Individualground = () => {
   const [error, setError] = useState(null);
@@ -183,10 +186,13 @@ const handleupdate =async()=>{
   }
 }
   return (
+    <>
+     <Navbar/>
+
     <div className="bg-gray-50 min-h-screen py-8">
       <div className="container mx-auto px-4 max-w-5xl">
       
-        <div className="mb-6">
+        <div className="mb-6 mt-20">
           <Link 
             href="/" 
             className="inline-flex items-center text-blue-500 hover:text-blue-700 transition-colors"
@@ -396,12 +402,12 @@ const handleupdate =async()=>{
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-md lg:p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <CalendarDays className="h-5 w-5 mr-2 text-blue-500" />
             Availability
           </h2>
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+          <div className="bg-gray-50 border flex justify-center border-gray-200 rounded-lg lg:p-6 p-2 text-center">
           <SlotPicker
         groundId={id} 
        
@@ -438,6 +444,8 @@ const handleupdate =async()=>{
 
 
     </div>
+
+    </>
   );
 };
 

@@ -383,16 +383,17 @@ const SignupForm = () => {
             required
             disabled={otpverified}
           />
-          {!otpverified && !emailError && (
+          
+        </div>
+        {!otpverified && !emailError && (
             <button
               type="button"
               onClick={handleSendOTP}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-lg transition duration-200 whitespace-nowrap"
+              className="text-blue-800 text-sm rounded-lg transition duration-200 whitespace-nowrap"
             >
-              Verify
+              Send OTP
             </button>
           )}
-        </div>
         {emailError && (
           <p className="mt-1 text-sm text-red-600 flex items-center">
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -414,14 +415,15 @@ const SignupForm = () => {
               className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
               maxLength={6}
             />
-            <button
+            
+          </div>
+          <button
               type="button"
               onClick={handleVerifyOTP}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition duration-200 whitespace-nowrap"
+              className="text-blue-800 text-sm rounded-lg transition duration-200 whitespace-nowrap"
             >
-              Confirm
+              Verify OTP
             </button>
-          </div>
           <p className="text-sm text-gray-500">Check your email for the verification code</p>
         </div>
       )}

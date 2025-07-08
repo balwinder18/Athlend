@@ -2,12 +2,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { format, parseISO, addDays } from 'date-fns';
+import { format, parseISO, addDays ,startOfDay} from 'date-fns';
 import { formatLocalTime } from '@/app/utils/date';
 import { useSession } from 'next-auth/react';
 import Script from 'next/script';
 import axios from 'axios';
-
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import {  isBefore, isAfter } from 'date-fns';
 
 const SlotPicker = ({ groundId, amount }) => {
   const { data: session } = useSession();
@@ -15,23 +17,25 @@ const SlotPicker = ({ groundId, amount }) => {
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const today = startOfDay(new Date());  
+  const maxDate = addDays(today, 3);
 
- 
+
   const fetchSlots = async () => {
     setLoading(true);
     setError(null);
     try {
- 
+
       const dateString = new Date(selectedDate).toISOString().split('T')[0];
-      
+
       const res = await fetch(
         `/api/ground/availableslot/${groundId}?date=${dateString}`
       );
-      
+
       if (!res.ok) {
         throw new Error(`pls select Date: ${res.status}`);
       }
-      
+
       const data = await res.json();
       setSlots(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -47,68 +51,68 @@ const SlotPicker = ({ groundId, amount }) => {
     fetchSlots();
   }, [selectedDate]);
 
-  const createorder =async (slot)=>{
+  const createorder = async (slot) => {
     if (!session?.user?.id) {
       alert('Please sign in to book a slot');
       return;
     }
     try {
-      const response = await fetch('/api/createOrder',{
-        method:"POST",
-        body:JSON.stringify({amount:amount*100})
+      const response = await fetch('/api/createOrder', {
+        method: "POST",
+        body: JSON.stringify({ amount: amount * 100 })
       })
-    const data = await response.json();
-       console.log(data);
+      const data = await response.json();
+      console.log(data);
 
 
-       const paymentdata = {
-        key:process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ,
-        order_id : data.id,
-      
-         handler : async function(response){
-              //verify
+      const paymentdata = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        order_id: data.id,
+
+        handler: async function (response) {
+          //verify
 
 
-              const res = await fetch("/api/verifyOrder", {
-                method: "POST",
-                body: JSON.stringify({
-                  orderId: response.razorpay_order_id,
-                  razorpayPaymentId: response.razorpay_payment_id,
-                  razorpaySignature: response.razorpay_signature,
-                }),
-              });
-              const data = await res.json();
-              console.log(data);
-              const idOrder =response.razorpay_order_id;
-              if (data.isOk) {
-                handleBooking(slot,idOrder);
-                alert("Payment successful");
-              } else {
-                alert("Payment failed");
-              }
-            
-         }
+          const res = await fetch("/api/verifyOrder", {
+            method: "POST",
+            body: JSON.stringify({
+              orderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            }),
+          });
+          const data = await res.json();
+          console.log(data);
+          const idOrder = response.razorpay_order_id;
+          if (data.isOk) {
+            handleBooking(slot, idOrder);
+            alert("Payment successful");
+          } else {
+            alert("Payment failed");
+          }
+
+        }
       }
 
-      const payment =await  new window.Razorpay(paymentdata);
+      const payment = await new window.Razorpay(paymentdata);
       await payment.open();
 
 
-    
+
     } catch (error) {
-      
+
     }
 
   }
 
-  const handleBooking = async (slot,idOrder) => {
+  const handleBooking = async (slot, idOrder) => {
     if (!session?.user?.id) {
       alert('Please sign in to book a slot');
       return;
     }
 
     try {
-     
+
 
 
 
@@ -122,11 +126,11 @@ const SlotPicker = ({ groundId, amount }) => {
           userId: session.user.id,
           startTime: slot.start,
           endTime: slot.end,
-          date:selectedDate,
-          orderId:idOrder
+          date: selectedDate,
+          orderId: idOrder
         })
       });
-      
+
       if (res.ok) {
         alert('Booking successful!');
         fetchSlots();
@@ -141,43 +145,64 @@ const SlotPicker = ({ groundId, amount }) => {
   };
 
   useEffect(() => {
-   console.log(selectedDate);
+    console.log(selectedDate);
   }, [selectedDate])
-  
+
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      <Script type='text/javascript' src="https://checkout.razorpay.com/v1/checkout.js"/>
-      <input
-        type="date"
-        value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
-        onChange={(e) => {
-          const newValue = e.target.value;
-          setSelectedDate(newValue ? (newValue) : new Date()); 
-         
-        }}
-        min={format(new Date(), 'yyyy-MM-dd')} 
-        max={format(addDays(new Date(), 6), 'yyyy-MM-dd')} 
-        className="mb-4 p-2 border rounded"
+    <div className="lg:p-4 max-w-2xl flex justify-center flex-col mx-auto">
+      <Script type='text/javascript' src="https://checkout.razorpay.com/v1/checkout.js" />
+      <DayPicker
+        mode="single"
+  selected={selectedDate ? new Date(selectedDate) : undefined}
+  onSelect={(date) => {
+    if (date) {
+      setSelectedDate(format(date, 'yyyy-MM-dd'));
+    }
+  }}
+  numberOfMonths={1}
+  className="mb-4"
+  modifiers={{
+    available: (date) =>
+      !isBefore(startOfDay(date), today) &&
+      !isAfter(startOfDay(date), maxDate),
+  }}
+  modifiersClassNames={{
+    available: 'bg-green-200 hover:bg-green-200 rounded-full',
+    selected: 'bg-green-500 text-white rounded-full',
+    today: 'border border-green-400 rounded-full',
+  }}
+  disabled={(date) =>
+    isBefore(startOfDay(date), today) || isAfter(startOfDay(date), maxDate)
+  }
       />
 
       {loading && <div className="text-center">Loading slots...</div>}
       {error && <div className="text-center text-red-500">{error}</div>}
+
       
+      {selectedDate && (
+  <div className="text-lg font-semibold mb-4 text-center text-gray-800">
+    Slots for {format(parseISO(selectedDate), 'MMMM d, yyyy')}
+  </div>
+)}
+
       <div className="grid grid-cols-4 gap-2">
+        
+        
         {slots.map((slot) => (
+          
           <button
             key={slot.start}
             onClick={() => createorder(slot)}
             disabled={!slot.available}
-            className={`p-2 text-sm rounded ${
-              slot.available
+            className={`p-2 text-sm rounded ${slot.available
                 ? 'bg-green-200 hover:bg-green-300'
                 : 'bg-gray-200 cursor-not-allowed'
-            }`}
+              }`}
           >
-            {slot.start} -{' '}
-            {slot.end}
+            {slot.start.slice(0, 5)} -{' '}
+             {slot.end.slice(0, 5)}
           </button>
         ))}
       </div>
