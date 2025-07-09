@@ -10,6 +10,9 @@ import axios from 'axios';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import {  isBefore, isAfter } from 'date-fns';
+import { toast } from "react-toastify";
+
+
 
 const SlotPicker = ({ groundId, amount }) => {
   const { data: session } = useSession();
@@ -86,12 +89,12 @@ const SlotPicker = ({ groundId, amount }) => {
           const idOrder = response.razorpay_order_id;
           if (data.isOk) {
             handleBooking(slot, idOrder);
-            toast.success("✅ Payment successful!", {
+            toast.success("Payment successful!", {
       position: "top-right",
       autoClose: 3000,
     });
           } else {
-           toast.error("❌ Payment failed", {
+           toast.error("Payment failed", {
   position: "top-right",
   autoClose: 3000,
 });
