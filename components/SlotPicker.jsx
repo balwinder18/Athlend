@@ -86,9 +86,15 @@ const SlotPicker = ({ groundId, amount }) => {
           const idOrder = response.razorpay_order_id;
           if (data.isOk) {
             handleBooking(slot, idOrder);
-            alert("Payment successful");
+            toast.success("✅ Payment successful!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
           } else {
-            alert("Payment failed");
+           toast.error("❌ Payment failed", {
+  position: "top-right",
+  autoClose: 3000,
+});
           }
 
         }
@@ -107,7 +113,10 @@ const SlotPicker = ({ groundId, amount }) => {
 
   const handleBooking = async (slot, idOrder) => {
     if (!session?.user?.id) {
-      alert('Please sign in to book a slot');
+      toast.info("🔒 Please sign in to book a slot", {
+  position: "top-center",
+  autoClose: 3000,
+});
       return;
     }
 
@@ -132,15 +141,27 @@ const SlotPicker = ({ groundId, amount }) => {
       });
 
       if (res.ok) {
-        alert('Booking successful!');
+        toast.success("Booking Successfull", {
+      position: "top-right",
+      autoClose: 3000,
+    });
         fetchSlots();
       } else {
         const error = await res.json();
-        alert(error.error || 'Booking failed');
+         toast.error("Booking failed", {
+  position: "top-right",
+  autoClose: 3000,
+});
+        
       }
     } catch (err) {
       console.error('Booking error:', err);
-      alert('An error occurred during booking');
+      toast.error("An error occurred during booking", {
+  position: "top-right",
+  autoClose: 3000,
+});
+       
+      
     }
   };
 

@@ -171,7 +171,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll-container");
-        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
@@ -189,7 +189,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll-container");
-        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
@@ -285,7 +285,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll2");
-        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
@@ -303,7 +303,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll2");
-        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
@@ -397,7 +397,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll3");
-        if (el) el.scrollBy({ left: -300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
@@ -415,7 +415,7 @@ useEffect(() => {
     <button
       onClick={() => {
         const el = document.getElementById("scroll3");
-        if (el) el.scrollBy({ left: 300, behavior: "smooth" });
+        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
       }}
       className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
     >
