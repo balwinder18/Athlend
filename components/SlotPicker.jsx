@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 
 
 
-const SlotPicker = ({ groundId, amount }) => {
+const SlotPicker = ({ groundId, amount,groundName }) => {
   const { data: session } = useSession();
   const [selectedDate, setSelectedDate] = useState();
   const [slots, setSlots] = useState([]);
@@ -139,7 +139,8 @@ const SlotPicker = ({ groundId, amount }) => {
           startTime: slot.start,
           endTime: slot.end,
           date: selectedDate,
-          orderId: idOrder
+          orderId: idOrder,
+          groundName,
         })
       });
 

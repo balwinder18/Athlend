@@ -410,6 +410,7 @@ const handleupdate =async()=>{
           <div className="bg-gray-50 border flex justify-center border-gray-200 rounded-lg lg:p-6 p-2 text-center">
           <SlotPicker
         groundId={id} 
+        groundName ={ground.name}
        
         amount={ground.pricing}
       />

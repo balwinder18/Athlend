@@ -3,14 +3,14 @@
 
 import { NextResponse } from 'next/server';
 import Bookings from '../../../database/models/BookingModel';
-
+import QRCode from 'qrcode';
 
 
 export async function POST(request) {
   try {
-    const { groundId, userId, startTime, endTime ,date,orderId } = await request.json();
+    const { groundId, userId, startTime, endTime ,date,orderId,groundName } = await request.json();
 
-    if (!groundId || !userId || !startTime || !endTime || !date || !orderId) {
+    if (!groundId || !userId || !startTime || !endTime || !date || !orderId || !groundName) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -36,6 +36,9 @@ export async function POST(request) {
     }
 
     
+    const qrImage = await QRCode.toDataURL(orderId);
+
+    
     const booking = await Bookings.create({
       groundId,
       userId,
@@ -43,7 +46,10 @@ export async function POST(request) {
       endTime: endTime,
       bookingdate: date,
       status: 'booked',
-      orderId:orderId
+      orderId:orderId,
+      groundName,
+      qrImage,
+      isScanned: false,
     });
 
     return NextResponse.json(booking, { status: 201 });
