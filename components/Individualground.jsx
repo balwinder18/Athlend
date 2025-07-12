@@ -20,9 +20,9 @@ const Individualground = () => {
     
     const{ id} = useParams();
   const { data: session } = useSession();
-  if(!session){
-     router.push("/login");
-  }
+  // if(!session){
+  //    router.push("/login");
+  // }
   const [ground, setGround] = useState(null);
   const [loading, setLoading] = useState(true);
  
@@ -88,6 +88,7 @@ const Individualground = () => {
 
 
   const handleEdit = () => {
+    if(!session ) return;
     if (isediting) {
       // Save logic would go here
       // For now, just toggle the editing state
@@ -109,13 +110,13 @@ const Individualground = () => {
 //     }
 //   };
 
-  if (!session) {
-    return (
-      <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-    </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div className="flex justify-center items-center h-64">
+  //     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  //   </div>
+  //   );
+  // }
 
   if (loading) {
     return (
@@ -171,6 +172,7 @@ const Individualground = () => {
 
   const handleChange = (e) => setGround({ ...ground, [e.target.name]: e.target.value });
 const handleupdate =async()=>{
+  if(!session) return;
   try {
     const res = await axios.put(`/api/uploadGrounds`,{
       id,

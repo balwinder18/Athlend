@@ -56,7 +56,10 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
 
   const createorder = async (slot) => {
     if (!session?.user?.id) {
-      alert('Please sign in to book a slot');
+       toast.error("Please Sign in first", {
+  position: "top-right",
+  autoClose: 3000,
+});
       return;
     }
     try {
