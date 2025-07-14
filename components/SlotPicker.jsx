@@ -144,6 +144,7 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
           date: selectedDate,
           orderId: idOrder,
           groundName,
+          email:session.user.email
         })
       });
 
