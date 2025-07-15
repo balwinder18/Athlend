@@ -12,9 +12,9 @@ export default function MyBookings({ userId }) {
     if (!userId) return;
     axios.get(`/api/userbookings?userId=${userId}`).then(res => {
       setBookings(res.data);
-      
+       setIsLoading(false);   
     });
-    setIsLoading(false);
+   
   }, [userId]);
 
   if (isLoading) {
