@@ -16,6 +16,7 @@ import Navbar from "./Navbar";
 import avatar from '../public/images/avatar.png'
 import Image from "next/image";
 import Mybookings from '../components/Mybookings';
+import { toast } from "react-toastify";
 
 export default function ProfilePage() {
   const [image, setImage] = useState(avatar);
@@ -48,7 +49,11 @@ export default function ProfilePage() {
 
       if (!res || res.length === 0) {
         console.error("No files uploaded or response is empty");
-        alert("No files uploaded or response is empty");
+         toast.error("No files uploaded or response is empty", {
+  position: "top-right",
+  autoClose: 3000,
+});
+       
         return;
       }
 
@@ -102,7 +107,12 @@ export default function ProfilePage() {
     try {
       const email = await session.user.email;
       if (!email) {
-        alert("No email found in session");
+          toast.error("No email found in session", {
+  position: "top-right",
+  autoClose: 3000,
+});
+       
+        
         return;
       }
       const res = await axios.put(`/api/userdata`, {
@@ -111,9 +121,13 @@ export default function ProfilePage() {
 
       })
       if (res.data.message) {
-        alert(res.data.message);
+        toast.success(`${res.data.message}`, {
+  position: "top-right",
+  autoClose: 3000,
+});
+        
         console.log("Updated user:", res.data.user);
-        // Optionally update local state here
+     
       }
 
     } catch (error) {
@@ -127,7 +141,10 @@ export default function ProfilePage() {
     try {
       const email =  session.user.email;
       if (!email) {
-        alert("No email found in session");
+       toast.error("No email found in session", {
+  position: "top-right",
+  autoClose: 3000,
+});
         return;
       }
       const res = await axios.get(`/api/userdata?email=${email}`)
