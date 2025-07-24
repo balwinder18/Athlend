@@ -72,7 +72,7 @@ export async function POST(request) {
       <p>You can access your QR Ticket at My bookings under My Profile page in website</p>
       
       <p>Booking ID: <b>${orderId}</b></p>
-      <p>Show this QR at the venue for verification.</p>
+      <p>Show QR Ticket at the venue for verification.</p>
     `,
   });
 

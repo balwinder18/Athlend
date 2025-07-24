@@ -149,10 +149,21 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
       });
 
       if (res.ok) {
-        toast.success("Booking Successfull", {
-      position: "top-right",
-      autoClose: 3000,
-    });
+      toast.success(
+  <div className='flex flex-col'>
+    <div className="font-bold">Booking Successful</div>
+  <div className="text-sm">Check mail for booking details</div>
+  </div>,
+  {
+    position: "top-right",
+    autoClose: 3000,
+    closeOnClick: false,
+    closeButton: true,
+    hideProgressBar: false,
+    pauseOnHover: true,
+    draggable: true,
+  }
+);
         fetchSlots();
       } else {
         const error = await res.json();
