@@ -63,6 +63,24 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
       return;
     }
     try {
+
+       const checkRes = await axios.post('/api/checkSlot', {
+        groundId,
+        date: selectedDate,
+        startTime: slot.start,
+        endTime: slot.end
+      });
+
+      if (!checkRes.data.isAvailable) {
+        toast.error("Sorry, this slot was just booked. Please select another one.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        fetchSlots();
+        return;
+      }
+
+
       const response = await fetch('/api/createOrder', {
         method: "POST",
         body: JSON.stringify({ amount: amount * 100 })
