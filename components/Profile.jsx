@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 export default function ProfilePage() {
   const [image, setImage] = useState(avatar);
   const { data: session } = useSession();
+  const [bookings, setBookings] = useState([]); // Correct state initialization
+  const [loadingBookings, setLoadingBookings] = useState(true);
 
   if (!session) {
     redirect("/login");
@@ -45,28 +47,22 @@ export default function ProfilePage() {
 
   const handleuploadtodb = async (res) => {
     try {
-
-
       if (!res || res.length === 0) {
         console.error("No files uploaded or response is empty");
-         toast.error("No files uploaded or response is empty", {
-  position: "top-right",
-  autoClose: 3000,
-});
-       
+        toast.error("No files uploaded or response is empty", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         return;
       }
 
       const url = res[0].url;
       const email = session.user?.email;
 
-
       const response = await axios.post("/api/uploadimage", {
         imageUrl: url,
         email: email,
       });
-
-
 
       if (response.status === 200) {
         console.log("Updated successfully");
@@ -75,7 +71,6 @@ export default function ProfilePage() {
       }
 
       await getImage(email);
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -84,20 +79,13 @@ export default function ProfilePage() {
   const getImage = async (email) => {
     try {
       const res = await axios.get(`/api/getUserImage?email=${email}`);
-
       setImage(res.data.imageUrl);
     } catch (error) {
       console.error("image api erroror", error);
     }
   };
 
-  useEffect(() => {
-    getImage(user.email);
-  }, []);
-
-
   const handleEdit = () => {
-    
     setIsEditing(!isEditing);
   };
 
@@ -105,64 +93,72 @@ export default function ProfilePage() {
 
   const handleupdate = async () => {
     try {
-      const email = await session.user.email;
+      const email = session.user.email;
       if (!email) {
-          toast.error("No email found in session", {
-  position: "top-right",
-  autoClose: 3000,
-});
-       
-        
+        toast.error("No email found in session", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         return;
       }
       const res = await axios.put(`/api/userdata`, {
         email,
         userdata: user,
-
-      })
+      });
       if (res.data.message) {
         toast.success(`${res.data.message}`, {
-  position: "top-right",
-  autoClose: 3000,
-});
-        
+          position: "top-right",
+          autoClose: 3000,
+        });
         console.log("Updated user:", res.data.user);
-     
       }
-
     } catch (error) {
       console.log(error);
-
     }
-
-  }
+  };
 
   const fetchuserdata = async () => {
     try {
-      const email =  session.user.email;
+      const email = session.user.email;
       if (!email) {
-       toast.error("No email found in session", {
-  position: "top-right",
-  autoClose: 3000,
-});
+        toast.error("No email found in session", {
+          position: "top-right",
+          autoClose: 3000,
+        });
         return;
       }
-      const res = await axios.get(`/api/userdata?email=${email}`)
+      const res = await axios.get(`/api/userdata?email=${email}`);
       if (res.data) {
-      
         setUser(res.data);
-        
       }
-
     } catch (error) {
       console.log(error);
-
     }
-  }
+  };
 
+  const fetchBookings = async () => {
+    setLoadingBookings(true);
+    try {
+      const bookingData = await axios.get(`/api/userbookings?userId=${session.user.id}`);
+      if (bookingData.data) {
+        setBookings(bookingData.data);
+      }
+    } catch (error) {
+      console.log(error);
+      setBookings([]);
+    } finally {
+      setLoadingBookings(false);
+    }
+  };
+
+  // Corrected useEffects to depend on the session
   useEffect(() => {
-    fetchuserdata();
-  }, [])
+    if (session?.user?.email) {
+      getImage(session.user.email);
+      fetchuserdata();
+      fetchBookings();
+    }
+  }, [session]);
 
 
   return (
@@ -330,7 +326,7 @@ export default function ProfilePage() {
 
                <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
   <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">My Bookings</h2>
-  <Mybookings userId={id} />
+  <Mybookings userId={id} bookings={bookings} />
 </div>
               </div>
 

@@ -47,6 +47,12 @@ export const authOptions : AuthOptions = {
       },
     }),
   ],
+
+session: {
+    strategy: "jwt",
+  },
+
+
   callbacks: {
     async session({ session, token } :{session:any , token :any}) {
       // Add user ID and other fields to the session

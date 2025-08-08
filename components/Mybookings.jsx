@@ -3,33 +3,21 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function MyBookings({ userId }) {
-  const [bookings, setBookings] = useState([]);
-    const [selectedQR, setSelectedQR] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (!userId) return;
-    axios.get(`/api/userbookings?userId=${userId}`).then(res => {
-      setBookings(res.data);
-       setIsLoading(false);   
-    });
-   
-  }, [userId]);
+export default function MyBookings({ bookings, isLoading }) {
+  const [selectedQR, setSelectedQR] = useState(null);
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-    </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+      </div>
     );
   }
-  if (!bookings.length && !isLoading) {
+
+  if (!bookings.length) {
     return <p className="text-gray-500">No bookings found.</p>;
   }
- 
 
- 
   return (
     <>
       <div className="space-y-4">
@@ -42,7 +30,7 @@ export default function MyBookings({ userId }) {
             <p className="text-sm text-gray-600">{b.bookingdate}</p>
             <p className="text-sm text-gray-600"> {b.startTime} - {b.endTime}</p>
             
-          {b.qrImage && (
+            {b.qrImage && (
               <button
                 onClick={() => setSelectedQR(b.qrImage)}
                 className="mt-2 px-3 py-1 text-sm bg-green-600 hover:bg-green-700 text-white rounded"
@@ -54,7 +42,6 @@ export default function MyBookings({ userId }) {
         ))}
       </div>
 
-      {/* Modal for QR display */}
       {selectedQR && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded shadow-lg text-center">
