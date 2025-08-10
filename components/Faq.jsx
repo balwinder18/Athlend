@@ -100,7 +100,7 @@ const Faq = () => {
             onClick={() => toggleFAQ(index)}
             className="w-full flex justify-between items-center p-4 text-left"
           >
-            <h3 className="font-roboto font-bold text-[14px] lg:text-[20px]">
+            <h3 className="font-roboto text-[14px] lg:text-[20px]">
               {item.question}
             </h3>
 

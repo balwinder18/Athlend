@@ -10,7 +10,7 @@ const BookingSchema = new mongoose.Schema({
     orderId : {type:String , required:true},
     status: { 
         type: String, 
-        enum: ['booked', 'cancelled', 'pending'],
+        enum: ['booked', 'cancelled', 'pending','blocked'],
         default: 'booked'
       },
      

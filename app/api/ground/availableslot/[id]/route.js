@@ -74,7 +74,7 @@ export async function GET(request, { params }) {
       allSlots.map(async (slot) => {
         const isBooked = await Bookings.exists({
           groundId: id,
-          status: 'booked',
+           status: { $in: ['booked', 'blocked', 'pending'] },
           startTime: { $lt: slot.end },
           endTime: { $gt: slot.start },
           bookingdate:date

@@ -14,7 +14,7 @@ export async function POST(req) {
     const overlapping = await Bookings.findOne({
       groundId,
       bookingdate: date,
-      status: 'booked',
+      status: { $in: ['booked', 'blocked', 'pending'] },
       startTime: { $lt: endTime },
       endTime: { $gt: startTime }
     });
