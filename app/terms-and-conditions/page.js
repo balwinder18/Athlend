@@ -20,16 +20,7 @@ const SearchParamsComponent = () => {
   
   return (
     <>
-    <Head>
-     {/* <Head>
-       <title>Terms and conditions - Athlend: Book your Ground</title>
-        <meta
-          name="description"
-          content="Terms and conditions - Athlend: Book your Ground"
-        />
-
-    </Head> */}
-  </Head>
+   
     <div>
 
       <Navbar/>

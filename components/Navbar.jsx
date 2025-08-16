@@ -1,17 +1,11 @@
-"use client"; // Ensures this runs on the client side
+"use client"; 
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import AthlendLogo from '../public/images/AthlendLogo.webp'
+
 import { Menu, X } from 'lucide-react';
-import logoathlend from '../public/images/logoathlend.png'
-import athlendsvg from '../public/images/athlendsvg.svg'
-import athlendlogonew from '../public/images/athlendlogonew.png'
-import athlendlogo from '../public/images/athlendlogo.jpg'
-import logofinal from '../public/images/logofinal.jpg'
 export default function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -23,7 +17,7 @@ export default function Navbar() {
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
-        !event.target.closest('button') // Prevents closing when clicking the menu button
+        !event.target.closest('button') 
       ) {
         setIsMobileMenuOpen(false);
       }
@@ -44,7 +38,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="hidden fixed w-full z-10 shadow-md p-4 lg:flex justify-between items-center bg-[#f8f8f8]">
-        {/* Logo on the left */}
+       
         <Link href="/" className="flex-shrink-0">
           <svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
             <text
@@ -60,7 +54,7 @@ export default function Navbar() {
           </svg>
         </Link>
 
-        {/* Center Title */}
+        
         <div className="text-center mx-10 flex-1">
           <h1 className="text-[20px] mb-1 text-black leading-tight font-semibold">
             Find Your Perfect Playing Field
@@ -70,7 +64,6 @@ export default function Navbar() {
           </p>
         </div>
 
-        {/* Right section */}
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-black font-medium text-[15px]">
             <Link
@@ -100,7 +93,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Navbar (shown on small screens) */}
+     {/* mobile */}
       <nav className="lg:hidden w-full fixed z-20 bg-[#f8f8f8] shadow-md py-4 px-2 flex justify-between items-center">
         <Link href='/'>
           <svg width="70" height="20" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,15 +137,11 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Mobile Menu (slides in) */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-50">
-          {/* Background Overlay (for mobile only) */}
           <div className="lg:hidden fixed inset-0 bg-black bg-opacity-30" onClick={() => setIsMobileMenuOpen(false)} />
 
-          {/* Sidebar Menu */}
           <div ref={mobileMenuRef} className="absolute right-0 top-0 h-full w-full lg:w-[300px] bg-white shadow-xl flex flex-col items-center justify-start pt-10 space-y-6 transition-all duration-300">
-            {/* Close Button */}
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="absolute top-4 right-4 p-2"
@@ -160,7 +149,6 @@ export default function Navbar() {
               <X size={24} />
             </button>
 
-            {/* Content */}
             {session ? (
               <>
                 <h1 className="text-xl font-semibold text-black mt-4">

@@ -1,6 +1,5 @@
-import logo from "../public/images/logoathlendnew.png";
-import Image from "next/image";
-import { MdFacebook } from "react-icons/md";
+
+
 import { IoLogoLinkedin } from "react-icons/io5";
 import { AiFillInstagram } from "react-icons/ai";
 import Link from "next/link";

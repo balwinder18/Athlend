@@ -12,6 +12,7 @@ import SlotPicker from './SlotPicker';
 import { DayPicker } from "react-day-picker";
 import 'react-day-picker/dist/style.css';
 import Navbar from './Navbar';
+import { toast } from 'react-toastify';
 
 const Individualground = () => {
   const [error, setError] = useState(null);
@@ -20,9 +21,7 @@ const Individualground = () => {
     
     const{ id} = useParams();
   const { data: session } = useSession();
-  // if(!session){
-  //    router.push("/login");
-  // }
+  
   const [ground, setGround] = useState(null);
   const [loading, setLoading] = useState(true);
  
@@ -60,38 +59,38 @@ const Individualground = () => {
 
   const handleDelete = async () => {
     if (!id || !session) return;
+
+     toast.error("Contact administrator to delete a ground!", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        setDeleteModal(false);
   
-    try {
-      setLoading(true);
-      const response = await axios.delete(`/api/groundDetails/${id}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+    // try {
+    //   setLoading(true);
+    //   const response = await axios.delete(`/api/groundDetails/${id}`, {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   });
   
-      // if (!response.data.success) {
-      //   throw new Error(response.data.message || 'Failed to delete ground');
-      // }
+    //   router.push('/');
+    //   alert('Ground deleted successfully');
   
-      router.push('/');
-      alert('Ground deleted successfully');
-  
-    } catch (err) {
-      console.error('Delete error:', err);
-      setError(err.response?.data?.message || err.message);
-      alert(err.response?.data?.message || 'Deletion failed');
-    } finally {
-      setLoading(false);
-      setDeleteModal(false);
-    }
+    // } catch (err) {
+    //   console.error('Delete error:', err);
+    //   setError(err.response?.data?.message || err.message);
+    //   alert(err.response?.data?.message || 'Deletion failed');
+    // } finally {
+    //   setLoading(false);
+    //   setDeleteModal(false);
+    // }
   };
 
 
   const handleEdit = () => {
     if(!session ) return;
     if (isediting) {
-      // Save logic would go here
-      // For now, just toggle the editing state
     }
     setIsediting(!isediting);
   };
@@ -110,14 +109,7 @@ const Individualground = () => {
 //     }
 //   };
 
-  // if (!session) {
-  //   return (
-  //     <div className="flex justify-center items-center h-64">
-  //     <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-  //   </div>
-  //   );
-  // }
-
+  
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -179,7 +171,10 @@ const handleupdate =async()=>{
       grounddata:ground,
     })
     if (res.data.message) {
-      alert(res.data.message);
+       toast.success(res.data.message, {
+      position: "top-right",
+      autoClose: 3000,
+    });
       console.log("Updated ground:", res.data.ground);
       
     }
@@ -252,7 +247,7 @@ const handleupdate =async()=>{
                   <Share2 className="h-4 w-4 mr-2" />
                   <span>Share</span>
                 </button> */}
-               {/* <div onClick={handleEdit} >
+               <div onClick={handleEdit} >
                         {isediting ? (
                           <button onClick={handleupdate} className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isediting ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Save Changes</button>
                         ) : (
@@ -266,7 +261,7 @@ const handleupdate =async()=>{
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
                   <span>Delete</span>
-                </button> */}
+                </button>
 
                  <button 
                   onClick={() => router.push("/dashboard")}

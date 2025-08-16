@@ -29,7 +29,7 @@ export async function POST(req: Request) {
           console.log("image upload in mongo db");
 
 
-          return NextResponse.json({success: true , message:"image up;oad in db"} , {status:200});
+          return NextResponse.json({success: true , message:"image upload in db"} , {status:200});
 
 
 

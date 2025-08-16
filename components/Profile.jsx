@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 export default function ProfilePage() {
   const [image, setImage] = useState(avatar);
   const { data: session } = useSession();
-  const [bookings, setBookings] = useState([]); // Correct state initialization
+  const [bookings, setBookings] = useState([]); 
   const [loadingBookings, setLoadingBookings] = useState(true);
 
   if (!session) {
@@ -142,6 +142,7 @@ export default function ProfilePage() {
       const bookingData = await axios.get(`/api/userbookings?userId=${session.user.id}`);
       if (bookingData.data) {
         setBookings(bookingData.data);
+        
       }
     } catch (error) {
       console.log(error);
@@ -178,11 +179,11 @@ export default function ProfilePage() {
                     <FiUser className="mr-3 h-5 w-5" />
                     Profile
                   </a>
-                  <a onClick={handleclick} className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <a onClick={handleclick} className="text-gray-600 cursor-pointer hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                     <FiPlus className="mr-3 h-5 w-5" />
                     Upload Grounds
                   </a>
-                  <a onClick={handleclick2} className="text-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
+                  <a onClick={handleclick2} className="text-gray-600 cursor-pointer hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700 group flex items-center px-2 py-2 text-sm font-medium rounded-md">
                     <FiList className="mr-3 h-5 w-5" />
                     Your Grounds
                   </a>
@@ -298,29 +299,12 @@ export default function ProfilePage() {
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-xl font-semibold text-gray-800 dark:text-white">Manage Your Grounds</h2>
-                  {/* <div className="flex space-x-4">
-                    <button
-                      onClick={handleclick}
-                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    >
-                      <FiPlus className="inline-block mr-2 h-4 w-4" />
-                      Upload Ground
-                    </button>
-                    <button
-                      onClick={handleclick2}
-                      className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                    >
-                      <FiList className="inline-block mr-2 h-4 w-4" />
-                      View Grounds
-                    </button>
-                  </div> */}
+                  
                 </div>
 
                 <div className="text-center  border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
 
-                  {/* <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No events found</h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by creating a new event.</p> */}
-
+                 
                   <YourGrounds />
                 </div>
 

@@ -2,8 +2,8 @@ import NextAuth, {AuthOptions}  from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { connecttodatabase } from '../database/db';
-import User from "../database/models/UserModels"; // Your User model
-import bcrypt from "bcryptjs"; // For password hashing and comparison
+import User from "../database/models/UserModels"; 
+import bcrypt from "bcryptjs"; 
 import { toast } from "react-toastify";
 
 export const authOptions : AuthOptions = {
