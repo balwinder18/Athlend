@@ -17,6 +17,7 @@ import avatar from '../public/images/avatar.png'
 import Image from "next/image";
 import Mybookings from '../components/Mybookings';
 import { toast } from "react-toastify";
+import { Edit3, Save, User, Mail, Phone, Camera, Upload } from 'lucide-react';
 
 export default function ProfilePage() {
   const [image, setImage] = useState(avatar);
@@ -111,7 +112,9 @@ export default function ProfilePage() {
           autoClose: 3000,
         });
         console.log("Updated user:", res.data.user);
+        setIsEditing(!isEditing);
       }
+
     } catch (error) {
       console.log(error);
     }
@@ -211,88 +214,186 @@ export default function ProfilePage() {
 
               {/* Simplified content area */}
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
-                <div className="flex flex-col md:flex-row">
-                  {/* Profile Photo Section */}
-                  <div className="md:w-1/3 flex justify-center">
-                    <div className="text-center">
-                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-200 dark:border-gray-700 mx-auto mb-4">
-                        <img
-                          src={image}
-                          alt="Profile"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="mt-3 bg-green-500 hover:bg-green-700 rounded-2xl">
-                        <UploadButton
-                          endpoint="imageUploader"
-                          onClientUploadComplete={(res) => {
-                            console.log("Files: ", res);
-                            alert("Upload Completed");
-                            handleuploadtodb(res);
-                          }}
-                          onUploadError={(error) => {
-                            alert(`ERROR! ${error.message}`);
-                          }}
-                          className="w-full"
-                        />
-                      </div>
-                    </div>
+                <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
+      {/* Header with gradient background */}
+      <div className="h-32 bg-gradient-to-r from-green-400 via-green-500 to-green-600 relative">
+       <div className="absolute inset-0 flex items-center justify-center">
+    <h1 className="text-white text-5xl font-bold tracking-widest uppercase">
+      ATHLEND
+    </h1>
+  </div>
+        <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 md:left-8 md:transform-none">
+          <div className="relative">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl bg-white">
+              <img
+                src={image}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Camera icon overlay */}
+            <div className="absolute bottom-2 right-2 w-8 h-8 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg cursor-pointer transition-colors group">
+              <Camera className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div className="pt-20 md:pt-8 px-6 md:px-8 pb-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* Profile Photo Section - Mobile */}
+          <div className="md:hidden text-center">
+            <div className="mt-4 inline-block">
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  console.log("Files: ", res);
+                  alert("Upload Completed");
+                  handleuploadtodb(res);
+                }}
+                onUploadError={(error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+                className="bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              />
+            </div>
+          </div>
+
+          {/* Profile Photo Section - Desktop */}
+          <div className="hidden md:block md:w-1/3">
+            <div className="mt-8">
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  console.log("Files: ", res);
+                  alert("Upload Completed");
+                  handleuploadtodb(res);
+                }}
+                onUploadError={(error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+                className="w-full bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              />
+            </div>
+          </div>
+
+          {/* Profile Details Section */}
+          <div className="flex-1 md:pl-8">
+            <div className="mb-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                  <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                    <User className="w-5 h-5 text-green-600 dark:text-green-400" />
                   </div>
+                  Profile Information
+                </h2>
+                
+                {/* Edit/Save Button */}
+                <button
+                  onClick={isEditing ? handleupdate : handleEdit}
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 ${
+                    isEditing 
+                      ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white focus:ring-red-300 dark:focus:ring-red-800' 
+                      : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white focus:ring-green-300 dark:focus:ring-green-800'
+                  }`}
+                >
+                  {isEditing ? (
+                    <>
+                      <Save className="w-4 h-4" />
+                      Save Changes
+                    </>
+                  ) : (
+                    <>
+                      <Edit3 className="w-4 h-4" />
+                      Edit Profile
+                    </>
+                  )}
+                </button>
+              </div>
 
-                  {/* Profile Details Section */}
-                  <div className="md:w-2/3 md:pl-8 mt-6 md:mt-0">
-                    <div className="mb-6">
-                      <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Profile Information</h2>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="name"
-                              value={user.name}
-                              onChange={handleChange}
-                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
-                            />
-                          ) : (
-                            <p className="mt-1 text-gray-800 dark:text-white">{user.name}</p>
-                          )}
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</label>
-                          <p className="mt-1 text-gray-800 dark:text-white">{user.email}</p>
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">Phone Number</label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              name="phone"
-                              value={user.phone}
-                              onChange={handleChange}
-                              className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
-                              placeholder="Add phone number"
-                            />
-                          ) : (
-                            <p className="mt-1 text-gray-800 dark:text-white">{user.phone || "No phone number"}</p>
-                          )}
-                        </div>
+              <div className="space-y-6">
+                {/* Full Name Field */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
+                    <User className="w-4 h-4" />
+                    Full Name
+                  </label>
+                  {isEditing ? (
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="name"
+                        value={user.name}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-green-500 focus:bg-white dark:focus:bg-gray-700 focus:outline-none transition-all duration-200"
+                        placeholder="Enter your full name"
+                      />
+                      <div className="absolute inset-y-0 right-3 flex items-center">
+                        <Edit3 className="w-4 h-4 text-gray-400" />
                       </div>
                     </div>
-
-                    <div className="flex space-x-4">
-                      <div onClick={handleEdit} >
-                        {isEditing ? (
-                          <button onClick={handleupdate} className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Save Changes</button>
-                        ) : (
-                          <button className={`px-4 py-2 rounded-md shadow-sm text-sm font-medium text-white ${isEditing ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}>Edit</button>
-                        )}
-                      </div>
+                  ) : (
+                    <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-600 transition-all duration-200">
+                      <p className="text-gray-900 dark:text-white font-medium">{user.name || "Not provided"}</p>
                     </div>
-                  </div>
+                  )}
                 </div>
+
+                {/* Email Field */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
+                    <Mail className="w-4 h-4" />
+                    Email Address
+                  </label>
+                  <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-600 transition-all duration-200 relative">
+                    <p className="text-gray-900 dark:text-white font-medium">{user.email}</p>
+                    <div className="absolute top-1/2 right-3 transform -translate-y-1/2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 ml-1">Email cannot be changed</p>
+                </div>
+
+                {/* Phone Field */}
+                <div className="group">
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 mb-2">
+                    <Phone className="w-4 h-4" />
+                    Phone Number
+                  </label>
+                  {isEditing ? (
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="phone"
+                        value={user.phone}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-green-500 focus:bg-white dark:focus:bg-gray-700 focus:outline-none transition-all duration-200"
+                        placeholder="Add phone number"
+                      />
+                      <div className="absolute inset-y-0 right-3 flex items-center">
+                        <Edit3 className="w-4 h-4 text-gray-400" />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-xl border-2 border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-600 transition-all duration-200">
+                      <p className="text-gray-900 dark:text-white font-medium">
+                        {user.phone || (
+                          <span className="text-gray-500 dark:text-gray-400 italic">No phone number added</span>
+                        )}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom gradient accent */}
+      <div className="h-1 bg-gradient-to-r from-green-400 via-green-500 to-green-600"></div>
+    </div>
               </div>
 
               {/* Events Section */}
@@ -310,7 +411,7 @@ export default function ProfilePage() {
 
                <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
   <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">My Bookings</h2>
-  <Mybookings userId={id} bookings={bookings} />
+  <Mybookings userId={id} />
 </div>
               </div>
 
