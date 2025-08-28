@@ -21,7 +21,7 @@ export default function Home() {
         />
 </Head>
     
-      <Navbar/>
+      
     
       <Allgrounds/>
       <Faq/>

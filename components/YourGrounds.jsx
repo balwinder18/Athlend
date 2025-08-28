@@ -101,7 +101,7 @@ const YourGrounds = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-10">
+    <div className="bg-gray-50 min-h-screen py-10 pt-24 ">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
           <div>
