@@ -18,4 +18,8 @@ const BookingSchema = new mongoose.Schema({
       isScanned:{type:String ,default:false},
 },{timestamps:true})
 
+
+BookingSchema.index({ userId: 1 });
+
+
 module.exports = mongoose.models.Bookings || mongoose.model("Bookings" , BookingSchema);
