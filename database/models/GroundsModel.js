@@ -14,6 +14,7 @@ const GroundsSchema = new mongoose.Schema({
     phone:{type:String , default:null},
     facilities:{type:String,default:null},
     sport:{type:String,default:null},
+    
 
     operatingHours: {
         // Store as 24-hour format (e.g., "08:00", "22:00")

@@ -246,23 +246,24 @@ export default function ProfilePage() {
           <div className="md:hidden text-center">
             <div className="mt-4 inline-block">
               <UploadButton
-                endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                  console.log("Files: ", res);
-                  alert("Upload Completed");
-                  handleuploadtodb(res);
-                }}
-                onUploadError={(error) => {
-                  alert(`ERROR! ${error.message}`);
-                }}
-                className="bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              />
+      endpoint="imageUploader"
+      onClientUploadComplete={(res) => {
+        handleUpdateImage(res);
+      }}
+      onUploadError={(error) => {
+        toast.error(`Upload Error: ${error.message}`);
+      }}
+      className="!opacity-0 !w-full !h-full !cursor-pointer"
+      content={{
+        button: "", // removes text
+      }}
+    />
             </div>
           </div>
 
           {/* Profile Photo Section - Desktop */}
           <div className="hidden md:block md:w-1/3">
-            <div className="mt-8">
+            <div className="">
               <UploadButton
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
@@ -273,8 +274,10 @@ export default function ProfilePage() {
                 onUploadError={(error) => {
                   alert(`ERROR! ${error.message}`);
                 }}
-                className="w-full bg-green-500 hover:bg-green-600 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-              />
+                 className="!opacity-0 !w-full !h-full !cursor-pointer"
+      content={{
+        button: "", // removes text
+      }} />
             </div>
           </div>
 

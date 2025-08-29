@@ -247,7 +247,7 @@ const Newground = () => {
               ) : (
                 <div className="space-y-1 text-center">
                   <ImagePlus className="mx-auto h-12 w-12 text-gray-400" />
-                  <div className="flex text-sm text-gray-600 mt-3 bg-black rounded-2xl justify-center items-center">
+                  <div className="flex text-sm text-gray-600 mt-3 bg-gray-400 rounded-2xl justify-center items-center">
                     <UploadButton 
                       endpoint="imageUploader"
                       onClientUploadComplete={(res) => {
