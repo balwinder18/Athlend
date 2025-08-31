@@ -205,12 +205,9 @@ export default function ProfilePage() {
           </div>
 
           {/* Main content */}
-          <div className="md:ml-64 flex-1">
+          <div className="flex-1 pt-24 ml-0 md:ml-64 w-full">
             <div className="py-6 px-4 sm:px-6 lg:px-8">
-              <header className="mb-8 border-b pb-6 dark:border-gray-700">
-                <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">Welcome back, {user.name}</p>
-              </header>
+           
 
               {/* Simplified content area */}
               <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
@@ -224,7 +221,7 @@ export default function ProfilePage() {
   </div>
         <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 md:left-8 md:transform-none">
           <div className="relative">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl bg-white">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl bg-white max-w-full">
               <img
                 src={image}
                 alt="Profile"
@@ -241,7 +238,7 @@ export default function ProfilePage() {
 
       {/* Main content */}
       <div className="pt-20 md:pt-8 px-6 md:px-8 pb-8">
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row md:gap-8 gap-3">
           {/* Profile Photo Section - Mobile */}
           <div className="md:hidden text-center">
             <div className="mt-4 inline-block">
@@ -276,7 +273,7 @@ export default function ProfilePage() {
                 }}
                  className="!opacity-0 !w-full !h-full !cursor-pointer"
       content={{
-        button: "", // removes text
+        button: "", 
       }} />
             </div>
           </div>
@@ -285,7 +282,7 @@ export default function ProfilePage() {
           <div className="flex-1 md:pl-8">
             <div className="mb-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <h2 className="md:text-2xl text-lg font-bold text-gray-900 dark:text-white flex items-center gap-3">
                   <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
                     <User className="w-5 h-5 text-green-600 dark:text-green-400" />
                   </div>
@@ -295,7 +292,7 @@ export default function ProfilePage() {
                 {/* Edit/Save Button */}
                 <button
                   onClick={isEditing ? handleupdate : handleEdit}
-                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 ${
+                  className={`inline-flex items-center gap-2 md:px-6 px-2 md:py-3 py-1 rounded-xl font-semibold text-sm transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 ${
                     isEditing 
                       ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white focus:ring-red-300 dark:focus:ring-red-800' 
                       : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white focus:ring-green-300 dark:focus:ring-green-800'
