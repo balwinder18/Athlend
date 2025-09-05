@@ -16,10 +16,22 @@ const BookingSchema = new mongoose.Schema({
      
       qrImage: {type:String , required:true},
       isScanned:{type:String ,default:false},
+      email : {type:String , required:true},
+
+
+
+ amount: { type: Number, required: true }, // final payable
+  discount: { type: Number, default: 0 },
+  sgst: { type: Number, default: 0 },
+  cgst: { type: Number, default: 0 },
+  gross: { type: Number, default: 0 },
+  taxable: { type: Number, default: 0 }
+
+
 },{timestamps:true})
 
 
 BookingSchema.index({ userId: 1 });
 
 
-module.exports = mongoose.models.Bookings || mongoose.model("Bookings" , BookingSchema);
+export default mongoose.models.Bookings || mongoose.model("Bookings" , BookingSchema);

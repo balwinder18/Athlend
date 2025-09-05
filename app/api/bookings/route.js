@@ -17,9 +17,9 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(request) {
   try {
-    const { groundId, userId, startTime, endTime ,date,orderId,groundName ,email } = await request.json();
+    const { groundId, userId, startTime, endTime ,date,orderId,groundName ,email , amount } = await request.json();
 
-    if (!groundId || !userId || !startTime || !endTime || !date || !orderId || !groundName || !email) {
+    if (!groundId || !userId || !startTime || !endTime || !date || !orderId || !groundName || !email || !amount) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -59,6 +59,8 @@ export async function POST(request) {
       groundName,
       qrImage,
       isScanned: false,
+      amount : amount,
+      email : email
     });
 
    

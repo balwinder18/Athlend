@@ -101,13 +101,26 @@ export default function MyBookings({ isLoading ,userId }) {
 
             {/* QR Button */}
             {b.qrImage && (
-              <button
+  <>
+  <button
                 onClick={() => setSelectedQR(b.qrImage)}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800"
               >
                 <QrCode className="w-5 h-5" />
                 Show QR Code
               </button>
+
+             <a
+    href={`/invoice/${b.orderId}`} 
+    
+    rel="noopener noreferrer"
+    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+  >
+     View Invoice
+  </a>
+  </>
+
+
             )}
             
             {!b.qrImage && (
