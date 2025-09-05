@@ -20,7 +20,7 @@ const BookingSchema = new mongoose.Schema({
 
 
 
- amount: { type: Number, required: true }, // final payable
+ amount: { type: Number, required: true }, 
   discount: { type: Number, default: 0 },
   sgst: { type: Number, default: 0 },
   cgst: { type: Number, default: 0 },
