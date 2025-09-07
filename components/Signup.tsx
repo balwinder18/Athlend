@@ -17,8 +17,11 @@ const SignupForm = () => {
   const [emailError, setEmailError] = useState("");
   const [otpverified, setOtpverified] = useState(false);
   const [otp, setOtp] = useState('');
+  
+  const [cooldown, setCooldown] = useState(0);
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState(formData.email);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,14 +48,30 @@ const SignupForm = () => {
   };
 
   const handleSendOTP = async () => {
+    if (cooldown > 0) return;
     const response = await fetch('/api/otp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: formData.email }),
     });
 
+    
+    
     if (response.ok) {
       setStep(2);
+
+      setCooldown(30); 
+    const interval = setInterval(() => {
+
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  
     } else {
          toast.error("Failed to send OTP", {
               position: "top-right",
@@ -186,12 +205,17 @@ const SignupForm = () => {
             
             {!otpverified && !emailError && formData.email && (
               <button
-                type="button"
-                onClick={handleSendOTP}
-                className="mt-2 bg-gradient-to-r from-gray-700 to-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-gray-800 hover:to-black transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-              >
-                Send Verification Code
-              </button>
+  type="button"
+  onClick={handleSendOTP}
+  disabled={cooldown > 0}
+  className={`mt-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 shadow-md ${
+    cooldown > 0
+      ? "bg-gray-400 cursor-not-allowed text-white"
+      : "bg-gradient-to-r from-gray-700 to-black text-white hover:from-gray-800 hover:to-black"
+  }`}
+>
+  {cooldown > 0 ? `Resend in ${cooldown}s` : "Send Verification Code"}
+</button>
             )}
             
             {emailError && (
