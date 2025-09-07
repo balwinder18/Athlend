@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const SignupForm = () => {
   const router = useRouter();
@@ -53,7 +54,11 @@ const SignupForm = () => {
     if (response.ok) {
       setStep(2);
     } else {
-      alert('Failed to send OTP');
+         toast.error("Failed to send OTP", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+      
     }
   };
 
@@ -65,11 +70,19 @@ const SignupForm = () => {
     });
 
     if (response.ok) {
-      alert('OTP verified successfully!');
+         toast.success("OTP verified successfully", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+      
       setOtpverified(true);
       setStep(1);
     } else {
-      alert('Invalid OTP');
+         toast.error("Invalid OTP", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+      
     }
   };
 
@@ -77,21 +90,31 @@ const SignupForm = () => {
     e.preventDefault();
 
     if (emailError) {
-      alert("Please provide correct gmail.");
+         toast.error("Please provide correct email", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+      
       return;
     }
     
     if(otpverified){
       try {
         const response = await axios.post("/api/signup", formData);
-        console.log("user registered succes")
+        
         setFormData({ name: "", email: "", phone: "", password: "" });
         router.push('/login');
       } catch (error:any) {
-        alert(error.response?.data?.message || "Error signing up");
+         toast.error("Error signing up", {
+              position: "top-right",
+              autoClose: 3000,
+            });
       }
     } else {
-      alert('verify otp first!');
+       toast.error("Payment successful!", {
+            position: "top-right",
+            autoClose: 3000,
+          });
       handleSendOTP();
     }
   };
@@ -233,7 +256,7 @@ const SignupForm = () => {
             </div>
           )}
 
-          <div className="relative">
+          {/* <div className="relative">
             <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
             <div className="relative">
               <input
@@ -252,7 +275,7 @@ const SignupForm = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="relative">
             <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
@@ -308,7 +331,7 @@ const SignupForm = () => {
         <div className="mt-6 text-center">
           <p className="text-gray-600 text-sm">
             Already have an account?{' '}
-            <button className="text-gray-800 font-semibold hover:text-black transition-colors">
+            <button onClick={()=> router.push('/login')} className="text-gray-800 font-semibold hover:text-black transition-colors">
               Sign In
             </button>
           </p>

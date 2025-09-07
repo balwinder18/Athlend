@@ -11,10 +11,10 @@ connecttodatabase();
 
 export async function POST(req: Request) {
   try {
-    const { name, email, phone, password } = await req.json();
+    const { name, email, password } = await req.json();
 
     
-    if (!name || !email || !phone || !password ) {
+    if (!name || !email  || !password ) {
       return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
     }
     const existingUser = await User.findOne({ email });
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ name, email, phone, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
     return NextResponse.json({ success: true, message: "User registered successfully" }, { status: 201 });

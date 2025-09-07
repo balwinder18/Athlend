@@ -27,6 +27,10 @@ export const authOptions : AuthOptions = {
           throw new Error("No user found with this email.");
         }
 
+        if (!user.password) {
+  throw new Error("This account was created with Google. Please sign in with Google.");
+}
+
         // Compare passwords
         const isValid = await bcrypt.compare(
           credentials?.password || "",
@@ -74,11 +78,14 @@ session: {
           await connecttodatabase();
           
           // Check if user already exists
-          const existingUser = await User.findOne({ email: user.email });
-          
+          let existingUser = await User.findOne({ email: user.email });
+      
           if (!existingUser) {
-            // Return false to prevent sign in and redirect to register page
-            return false;
+             existingUser = await User.create({
+          name: user.name,
+          email: user.email,
+        });
+
           }
           return true;
         } catch (error) {
