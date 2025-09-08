@@ -151,6 +151,7 @@ export default function Navbar() {
           </p>
         </div>
 
+
         {session ? (
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -247,6 +248,22 @@ export default function Navbar() {
               <div>
                 <span className="font-medium text-gray-900">Rent Your Ground</span>
                 <p className="text-sm text-gray-500">List your property</p>
+              </div>
+            </Link>
+
+
+             <Link
+              href="/profile#mybookings"
+              className="flex items-center space-x-3 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <div className="w-10 h-10  rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </div>
+              <div>
+                <span className="font-medium text-gray-900">My Bookings</span>
               </div>
             </Link>
           </div>
