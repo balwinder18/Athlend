@@ -411,7 +411,7 @@ export default function ProfilePage() {
 
                <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 mt-8">
   <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">My Bookings</h2>
-  <Mybookings userId={id} />
+  <Mybookings bookingData={bookings} />
 </div>
               </div>
 

@@ -4,46 +4,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, Clock, MapPin, QrCode, X } from 'lucide-react';
 
-export default function MyBookings({ isLoading ,userId }) {
+export default function MyBookings({ bookingData }) {
   const [selectedQR, setSelectedQR] = useState(null);
-  const [bookings,setBookings] = useState(null); 
-  const [loadingBookings, setLoadingBookings] = useState(true); 
+  
 
-
-
-   useEffect(() => {
-     const fetchBookings = async () => {
-      if (!userId) {
-        setLoadingBookings(false); 
-        return;
-      }
-
-      setLoadingBookings(true);
-      try {
-        const bookingData = await axios.get(`/api/userbookings?userId=${userId}`);
-        if (bookingData.data) {
-          setBookings(bookingData.data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch bookings:", error);
-        setBookings([]);
-      } finally {
-        setLoadingBookings(false);
-      }
-    };
-
-    fetchBookings();
-  }, [userId]); 
-
-  if (loadingBookings) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
-      </div>
-    );
-  }
-
-  if (!bookings) {
+  if (!bookingData) {
     return <p className="text-gray-500">No bookings found.</p>;
   }
 
@@ -66,7 +31,7 @@ export default function MyBookings({ isLoading ,userId }) {
   return (
     <>
    <div className="space-y-6 p-4">
-      {bookings.map((b) => (
+      {bookingData.map((b) => (
         <div
           key={b._id}
           className="group relative overflow-hidden p-6 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-gray-900 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-green-300 dark:hover:border-green-600"
