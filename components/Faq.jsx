@@ -82,7 +82,7 @@ const Faq = () => {
     <>
    
 
-<div id="FAQs" className="h-20"></div>
+<div id="FAQs" className=""></div>
 
 <section className="bg-white py-5 px-4 lg:px-20">
   <div className="max-w-[1280px] mx-auto">

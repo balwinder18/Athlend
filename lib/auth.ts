@@ -4,7 +4,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { connecttodatabase } from '../database/db';
 import User from "../database/models/UserModels"; 
 import bcrypt from "bcryptjs"; 
-import { toast } from "react-toastify";
 
 export const authOptions : AuthOptions = {
   providers: [

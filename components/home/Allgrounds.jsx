@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { MapPin, CheckCircle } from 'lucide-react';
+import { MapPin, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaSearch } from "react-icons/fa";
@@ -163,344 +164,415 @@ useEffect(() => {
      
      
 {nearbyGrounds.length > 0 && filtereddata.length === 0 && (
-  <>
-   <div className="flex items-center justify-between mb-4">
-  <h1 className="text-2xl text-black font-bold">Popular grounds Near you</h1>
-
-  <div className="flex items-center gap-2">
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll-container");
-        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll-container");
-        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-  </div>
-</div>
-
-
-    <div id="scroll-container" className="flex overflow-x-auto gap-4 pb-6 scroll-smooth">
-      {nearbyGrounds.map(ground => (
-        ground.Approval === "yes" && (
-          <Link
-                href={`/grounds/${ground._id}`}
-                className=""
-              >
-              <div
-  key={ground._id}
-  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
->
-  {/* Image container */}
-  <div className="relative w-full h-[180px]">
-    {ground.imageUrl ? (
-      <img
-        src={ground.imageUrl}
-        alt="Ground image"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <MapPin className="h-10 w-10 text-blue-300" />
+ <div className="w-full max-w-7xl mx-auto lg:px-8 py-2">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+            Popular grounds near you
+          </h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">
+            Discover amazing sports venues in your area
+          </p>
+        </div>
+        
+        {/* Navigation Buttons - Hidden on mobile */}
+        <div className="hidden sm:flex items-center gap-2">
+          <button
+            onClick={() => {
+              const el = document.getElementById("scroll-container");
+              if (el) el.scrollBy({ left: -280, behavior: "smooth" });
+            }}
+            className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+          </button>
+          
+          <button
+            onClick={() => {
+              const el = document.getElementById("scroll-container");
+              if (el) el.scrollBy({ left: 280, behavior: "smooth" });
+            }}
+            className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+          </button>
+        </div>
       </div>
-    )}
 
-    {/* Heart icon */}
-    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        className="h-5 w-5 text-gray-700"
+      {/* Scrollable Container */}
+      <div 
+        id="scroll-container" 
+        className="flex overflow-x-auto gap-4 sm:gap-6 pb-6 scroll-smooth scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
-        />
-      </svg>
-    </button>
-  </div>
+        {nearbyGrounds.map(ground => (
+          ground.Approval === "yes" && (
+            <Link
+              key={ground._id}
+              href={`/grounds/${ground._id}`}
+              className="group"
+            >
+              <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
+                {/* Image Container */}
+                <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
+                  {ground.imageUrl ? (
+                    <img
+                      src={ground.imageUrl}
+                      alt={`${ground.name} - ${ground.sport} ground`}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+                      <MapPin className="h-12 w-12 text-gray-300" />
+                    </div>
+                  )}
+                  
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* Heart Button */}
+                  <button 
+                    className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm hover:shadow-md hover:bg-white transition-all duration-200 hover:scale-105"
+                    aria-label={`Add ${ground.name} to favorites`}
+                  >
+                    <Heart className="h-4 w-4 text-gray-700 hover:text-red-500 transition-colors duration-200" />
+                  </button>
 
-  {/* Text Content */}
-  <div className="p-3">
-    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
-      {ground.name}
-    </h3>
+                  {/* Sport Badge */}
+                  <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full">
+                    <span className="text-xs font-medium text-gray-700">
+                      {ground.sport}
+                    </span>
+                  </div>
+                </div>
 
-    <p className="text-[13px] text-gray-500 mt-1 truncate">
-      {ground.location}
-    </p>
-
-    <p className="text-[13px] text-gray-700 mt-1">
-      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
-    </p>
-  </div>
-</div>
-
+                {/* Content Section */}
+                <div className="p-4 sm:p-5">
+                  <div className="space-y-2">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-1 group-hover:text-gray-700 transition-colors">
+                      {ground.name}
+                    </h3>
+                    
+                    <p className="text-sm text-gray-500 line-clamp-1 flex items-center">
+                      <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                      {ground.location}
+                    </p>
+                    
+                    <div className="flex items-center justify-between pt-1">
+                      <div className="flex items-center">
+                        <span className="text-base sm:text-lg font-semibold text-gray-900">
+                          ₹{ground.pricing}
+                        </span>
+                        <span className="text-sm text-gray-500 ml-1">
+                          /30min
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center bg-gray-50 px-2 py-1 rounded-full">
+                        <svg 
+                          className="h-3 w-3 text-yellow-400 mr-1" 
+                          fill="currentColor" 
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="text-xs font-medium text-gray-700">
+                          4.8
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Link>
-        )
-      ))}
+          )
+        ))}
+      </div>
+
+      
     </div>
-  </>
 )}
 
 
 
-{cricketGrounds.length > 0 && filtereddata.length === 0 && (
-  <>
-      <div className="flex items-center justify-between mb-4">
-  <h1 className="text-2xl text-black font-bold">Cricket grounds</h1>
+  {cricketGrounds.length > 0 && filtereddata.length === 0 && (
+        <>
+          <div className="w-full max-w-7xl mx-auto  lg:px-4 py-6">
+            {/* Header Section */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+                  Cricket grounds
+                </h1>
+                <p className="text-gray-600 mt-1 text-sm sm:text-base">
+                  Find the perfect cricket venues for your game
+                </p>
+              </div>
+              
+              {/* Navigation Buttons - Hidden on mobile */}
+              <div className="hidden sm:flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("scroll2");
+                    if (el) el.scrollBy({ left: -280, behavior: "smooth" });
+                  }}
+                  className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+                </button>
+                
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("scroll2");
+                    if (el) el.scrollBy({ left: 280, behavior: "smooth" });
+                  }}
+                  className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+                </button>
+              </div>
+            </div>
 
-  <div className="flex items-center gap-2">
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll2");
-        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
+            {/* Scrollable Container */}
+            <div 
+              id="scroll2" 
+              className="flex overflow-x-auto gap-4 sm:gap-6 pb-6 scroll-smooth scrollbar-hide"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {cricketGrounds.map(
+                ground => (
+                ground.Approval === "yes" && (
+                   <Link
+                        key={ground._id}
+                        href={`/grounds/${ground._id}`}
+                        className="group"
+                      >
+                      <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
+                        {/* Image Container */}
+                        <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
+                          {ground.imageUrl ? (
+                            <img
+                              src={ground.imageUrl}
+                              alt={`${ground.name} - ${ground.sport} ground`}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+                              <MapPin className="h-12 w-12 text-gray-300" />
+                            </div>
+                          )}
+                          
+                          {/* Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          
+                          {/* Heart Button */}
+                          <button 
+                            className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm hover:shadow-md hover:bg-white transition-all duration-200 hover:scale-105"
+                            aria-label={`Add ${ground.name} to favorites`}
+                          >
+                            <Heart className="h-4 w-4 text-gray-700 hover:text-red-500 transition-colors duration-200" />
+                          </button>
 
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll2");
-        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-  </div>
-</div>
+                          {/* Sport Badge */}
+                          <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full">
+                            <span className="text-xs font-medium text-gray-700">
+                              {ground.sport}
+                            </span>
+                          </div>
+                        </div>
 
+                        {/* Content Section */}
+                        <div className="p-4 sm:p-5">
+                          <div className="space-y-2">
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-1 group-hover:text-gray-700 transition-colors">
+                              {ground.name}
+                            </h3>
+                            
+                            <p className="text-sm text-gray-500 line-clamp-1 flex items-center">
+                              <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                              {ground.location}
+                            </p>
+                            
+                            <div className="flex items-center justify-between pt-1">
+                              <div className="flex items-center">
+                                <span className="text-base sm:text-lg font-semibold text-gray-900">
+                                  ₹{ground.pricing}
+                                </span>
+                                <span className="text-sm text-gray-500 ml-1">
+                                  /30min
+                                </span>
+                              </div>
+                              
+                              <div className="flex items-center bg-gray-50 px-2 py-1 rounded-full">
+                                <svg 
+                                  className="h-3 w-3 text-yellow-400 mr-1" 
+                                  fill="currentColor" 
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span className="text-xs font-medium text-gray-700">
+                                  4.8
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                )
+              ))}
+            </div>
 
-    <div id='scroll2' className="flex overflow-x-auto gap-4 pb-6 scroll-smooth">
-      {cricketGrounds.map(
-        ground => (
-        ground.Approval === "yes" && (
-           <Link
-                href={`/grounds/${ground._id}`}
-                className=""
-              >
-                <div
-  key={ground._id}
-  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
->
-  {/* Image container */}
-  <div className="relative w-full h-[180px]">
-    {ground.imageUrl ? (
-      <img
-        src={ground.imageUrl}
-        alt="Ground image"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <MapPin className="h-10 w-10 text-blue-300" />
-      </div>
-    )}
-
-    {/* Heart icon */}
-    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        className="h-5 w-5 text-gray-700"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
-        />
-      </svg>
-    </button>
-  </div>
-
-  {/* Text Content */}
-  <div className="p-3">
-    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
-      {ground.name}
-    </h3>
-
-    <p className="text-[13px] text-gray-500 mt-1 truncate">
-      {ground.location}
-    </p>
-
-    <p className="text-[13px] text-gray-700 mt-1">
-      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
-    </p>
-  </div>
-</div>
-            </Link>
-        )
-      ))}
-    </div>
-  </>
-)}
+          </div>
+        </>
+      )}
 
 
      
-        <div className="flex items-center justify-between mb-4">
-  <h1 className="text-2xl text-black font-bold">All available grounds</h1>
-
-  <div className="flex items-center gap-2">
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll3");
-        if (el) el.scrollBy({ left: -250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-      </svg>
-    </button>
-
-    <button
-      onClick={() => {
-        const el = document.getElementById("scroll3");
-        if (el) el.scrollBy({ left: 250, behavior: "smooth" });
-      }}
-      className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition"
-    >
-      <svg
-        className="h-5 w-5 text-gray-600"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-      </svg>
-    </button>
-  </div>
-</div>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-4">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
+           All Grounds
+          </h1>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">
+            Explore all!
+          </p>
+        </div>
+        
+        {/* Navigation Buttons - Hidden on mobile */}
+        <div className="hidden sm:flex items-center gap-2">
+          <button
+            onClick={() => {
+              const el = document.getElementById("scroll3");
+              if (el) el.scrollBy({ left: -280, behavior: "smooth" });
+            }}
+            className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+          </button>
+          
+          <button
+            onClick={() => {
+              const el = document.getElementById("scroll3");
+              if (el) el.scrollBy({ left: 280, behavior: "smooth" });
+            }}
+            className="p-3 bg-white border border-gray-200 rounded-full hover:border-gray-300 hover:shadow-md transition-all duration-200 group"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="h-4 w-4 text-gray-700 group-hover:text-gray-900" />
+          </button>
+        </div>
+      </div>
+    </div>
 
 
 {grounds.length > 0 ? (
-  <div id='scroll3' className="overflow-x-auto pb-2">
-    <div className="flex space-x-4 min-w-full">
-      {(filtereddata.length > 0 ? filtereddata : grounds).map(
-        (ground) =>
-          ground.Approval === "yes" && (
-            <Link
-                href={`/grounds/${ground._id}`}
-                className=""
-              >
-          <div
-  key={ground._id}
-  className="min-w-[250px] max-w-[250px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex-shrink-0"
->
-  {/* Image container */}
-  <div className="relative w-full h-[180px]">
-    {ground.imageUrl ? (
-      <img
-        src={ground.imageUrl}
-        alt="Ground image"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <MapPin className="h-10 w-10 text-blue-300" />
-      </div>
-    )}
-
-    {/* Heart icon */}
-    <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth={2}
-        className="h-5 w-5 text-gray-700"
+ <div className="w-full max-w-7xl mx-auto  sm:px-4 lg:px-4">
+      {/* Scrollable Container */}
+      <div 
+        id="scroll3" 
+        className="flex overflow-x-auto gap-4 sm:gap-6 pb-6 scroll-smooth scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M4.318 6.318a5.5 5.5 0 017.778 0L12 6.939l-.096-.096a5.5 5.5 0 017.778 7.778L12 21.06l-7.682-7.682a5.5 5.5 0 010-7.778z"
-        />
-      </svg>
-    </button>
-  </div>
+        {(filtereddata.length > 0 ? filtereddata : grounds).map(
+          (ground) =>
+            ground.Approval === "yes" && (
+              <Link
+                key={ground._id}
+                href={`/grounds/${ground._id}`}
+                className="group"
+              >
+                <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
+                  {/* Image Container */}
+                  <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
+                    {ground.imageUrl ? (
+                      <img
+                        src={ground.imageUrl}
+                        alt={`${ground.name} - ${ground.sport} ground`}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+                        <MapPin className="h-12 w-12 text-gray-300" />
+                      </div>
+                    )}
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Heart Button */}
+                    <button 
+                      className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm hover:shadow-md hover:bg-white transition-all duration-200 hover:scale-105"
+                      aria-label={`Add ${ground.name} to favorites`}
+                    >
+                      <Heart className="h-4 w-4 text-gray-700 hover:text-red-500 transition-colors duration-200" />
+                    </button>
 
-  {/* Text Content */}
-  <div className="p-3">
-    <h3 className="text-[15px] font-semibold text-gray-900 truncate">
-      {ground.name}
-    </h3>
+                    {/* Sport Badge */}
+                    <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full">
+                      <span className="text-xs font-medium text-gray-700">
+                        {ground.sport}
+                      </span>
+                    </div>
+                  </div>
 
-    <p className="text-[13px] text-gray-500 mt-1 truncate">
-      {ground.location}
-    </p>
+                  {/* Content Section */}
+                  <div className="p-4 sm:p-5">
+                    <div className="space-y-2">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 line-clamp-1 group-hover:text-gray-700 transition-colors">
+                        {ground.name}
+                      </h3>
+                      
+                      <p className="text-sm text-gray-500 line-clamp-1 flex items-center">
+                        <MapPin className="h-3 w-3 mr-1 flex-shrink-0" />
+                        {ground.location}
+                      </p>
+                      
+                      <div className="flex items-center justify-between pt-1">
+                        <div className="flex items-center">
+                          <span className="text-base sm:text-lg font-semibold text-gray-900">
+                            ₹{ground.pricing}
+                          </span>
+                          <span className="text-sm text-gray-500 ml-1">
+                            /30min
+                          </span>
+                        </div>
+                        
+                        <div className="flex items-center bg-gray-50 px-2 py-1 rounded-full">
+                          <svg 
+                            className="h-3 w-3 text-yellow-400 mr-1" 
+                            fill="currentColor" 
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span className="text-xs font-medium text-gray-700">
+                            4.8
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            )
+        )}
+      </div>
 
-    <p className="text-[13px] text-gray-700 mt-1">
-      ₹{ground.pricing} /30min <span className="inline-block align-middle">★</span> {ground.sport}
-    </p>
-  </div>
-</div>
-
-            </Link>
-          )
-      )}
+    
     </div>
-  </div>
 ) : (
   <div className="text-center p-8 bg-gray-50 rounded-lg">
     <p className="text-gray-500">No grounds available.</p>

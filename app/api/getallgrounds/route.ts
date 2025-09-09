@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET() {
     try {
       await connecttodatabase();
-      const grounds = await Grounds.find();
+      const grounds = await Grounds.find({ Approval: "yes" });
       if (!grounds) {
         return NextResponse.json({ error: "no grounds found" }, { status: 404 });
       }
