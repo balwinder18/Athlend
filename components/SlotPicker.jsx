@@ -11,6 +11,7 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import {  isBefore, isAfter } from 'date-fns';
 import { toast } from "react-toastify";
+import CheckboxTerms from './CheckboxTerms'
 
 
 
@@ -25,7 +26,7 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
   const maxDate = addDays(today, 3);
 
   const [confirmbooking , setConfirmboooking] = useState(false);
-
+const [agreed, setAgreed] = useState(false);
 
   const fetchSlots = async () => {
     setLoading(true);
@@ -338,6 +339,9 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
             </div>
           </div>
 
+
+          <CheckboxTerms checked={agreed} onChange={setAgreed} />
+
           {/* Action Buttons */}
           <div className="flex gap-4">
             <button
@@ -347,8 +351,12 @@ const SlotPicker = ({ groundId, amount,groundName }) => {
               Cancel
             </button>
             <button
+               disabled={!agreed}
               onClick={() => createorder(slotToBooked)}
-              className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+             className={`lex-1 px-6 py-3 rounded-xl text-white ${
+          agreed ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
+        }`}
+            
             >
               Confirm Booking
             </button>

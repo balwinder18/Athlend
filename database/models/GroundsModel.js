@@ -7,13 +7,35 @@ const GroundsSchema = new mongoose.Schema({
     description: { type: String, required: true },
     userId:{type:String  ,required:true},
     Approval:{type:String  ,default:"no"},
-    imageUrl:{type:String , default:null},
+     imageUrl: {
+    type: [String], 
+    validate: {
+      validator: function (val) {
+        return val.length <= 5; 
+      },
+      message: "You can upload a maximum of 5 images.",
+    },
+    default: [], 
+  },
     capacity:{type:String , default:null},
     pricing:{type:String , default:null},
     email:{type:String , default:null},
     phone:{type:String , default:null},
-    facilities:{type:String,default:null},
-    sport:{type:String,default:null},
+
+
+
+    facilities: {
+  type: [String], 
+  default: [],    
+  validate: {
+    validator: function (val) {
+      return val.length <= 10; 
+    },
+    message: "You can add a maximum of 20 facilities."
+  }
+},
+  
+  sport:{type:String,default:null},
     
 
     operatingHours: {

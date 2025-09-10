@@ -218,13 +218,12 @@ useEffect(() => {
               <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
                 {/* Image Container */}
                 <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
-                  {ground.imageUrl ? (
-                    <img
-                      src={ground.imageUrl}
-                      alt={`${ground.name} - ${ground.sport} ground`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
+                 {ground.imageUrl && ground.imageUrl.length > 0 ? (
+  <img
+    src={ground.imageUrl[0]}
+    alt={ground.name}
+    className="w-full h-full object-cover"
+  />
                   ) : (
                     <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                       <MapPin className="h-12 w-12 text-gray-300" />
@@ -356,13 +355,12 @@ useEffect(() => {
                       <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
                         {/* Image Container */}
                         <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
-                          {ground.imageUrl ? (
-                            <img
-                              src={ground.imageUrl}
-                              alt={`${ground.name} - ${ground.sport} ground`}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                              loading="lazy"
-                            />
+                         {ground.imageUrl && ground.imageUrl.length > 0 ? (
+  <img
+    src={ground.imageUrl[0]}
+    alt={ground.name}
+    className="w-full h-full object-cover"
+  />
                           ) : (
                             <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                               <MapPin className="h-12 w-12 text-gray-300" />
@@ -496,13 +494,12 @@ useEffect(() => {
                 <div className="min-w-[230px] max-w-[250px] sm:min-w-[230px] sm:max-w-[230px] bg-white rounded-xl overflow-hidden flex-shrink-0 transition-all duration-300 hover:shadow-lg">
                   {/* Image Container */}
                   <div className="relative w-full h-[160px] sm:h-[180px] overflow-hidden">
-                    {ground.imageUrl ? (
-                      <img
-                        src={ground.imageUrl}
-                        alt={`${ground.name} - ${ground.sport} ground`}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        loading="lazy"
-                      />
+                   {ground.imageUrl && ground.imageUrl.length > 0 ? (
+  <img
+    src={ground.imageUrl[0]}
+    alt={ground.name}
+    className="w-full h-full object-cover"
+  />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
                         <MapPin className="h-12 w-12 text-gray-300" />

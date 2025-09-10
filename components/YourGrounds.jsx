@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 const YourGrounds = () => {
   const { data: session } = useSession();
   const [grounds, setGrounds] = useState([]);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); 
@@ -177,17 +178,17 @@ const YourGrounds = () => {
 >
   {/* Image container */}
   <div className="relative w-full h-[180px]">
-    {ground.imageUrl ? (
-      <img
-        src={ground.imageUrl}
-        alt="Ground image"
-        className="w-full h-full object-cover"
-      />
-    ) : (
-      <div className="h-full w-full flex items-center justify-center bg-gray-100">
-        <MapPin className="h-10 w-10 text-blue-300" />
-      </div>
-    )}
+   {ground.imageUrl && ground.imageUrl.length > 0 ? (
+  <img
+    src={ground.imageUrl[0]}
+    alt={ground.name}
+    className="w-full h-full object-cover"
+  />
+) : (
+  <div className="h-full w-full flex items-center justify-center bg-gray-100">
+    <MapPin className="h-10 w-10 text-blue-300" />
+  </div>
+)}
 
     {/* Heart icon */}
     <button className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:scale-105 transition">

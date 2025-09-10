@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { MapPin, CalendarDays, Clock, CheckCircle, XCircle, ArrowLeft, Trash2, Edit, Share2, Star, Users, Mail, Phone } from 'lucide-react';
+import {ChevronLeft, ChevronRight, MapPin, CalendarDays, Clock, CheckCircle, XCircle, ArrowLeft, Trash2, Edit, Share2, Star, Users, Mail, Phone } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { FaRupeeSign } from 'react-icons/fa';
@@ -14,9 +14,12 @@ import { toast } from 'react-toastify';
 const Individualground = () => {
   const [error, setError] = useState(null);
   const [ground, setGround] = useState(null);
+  const[images , setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState(false);
   const [isediting, setIsediting] = useState(false);
+ const [current, setCurrent] = useState(0);
+
 
   const router = useRouter();
   const { id } = useParams();
@@ -27,6 +30,7 @@ const Individualground = () => {
     try {
       const response = await axios.get(`/api/groundDetails/${id}`);
       setGround(response.data);
+      setImages(response.data.imageUrl);
       setLoading(false);
     } catch (err) {
       setError(err.message);
@@ -66,6 +70,19 @@ const Individualground = () => {
 
   if (!ground) return <div className="p-10 text-center">Ground Not Found</div>;
 
+
+
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+
+
   return (
     <>
       <Navbar />
@@ -85,8 +102,43 @@ const Individualground = () => {
             {/* Hero Section */}
             <div className="rounded-2xl overflow-hidden shadow-lg bg-white mb-10">
               <div className="relative h-[200px] w-full bg-gray-100">
-                {ground.imageUrl ? (
-                  <img src={ground.imageUrl} alt={ground.name} className="h-full w-full object-cover" />
+                {images.length > 0 ? (
+                   <div className="relative w-full h-64 overflow-hidden rounded-lg">
+      <img
+        src={images[current]}
+        alt={ground.groundName}
+        className="h-full w-full object-cover transition-all duration-500"
+      />
+
+      {/* Prev Button */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+
+      {/* Next Button */}
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-3 w-full flex justify-center space-x-2">
+        {images.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrent(idx)}
+            className={`w-3 h-3 rounded-full ${
+              current === idx ? "bg-white" : "bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
                 ) : (
                   <div className="h-full flex items-center justify-center text-gray-400">
                     <MapPin className="h-12 w-12" />
@@ -157,22 +209,23 @@ const Individualground = () => {
             {/* Info Grid */}
             <div className="grid md:grid-cols-3 gap-6">
               {/* Facilities */}
-              <div className="bg-white rounded-xl shadow p-6">
-                <h3 className="text-lg font-semibold flex items-center mb-4">
-                  <Star className="h-5 w-5 text-blue-500 mr-2" /> Facilities
-                </h3>
-                {isediting ? (
-                  <input
-                    type="text"
-                    name="facilities"
-                    value={ground.facilities}
-                    onChange={handleChange}
-                    className="w-full border rounded-lg p-2"
-                  />
-                ) : (
-                  <p>{ground.facilities || "No facilities listed"}</p>
-                )}
-              </div>
+             <div className="bg-white rounded-xl shadow p-6">
+  <h3 className="text-lg font-semibold flex items-center mb-4">
+    <Star className="h-5 w-5 text-blue-500 mr-2" /> Facilities
+  </h3>
+
+
+    <ul className="list-disc pl-5 space-y-1 text-gray-700">
+      {ground.facilities && ground.facilities.length > 0 ? (
+        ground.facilities.map((facility, idx) => (
+          <li key={idx}>{facility}</li>
+        ))
+      ) : (
+        <p>No facilities listed</p>
+      )}
+    </ul>
+  
+</div>
 
               {/* Capacity & Pricing */}
               <div className="bg-white rounded-xl shadow p-6">
