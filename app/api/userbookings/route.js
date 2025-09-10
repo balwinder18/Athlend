@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import Bookings from '../../../database/models/BookingModel';
+import { connecttodatabase } from '@/database/db';
 
 export async function GET(req) {
+
+  await connecttodatabase();
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get('userId');
 
