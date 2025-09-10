@@ -103,7 +103,7 @@ const Individualground = () => {
             <div className="rounded-2xl overflow-hidden shadow-lg bg-white mb-10">
               <div className="relative h-[200px] w-full bg-gray-100">
                 {images.length > 0 ? (
-                   <div className="relative w-full h-64 overflow-hidden rounded-lg">
+                   <div className="relative w-full h-full overflow-hidden rounded-lg">
       <img
         src={images[current]}
         alt={ground.groundName}
