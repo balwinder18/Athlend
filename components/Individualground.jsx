@@ -271,9 +271,45 @@ const Individualground = () => {
               {/* Hero Section */}
               <div className="rounded-2xl overflow-hidden shadow-lg bg-white mb-8">
                 <div className="relative h-[400px] w-full bg-gray-100">
-                  {ground.imageUrl ? (
-                    <img src={ground.imageUrl} alt={ground.name} className="h-full w-full object-cover" />
-                  ) : (
+                  {images.length > 0 ? (
+                   <div className="relative w-full h-full overflow-hidden rounded-lg">
+      <img
+        src={images[current]}
+        alt={ground.groundName}
+        className="h-full w-full object-cover transition-all duration-500"
+      />
+
+      {/* Prev Button */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+
+      {/* Next Button */}
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-3 w-full flex justify-center space-x-2">
+        {images.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrent(idx)}
+            className={`w-3 h-3 rounded-full ${
+              current === idx ? "bg-white" : "bg-gray-400"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+    
+  ) : (
                     <div className="h-full flex items-center justify-center text-gray-400">
                       <MapPin className="h-12 w-12" />
                     </div>
