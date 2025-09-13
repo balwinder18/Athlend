@@ -80,7 +80,9 @@ export default function ProfilePage() {
   const getImage = async (email) => {
     try {
       const res = await axios.get(`/api/getUserImage?email=${email}`);
+      if (res.data?.imageUrl) {
       setImage(res.data.imageUrl);
+    } 
     } catch (error) {
       console.error("image api erroror", error);
     }
@@ -240,21 +242,22 @@ export default function ProfilePage() {
       <div className="pt-20 md:pt-8 px-6 md:px-8 pb-8">
         <div className="flex flex-col md:flex-row md:gap-8 gap-3">
           {/* Profile Photo Section - Mobile */}
-          <div className="md:hidden text-center">
+          <div className="md:hidden block text-center">
             <div className="mt-4 inline-block">
-              <UploadButton
-      endpoint="imageUploader"
-      onClientUploadComplete={(res) => {
-        handleUpdateImage(res);
-      }}
-      onUploadError={(error) => {
-        toast.error(`Upload Error: ${error.message}`);
-      }}
-      className="!opacity-0 !w-full !h-full !cursor-pointer"
+               <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  console.log("Files: ", res);
+                  alert("Upload Completed");
+                  handleuploadtodb(res);
+                }}
+                onUploadError={(error) => {
+                  alert(`ERROR! ${error.message}`);
+                }}
+                 className="!opacity-0 !w-full !h-full !cursor-pointer"
       content={{
-        button: "", // removes text
-      }}
-    />
+        button: "", 
+      }} />
             </div>
           </div>
 

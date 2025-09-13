@@ -128,18 +128,46 @@ export default function Navbar() {
      {/* mobile */}
       <nav className="lg:hidden w-full fixed z-20 bg-[#f8f8f8] shadow-md py-4 px-2 flex justify-between items-center">
         <Link href='/'>
-          <svg width="70" height="20" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <text
-              x="10"
-              y="35"
-              fontFamily="Arial, Helvetica, sans-serif"
-              fontSize="50"
-              fontWeight="bold"
-              fill="#39FF14"
-            >
-              athlend
-            </text>
-          </svg>
+       
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 720 210"
+  role="img"
+  aria-label="Athlend logo"
+  className="h-6 w-auto md:h-12"
+>
+  <title>Athlend</title>
+  <defs>
+    <style>
+      {`
+        .brand { fill:#03B94A; }
+        .word {
+          font-family: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+          font-weight: 700;
+        }
+      `}
+    </style>
+  </defs>
+
+  {/* Icon - Smaller 3/4 circle aligned with text */}
+  <g transform="translate(25,25)">
+    {/* Top-right quarter */}
+    <path d="M 80,80 L 80,0 A 80,80 0 0,1 160,80 Z" className="brand" />
+    
+    {/* Top-left quarter */}
+    <path d="M 80,80 L 0,80 A 80,80 0 0,1 80,0 Z" className="brand" />
+    
+    {/* Bottom-left quarter */}
+    <path d="M 80,80 L 0,80 A 80,80 0 0,0 80,160 Z" className="brand" />
+  </g>
+
+  {/* Wordmark */}
+  <text x="200" y="150" fontSize="130" className="brand word">
+    Athlend
+  </text>
+</svg>
+
+
         </Link>
 
         <div className="text-center mr-5 flex-1">
