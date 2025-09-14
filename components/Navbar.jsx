@@ -54,8 +54,8 @@ export default function Navbar() {
           {`
             .brand { fill:#03B94A; }
             .word {
-              font-family: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-              font-weight: 700;
+              fontFamily: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+              fontWeight: 700;
             }
           `}
         </style>
@@ -142,8 +142,8 @@ export default function Navbar() {
       {`
         .brand { fill:#03B94A; }
         .word {
-          font-family: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-          font-weight: 700;
+          fontFamily: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+          fontWeight: 700;
         }
       `}
     </style>

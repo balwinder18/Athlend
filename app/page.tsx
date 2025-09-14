@@ -25,7 +25,7 @@ export default function Home() {
     
       <Allgrounds/>
       <Faq/>
-      <Footer/>
+      
       <Help/>
       
      
