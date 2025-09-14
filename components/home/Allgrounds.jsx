@@ -59,13 +59,14 @@ setCricketGrounds(groundsArray.filter((ground) => ground.sport.toLowerCase().inc
 
     fetchAllGrounds();
   }, []);
-  useEffect(() => {
-    console.log(searchSport);
-  }, [searchSport]);
 
-  useEffect(() => {
-    console.log(searchlocation);
-  }, [searchlocation]);
+  // useEffect(() => {
+   
+  // }, [searchSport]);
+
+  // useEffect(() => {
+   
+  // }, [searchlocation]);
 
 
   const filteredground = () => {
@@ -86,9 +87,9 @@ setCricketGrounds(groundsArray.filter((ground) => ground.sport.toLowerCase().inc
   setFiltereddata(filtered);
 };
 
-useEffect(() => {
-  console.log(filtereddata);
-}, [filtereddata]);
+// useEffect(() => {
+//   console.log(filtereddata);
+// }, [filtereddata]);
 
 
   if (loading) {

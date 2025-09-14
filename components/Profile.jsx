@@ -113,7 +113,6 @@ export default function ProfilePage() {
           position: "top-right",
           autoClose: 3000,
         });
-        console.log("Updated user:", res.data.user);
         setIsEditing(!isEditing);
       }
 

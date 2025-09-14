@@ -34,6 +34,17 @@ const Footer = () => {
                         We are a local sports Ground Booking Platofrm .
                         Book Your Ground Now !!
                     </p>
+
+                     <div className="text-sm mt-4 hover:underline cursor-pointer font-roboto">
+                            <Link href={{pathname: "/about-us"}}>
+                             About Us
+                            </Link>
+                        </div>
+                         <div className="text-sm mt-2 hover:underline cursor-pointer font-roboto">
+                            <Link href={{pathname: "/contact-us"}}>
+                            Contact Us
+                            </Link>
+                        </div>
                 </div>
 
 
@@ -42,6 +53,7 @@ const Footer = () => {
                 <div>
                     <h3 className="font-bold mb-4 font-roboto">Legal</h3>
                     <ul className="space-y-2">
+                        
                         <li className="text-sm hover:underline cursor-pointer font-roboto">
                             <Link href={{pathname: "/terms-and-conditions",query: { name: "privacy" }}} >
                             Privacy policy
@@ -52,7 +64,12 @@ const Footer = () => {
                             Terms and Conditions
                             </Link>
                         </li>
-                        <li className="text-sm font-roboto">GST No:223344XXXXXX </li>
+                        <li className="text-sm hover:underline cursor-pointer font-roboto">
+                            <Link href={{pathname: "/refund-policy"}} >
+                            Refund policy
+                            </Link>
+                        </li>
+                        <li className="text-sm font-roboto">GST No:06GUXPB9356P1ZG </li>
                     </ul>
                 </div>
 
@@ -61,15 +78,15 @@ const Footer = () => {
                     <a className="flex items-center gap-2">
                         <FaWhatsapp className="mb-2 align-middle" />
                         <p className="text-sm mb-2 font-roboto cursor-pointer">
-                            WhatsApp: +91 9318326662</p>
+                            WhatsApp: +91 95821 72100</p>
                     </a>
                     <a className="flex items-center gap-2">
                         <IoIosCall className="mb-2 align-middle" />
-                        <p className="text-sm mb-2 font-roboto cursor-pointer">Call: +91 9318326662</p>
+                        <p className="text-sm mb-2 font-roboto cursor-pointer">Call: +91 95821 72100</p>
                     </a>
-                    <a href="mailto: balwinder.work18@gmail.com" className="text-sm mb-2 font-roboto cursor-pointer">Email: balwinder.work18@gmail.com</a>
+                    <a href="mailto: support@athlend.com" className="text-sm mb-2 font-roboto cursor-pointer">Email: support@athlend.com</a>
                     <p className="text-sm font-roboto mt-2">
-                        Address: XYZ city ,ABC state
+                        Address: A Plus Technologies, FCA 3878 First Floor SGM Nagar Faridabad.
                     </p>
                 </div>
                 <div className="flex min-w-fit flex-col gap-4 font-roboto">

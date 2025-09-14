@@ -95,8 +95,7 @@ const [agreed, setAgreed] = useState(false);
         body: JSON.stringify({ amount: amount * 100 })
       })
       const data = await response.json();
-      console.log(data);
-
+      
 
       const paymentdata = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -115,7 +114,6 @@ const [agreed, setAgreed] = useState(false);
             }),
           });
           const data = await res.json();
-          console.log(data);
           const idOrder = response.razorpay_order_id;
           if (data.isOk) {
             handleBooking(slot, idOrder);
@@ -212,9 +210,7 @@ const [agreed, setAgreed] = useState(false);
     }
   };
 
-  useEffect(() => {
-    console.log(selectedDate);
-  }, [selectedDate])
+  
 
 
   const bookingconfirmation = (slot)=>{
