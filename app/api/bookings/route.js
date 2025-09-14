@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 import Bookings from '../../../database/models/BookingModel';
 import QRCode from 'qrcode';
 import nodemailer from 'nodemailer';
+import {connecttodatabase} from '../../../database/db'
 
 
 const transporter = nodemailer.createTransport({
@@ -16,7 +17,9 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(request) {
+
   try {
+     await connecttodatabase();
     const { groundId, userId, startTime, endTime ,date,orderId,groundName ,email , amount } = await request.json();
 
     if (!groundId || !userId || !startTime || !endTime || !date || !orderId || !groundName || !email || !amount) {
@@ -64,21 +67,22 @@ export async function POST(request) {
     });
 
    
+const res = NextResponse.json(booking, { status: 201 });
+  
+transporter.sendMail({
+  from: `Athlend Booking <${process.env.EMAIL_USER}>`,
+  to: email,
+  subject: `Your QR Ticket for ${groundName} - Athlend Booking`,
+  html: `
+    <h2>Thank you for your booking!</h2>
+    <p>You can access your QR Ticket at My bookings under My Profile page in website</p>
+    <p>Booking ID: <b>${orderId}</b></p>
+    <p>Show QR Ticket at the venue for verification.</p>
+  `
+}).then(() => console.log("Email sent"))
+  .catch(err => console.error("Email error:", err));
 
-     await transporter.sendMail({
-    from: `Athlend Booking ${process.env.EMAIL_USER}`,
-    to:email,
-    subject: `Your QR Ticket for ${groundName} -Athlend Booking`,
-    html: `
-      <h2>Thank you for your booking!</h2>
-      <p>You can access your QR Ticket at My bookings under My Profile page in website</p>
-      
-      <p>Booking ID: <b>${orderId}</b></p>
-      <p>Show QR Ticket at the venue for verification.</p>
-    `,
-  });
-
-    return NextResponse.json(booking, { status: 201 });
+    return res;
   } catch (error) {
     console.error('Booking error:', error);
     return NextResponse.json(
