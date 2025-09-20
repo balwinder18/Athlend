@@ -93,8 +93,27 @@ setCricketGrounds(groundsArray.filter((ground) => ground.sport.toLowerCase().inc
 
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64  min-h-[300px]">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+    return <div className="flex justify-center pt-24 items-center h-64  min-h-[300px]">
+    
+      <div className="text-center">
+        {/* Animated Sports Icon */}
+        <div className="relative mb-6">
+          <div className="w-16 h-16 border-4 border-green-200 border-t-green-600 rounded-full animate-spin mx-auto"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <svg className="w-6 h-6 text-green-600 animate-spin origin-center" fill="currentColor" viewBox="0 0 20 20">
+  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+</svg>
+          </div>
+        </div>
+        
+        {/* Loading Text */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Loading Premium grounds for you</h3>
+        
+        {/* Progress Bar */}
+        <div className="w-64 h-1 bg-gray-200 rounded-full mt-4 mx-auto overflow-hidden">
+          <div className="h-full bg-green-600 rounded-full animate-pulse"></div>
+        </div>
+      </div>
     </div>;
   }
 
