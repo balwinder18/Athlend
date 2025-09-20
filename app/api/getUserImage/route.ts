@@ -20,7 +20,7 @@ export async function GET(req :Request) {
             
         }
 
-        return NextResponse.json(user, { status: 200 });
+        return NextResponse.json(user.imageUrl, { status: 200 });
        
 
        

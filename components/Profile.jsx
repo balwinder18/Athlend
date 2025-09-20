@@ -80,8 +80,8 @@ export default function ProfilePage() {
   const getImage = async (email) => {
     try {
       const res = await axios.get(`/api/getUserImage?email=${email}`);
-      if (res.data?.imageUrl) {
-      setImage(res.data.imageUrl);
+      if (res.data) {
+      setImage(res.data);
     } 
     } catch (error) {
       console.error("image api erroror", error);
