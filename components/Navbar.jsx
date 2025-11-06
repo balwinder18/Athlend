@@ -6,13 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Menu, X } from 'lucide-react';
+
 export default function Navbar() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef(null);
 
- useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         mobileMenuRef.current &&
@@ -34,7 +35,6 @@ export default function Navbar() {
     };
   }, [isMobileMenuOpen]);
   
-
   return (
     <>
       <nav className="hidden fixed w-full z-10 shadow-md p-4 lg:flex justify-between items-center bg-[#f8f8f8]">
@@ -96,7 +96,8 @@ export default function Navbar() {
           </p>
         </div>
 
-        <div className="flex items-center gap-4 flex-shrink-0">
+        {/* Fixed width container for consistent alignment */}
+        <div className="flex items-center gap-4" style={{ width: '280px', justifyContent: 'flex-end' }}>
           <div className="text-black font-medium text-[15px]">
             <Link
               href="/newground"
@@ -126,77 +127,79 @@ export default function Navbar() {
       </nav>
 
      {/* mobile */}
-      <nav className="lg:hidden w-full fixed z-20 bg-[#f8f8f8] shadow-md py-4 px-2 flex justify-between items-center">
-        <Link href='/'>
-       
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 720 210"
-  role="img"
-  aria-label="Athlend logo"
-  className="h-6 w-auto md:h-12"
->
-  <title>Athlend</title>
-  <defs>
-    <style>
-      {`
-        .brand { fill:#03B94A; }
-        .word {
-          fontFamily: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-          fontWeight: 700;
-        }
-      `}
-    </style>
-  </defs>
+    {/* mobile */}
+<nav className="lg:hidden w-full fixed z-20 bg-[#f8f8f8] shadow-md py-4 px-2 flex justify-between items-center">
+  <Link href='/' className="flex-shrink-0">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 720 210"
+      role="img"
+      aria-label="Athlend logo"
+      className="h-6 w-auto md:h-12"
+    >
+      <title>Athlend</title>
+      <defs>
+        <style>
+          {`
+            .brand { fill:#03B94A; }
+            .word {
+              fontFamily: "Inter", "Poppins", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+              fontWeight: 700;
+            }
+          `}
+        </style>
+      </defs>
 
-  {/* Icon - Smaller 3/4 circle aligned with text */}
-  <g transform="translate(25,25)">
-    {/* Top-right quarter */}
-    <path d="M 80,80 L 80,0 A 80,80 0 0,1 160,80 Z" className="brand" />
-    
-    {/* Top-left quarter */}
-    <path d="M 80,80 L 0,80 A 80,80 0 0,1 80,0 Z" className="brand" />
-    
-    {/* Bottom-left quarter */}
-    <path d="M 80,80 L 0,80 A 80,80 0 0,0 80,160 Z" className="brand" />
-  </g>
+      {/* Icon - Smaller 3/4 circle aligned with text */}
+      <g transform="translate(25,25)">
+        {/* Top-right quarter */}
+        <path d="M 80,80 L 80,0 A 80,80 0 0,1 160,80 Z" className="brand" />
+        
+        {/* Top-left quarter */}
+        <path d="M 80,80 L 0,80 A 80,80 0 0,1 80,0 Z" className="brand" />
+        
+        {/* Bottom-left quarter */}
+        <path d="M 80,80 L 0,80 A 80,80 0 0,0 80,160 Z" className="brand" />
+      </g>
 
-  {/* Wordmark */}
-  <text x="200" y="150" fontSize="130" className="brand word">
-    Athlend
-  </text>
-</svg>
+      {/* Wordmark */}
+      <text x="200" y="150" fontSize="130" className="brand word">
+        Athlend
+      </text>
+    </svg>
+  </Link>
 
+  {/* Center tagline - removed mr-5 and added proper flex-1 */}
+  <div className="text-center flex-1 ml-2">
+    <h1 className="text-[12px] mb-1 text-black leading-tight font-semibold">
+      Find Your Perfect Playing Field
+    </h1>
+    <p className="text-[10px] text-black tracking-wide">
+      PAY LESS, PLAY MORE
+    </p>
+  </div>
 
-        </Link>
+  {/* Fixed width container for mobile - matches logo width */}
+  <div className="flex-shrink-0" style={{ width: '100px', display: 'flex', justifyContent: 'flex-end' }}>
+    {session ? (
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="p-2 text-black"
+      >
+        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+    ) : (
+      <Link
+        href="/login"
+        className="px-2 py-2 text-black rounded-2xl bg-white border-b-4 text-[15px]"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Login
+      </Link>
+    )}
+  </div>
+</nav>
 
-        <div className="text-center mr-5 flex-1">
-          <h1 className="text-[12px] mb-1 text-black leading-tight font-semibold">
-            Find Your Perfect Playing Field
-          </h1>
-          <p className="text-[10px] text-black tracking-wide">
-            PAY LESS, PLAY MORE
-          </p>
-        </div>
-
-
-        {session ? (
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-black"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        ) : (
-          <Link
-            href="/login"
-            className="px-2 py-2 text-black rounded-2xl bg-white border-b-4 text-[15px]"
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Login
-          </Link>
-        )}
-      </nav>
 
       {isMobileMenuOpen && (
        <div className="fixed inset-0 z-50">
@@ -279,7 +282,6 @@ export default function Navbar() {
               </div>
             </Link>
 
-
              <Link
               href="/profile#mybookings"
               className="flex items-center space-x-3 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-200 group"
@@ -351,7 +353,6 @@ export default function Navbar() {
 </div>
       )}
     </>
-
     
     
   );
