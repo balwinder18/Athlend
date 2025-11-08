@@ -20,6 +20,7 @@ const Individualground = () => {
   const [isediting, setIsediting] = useState(false);
   const [current, setCurrent] = useState(0);
   const [showGallery, setShowGallery] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false); // New state for booking modal
 
   const router = useRouter();
   const { id } = useParams();
@@ -95,9 +96,9 @@ const Individualground = () => {
       <Navbar />
 
       <div className="bg-white min-h-screen">
-        {/* Mobile Layout */}
-        <div className="block lg:hidden">
-          <div className="max-w-6xl mx-auto px-4 md:px-6 pt-20 pb-12">
+        {/* Mobile Layout - REDESIGNED */}
+        <div className="block lg:hidden pb-24">
+          <div className="max-w-6xl mx-auto px-4 md:px-6 pt-20 pb-4">
             {/* Back Link */}
             <div className="mb-4">
               <Link href="/" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-black transition-colors">
@@ -106,7 +107,7 @@ const Individualground = () => {
               </Link>
             </div>
 
-            {/* Image Carousel - Reduced Height */}
+            {/* Image Carousel */}
             <div className="rounded-xl overflow-hidden shadow-md bg-white mb-4">
               <div className="relative h-[220px] w-full bg-gray-100">
                 {images.length > 0 ? (
@@ -205,14 +206,7 @@ const Individualground = () => {
               </div>
             </div>
 
-            {/* Available Slots Section */}
-            <div className="border border-gray-300 rounded-xl p-5 mb-4">
-              <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                <CalendarDays className="h-5 w-5 text-gray-700" />
-                Available Slots
-              </h3>
-              <SlotPicker groundId={id} groundName={ground.name} amount={ground.pricing} />
-            </div>
+            {/* REMOVED Available Slots Section from here */}
 
             {/* About Section */}
             <div className="mb-4 pb-4 border-b border-gray-200">
@@ -289,9 +283,55 @@ const Individualground = () => {
               </div>
             </div>
           </div>
+
+          {/* STICKY BOOK NOW BUTTON - Mobile Only */}
+          <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white to-transparent px-4 py-5 shadow-2xl z-40 border-t border-gray-100">
+  <button
+    onClick={() => setShowBookingModal(true)}
+    className="relative w-full bg-gradient-to-r from-green-500 via-green-600 to-green-500 hover:from-green-600 hover:via-green-700 hover:to-green-600 text-white font-bold py-6 rounded-2xl shadow-2xl flex items-center justify-center gap-4 transition-all active:scale-95 hover:scale-[1.02] overflow-hidden group"
+  >
+    {/* Animated shimmer effect */}
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+    
+    {/* Pulsing glow effect */}
+    <div className="absolute inset-0 bg-green-400/30 blur-xl group-hover:bg-green-300/40 transition-all duration-500"></div>
+    
+    {/* Content */}
+    <div className="relative z-10 flex items-center gap-4">
+      {/* Icon with background */}
+      <div className="bg-white/20 p-2.5 rounded-xl backdrop-blur-sm">
+        <CalendarDays className="h-6 w-6" />
+      </div>
+      
+      {/* Text */}
+    <div className="flex items-center gap-3">
+  <span className="text-xl font-bold tracking-wide">Book Now</span>
+  <div className="h-6 w-px bg-white/30"></div>
+  <span className="text-lg font-semibold opacity-95 flex items-center">
+    ₹{ground.pricing || "N/A"}
+    <span className="text-xs ml-1">per slot</span>
+  </span>
+</div>
+
+    </div>
+    
+    {/* Arrow indicator */}
+    <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </div>
+  </button>
+  
+  {/* Subtle helper text */}
+  <p className="text-center text-xs text-gray-500 mt-2.5 font-medium">
+     Best prices guaranteed • Instant confirmation
+  </p>
+</div>
+
         </div>
 
-        {/* Desktop Layout - Airbnb Style */}
+        {/* Desktop Layout - UNCHANGED */}
         <div className="hidden lg:block pt-24 pb-16">
           <div className="max-w-[1280px] mx-auto px-10">
             {/* Back Link */}
@@ -357,7 +397,6 @@ const Individualground = () => {
             <div className="mb-12 relative">
               {images.length > 0 ? (
                 <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[500px] rounded-xl overflow-hidden">
-                  {/* Main large image */}
                   <div className="col-span-2 row-span-2 relative group cursor-pointer" onClick={() => { setCurrent(0); setShowGallery(true); }}>
                     <img
                       src={images[0]}
@@ -366,7 +405,6 @@ const Individualground = () => {
                     />
                   </div>
 
-                  {/* Four smaller images */}
                   {images.slice(1, 5).map((img, idx) => (
                     <div key={idx} className="relative group cursor-pointer" onClick={() => { setCurrent(idx + 1); setShowGallery(true); }}>
                       <img
@@ -377,26 +415,24 @@ const Individualground = () => {
                     </div>
                   ))}
 
-                  {/* Show all photos button */}
                   {images.length > 1 && (
                     <button 
-  onClick={() => { setCurrent(0); setShowGallery(true); }}
-  className="absolute bottom-5 right-5 bg-white/95 backdrop-blur-sm border border-gray-800 px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-white hover:scale-105 active:scale-100 transition-all flex items-center gap-2.5 shadow-lg z-10 group"
->
-  <svg 
-    className="w-4 h-4 text-gray-800 group-hover:text-black transition-colors" 
-    fill="none" 
-    stroke="currentColor" 
-    viewBox="0 0 24 24"
-  >
-    <rect x="3" y="3" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <rect x="14" y="3" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <rect x="14" y="14" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <rect x="3" y="14" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-  <span className="text-gray-800 group-hover:text-black">See all photos</span>
-</button>
-
+                      onClick={() => { setCurrent(0); setShowGallery(true); }}
+                      className="absolute bottom-5 right-5 bg-white/95 backdrop-blur-sm border border-gray-800 px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-white hover:scale-105 active:scale-100 transition-all flex items-center gap-2.5 shadow-lg z-4 group"
+                    >
+                      <svg 
+                        className="w-4 h-4 text-gray-800 group-hover:text-black transition-colors" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <rect x="3" y="3" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <rect x="14" y="3" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <rect x="14" y="14" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <rect x="3" y="14" width="7" height="7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      <span className="text-gray-800 group-hover:text-black">See all photos</span>
+                    </button>
                   )}
                 </div>
               ) : (
@@ -408,9 +444,7 @@ const Individualground = () => {
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-5 gap-24">
-              {/* Left Column - Details (3/5 width) */}
               <div className="col-span-3 space-y-8">
-                {/* About Section */}
                 <div className="pb-8 border-b border-gray-200">
                   <h2 className="text-2xl font-semibold text-gray-900 mb-4">About this ground</h2>
                   {isediting ? (
@@ -426,7 +460,6 @@ const Individualground = () => {
                   )}
                 </div>
 
-                {/* Facilities */}
                 <div className="pb-8 border-b border-gray-200">
                   <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <Star className="h-6 w-6" /> Facilities
@@ -455,7 +488,6 @@ const Individualground = () => {
                   )}
                 </div>
 
-                {/* Capacity & Pricing */}
                 <div className="pb-8 border-b border-gray-200">
                   <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <Users className="h-6 w-6" /> Capacity & Pricing
@@ -475,7 +507,6 @@ const Individualground = () => {
                   </div>
                 </div>
 
-                {/* Contact Info */}
                 <div className="pb-8">
                   <h2 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <Mail className="h-6 w-6" /> Contact
@@ -493,11 +524,9 @@ const Individualground = () => {
                 </div>
               </div>
 
-              {/* Right Column - Sticky Booking Card (2/5 width - wider) */}
               <div className="col-span-2">
                 <div className="sticky top-28">
                   <div className="border border-gray-300 rounded-xl shadow-xl p-8 min-w-[420px] mr-8">
-                    {/* Price */}
                     <div className="mb-8">
                       <div className="flex items-baseline gap-1">
                         <FaRupeeSign className="h-5 w-5 text-gray-900 mt-1" />
@@ -510,7 +539,6 @@ const Individualground = () => {
                       </div>
                     </div>
 
-                    {/* Booking Section */}
                     <div className="border-t border-gray-200 pt-6">
                       <h3 className="font-semibold text-lg mb-5 flex items-center gap-2">
                         <CalendarDays className="h-5 w-5" />
@@ -526,10 +554,53 @@ const Individualground = () => {
         </div>
       </div>
 
+      {/* BOOKING MODAL - Mobile Only */}
+      {showBookingModal && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          {/* Blurred backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setShowBookingModal(false)}
+          />
+          
+          {/* Modal content */}
+          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-hidden flex flex-col animate-slide-up">
+            {/* Header */}
+            <div className="flex items-center justify-between p-5 border-b border-gray-200">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Book Your Slot</h3>
+                <p className="text-sm text-gray-600 mt-1">Select date and time</p>
+              </div>
+              <button
+                onClick={() => setShowBookingModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="h-6 w-6 text-gray-600" />
+              </button>
+            </div>
+
+            {/* Price info */}
+            <div className="px-5 py-4 bg-green-50 border-b border-green-100">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-700">Price per slot</span>
+                <div className="flex items-center gap-1 text-green-700 font-bold text-lg">
+                  <FaRupeeSign className="h-4 w-4" />
+                  <span>{ground.pricing || "N/A"}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Scrollable calendar content */}
+            <div className="flex-1 overflow-y-auto p-5">
+              <SlotPicker groundId={id} groundName={ground.name} amount={ground.pricing} />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Image Gallery Modal */}
       {showGallery && (
         <div className="fixed inset-0 bg-black z-50 flex flex-col">
-          {/* Header */}
           <div className="flex items-center justify-between p-6 bg-black">
             <div className="text-white text-sm">
               {current + 1} / {images.length}
@@ -542,7 +613,6 @@ const Individualground = () => {
             </button>
           </div>
 
-          {/* Main Image */}
           <div className="flex-1 relative flex items-center justify-center p-8">
             <img
               src={images[current]}
@@ -550,7 +620,6 @@ const Individualground = () => {
               className="max-w-full max-h-full object-contain"
             />
 
-            {/* Navigation Buttons */}
             {images.length > 1 && (
               <>
                 <button
@@ -572,7 +641,6 @@ const Individualground = () => {
             )}
           </div>
 
-          {/* Thumbnail Strip */}
           <div className="bg-black p-6 overflow-x-auto">
             <div className="flex gap-3 justify-center">
               {images.map((img, idx) => (
@@ -623,6 +691,21 @@ const Individualground = () => {
           </div>
         </div>
       )}
+
+      {/* Add this CSS for slide-up animation */}
+      <style jsx>{`
+        @keyframes slide-up {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+        .animate-slide-up {
+          animation: slide-up 0.3s ease-out;
+        }
+      `}</style>
     </>
   );
 };
